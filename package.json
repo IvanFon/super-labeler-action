@@ -1,0 +1,32 @@
+{
+  "name": "super-labeler-action",
+  "version": "0.1.0",
+  "description": "A superpowered issue and pull request labeler for Github Actions.",
+  "main": "src/index.ts",
+  "repository": "git@github.com:IvanFon/super-labeler-action.git",
+  "author": "Ivan Fonseca <ivanfon@riseup.net>",
+  "license": "GPL-3.0",
+  "engines": {
+    "node": "12"
+  },
+  "scripts": {
+    "build": "ncc build src/index.ts -o dist",
+    "format": "prettier --write src/**/*.ts"
+  },
+  "prettier": {
+    "arrowParens": "always",
+    "singleQuote": true,
+    "trailingComma": "all"
+  },
+  "dependencies": {
+    "@actions/core": "^1.2.3",
+    "@actions/github": "^2.1.1"
+  },
+  "devDependencies": {
+    "@zeit/ncc": "^0.21.1",
+    "prettier": "^1.19.1"
+  },
+  "resolutions": {
+    "@octokit/rest": "16.41.2"
+  }
+}

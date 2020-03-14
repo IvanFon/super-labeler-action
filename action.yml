@@ -1,0 +1,14 @@
+name: 'Super Labeler'
+description: 'A superpowered issue and pull request labeler for Github Actions.'
+author: 'IvanFon'
+inputs:
+  github-token:
+    description: 'The GITHUB_TOKEN secret'
+    required: true
+  config:
+    description: 'Config file path'
+    default: '.github/labels.json'
+    required: false
+runs:
+  using: 'node12'
+  main: 'dist/index.js'
