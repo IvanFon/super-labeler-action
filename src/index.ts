@@ -36,6 +36,7 @@ const context = github.context;
       name: string;
     }[]).map((label) => label.name);
     const prProps: PRProps = {
+      branch: context.payload.pull_request.head.ref,
       isDraft: context.payload.pull_request.draft,
     };
     const prNum = context.payload.pull_request.number;

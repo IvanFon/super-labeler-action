@@ -4194,6 +4194,7 @@ const context = github.context;
         const repo = context.repo;
         const curLabels = context.payload.pull_request.labels.map((label) => label.name);
         const prProps = {
+            branch: context.payload.pull_request.head.ref,
             isDraft: context.payload.pull_request.draft,
         };
         const prNum = context.payload.pull_request.number;
@@ -8116,8 +8117,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const branchMatches_1 = __importDefault(__webpack_require__(618));
 const isDraft_1 = __importDefault(__webpack_require__(755));
-const handlers = [isDraft_1.default];
+const handlers = [branchMatches_1.default, isDraft_1.default];
 exports.getConditionHandler = (condition) => {
     var _a;
     const handler = handlers.find((handler) => handler[0] === condition.type);
@@ -8367,6 +8369,22 @@ module.exports = require("http");
 /***/ (function(module) {
 
 module.exports = require("events");
+
+/***/ }),
+
+/***/ 618:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'branchMatches';
+const branchMatches = (condition, pr) => {
+    const pattern = new RegExp(condition.pattern);
+    return pattern.test(pr.branch);
+};
+exports.default = [TYPE, branchMatches];
+
 
 /***/ }),
 
