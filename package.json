@@ -25,8 +25,5 @@
   "devDependencies": {
     "@zeit/ncc": "^0.21.1",
     "prettier": "^1.19.1"
-  },
-  "resolutions": {
-    "@octokit/rest": "16.41.2"
   }
 }
