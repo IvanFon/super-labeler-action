@@ -4179,25 +4179,22 @@ const fs_1 = __importDefault(__webpack_require__(747));
 const path_1 = __importDefault(__webpack_require__(622));
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-const pr_1 = __webpack_require__(545);
 const api_1 = __webpack_require__(924);
+const pr_1 = __webpack_require__(545);
+const parseContext_1 = __webpack_require__(380);
 const context = github.context;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     var _a;
     try {
-        if (!context.payload.pull_request) {
-            throw new Error('pull request not found on context');
-        }
         // Get inputs
         const token = core.getInput('github-token', { required: true });
         const configPath = path_1.default.join(__dirname, '../', core.getInput('config'));
         const repo = context.repo;
-        const curLabels = context.payload.pull_request.labels.map((label) => label.name);
-        const prProps = {
-            branch: context.payload.pull_request.head.ref,
-            isDraft: context.payload.pull_request.draft,
-        };
-        const prNum = context.payload.pull_request.number;
+        const prContext = parseContext_1.parsePRContext(context);
+        if (!prContext) {
+            throw new Error('pull request not found on context');
+        }
+        const { labels: curLabels, prProps, prNum } = prContext;
         core.info(`Running on PR #${prNum}`);
         // Load config
         if (!fs_1.default.existsSync(configPath)) {
@@ -4222,7 +4219,7 @@ const context = github.context;
                 core.debug(`${matches} >= ${opts.requires} matches, adding label "${label}"...`);
                 yield api_1.addLabel({ client, repo, prNum, label });
             }
-            else if (curLabels.includes(label)) {
+            else if (curLabels.filter((l) => l.name === label).length > 0) {
                 core.debug(`${matches} < ${opts.requires} matches, removing label "${label}"...`);
                 yield api_1.removeLabel({ client, repo, prNum, label });
             }
@@ -4541,6 +4538,40 @@ function deprecate (message) {
   console.warn(`DEPRECATED (@octokit/rest): ${message}`)
   loggedMessages[message] = 1
 }
+
+
+/***/ }),
+
+/***/ 380:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.parsePRContext = (context) => {
+    const pr = context.payload.pull_request;
+    if (!pr) {
+        return;
+    }
+    const labels = parseLabels(pr.labels);
+    return {
+        labels,
+        prNum: pr.number,
+        prProps: {
+            branch: pr.head.ref,
+            isDraft: pr.draft,
+        },
+    };
+};
+const parseLabels = (labels) => {
+    if (!Array.isArray(labels)) {
+        return [];
+    }
+    return labels.filter((label) => typeof label === 'object' &&
+        'name' in label &&
+        'description' in label &&
+        'color' in label);
+};
 
 
 /***/ }),

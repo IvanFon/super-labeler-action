@@ -4,12 +4,12 @@ import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 
+import { addLabel, removeLabel } from './api';
 import {
   Condition as PRCondition,
   getConditionHandler as getPRConditionHandler,
-  PRProps,
 } from './conditions/pr';
-import { addLabel, removeLabel } from './api';
+import { parsePRContext } from './parseContext';
 
 interface Config {
   pr: {
@@ -24,22 +24,16 @@ const context = github.context;
 
 (async () => {
   try {
-    if (!context.payload.pull_request) {
-      throw new Error('pull request not found on context');
-    }
-
     // Get inputs
     const token = core.getInput('github-token', { required: true });
     const configPath = path.join(__dirname, '../', core.getInput('config'));
     const repo = context.repo;
-    const curLabels = (context.payload.pull_request.labels as {
-      name: string;
-    }[]).map((label) => label.name);
-    const prProps: PRProps = {
-      branch: context.payload.pull_request.head.ref,
-      isDraft: context.payload.pull_request.draft,
-    };
-    const prNum = context.payload.pull_request.number;
+
+    const prContext = parsePRContext(context);
+    if (!prContext) {
+      throw new Error('pull request not found on context');
+    }
+    const { labels: curLabels, prProps, prNum } = prContext;
     core.info(`Running on PR #${prNum}`);
 
     // Load config
@@ -72,7 +66,7 @@ const context = github.context;
           `${matches} >= ${opts.requires} matches, adding label "${label}"...`,
         );
         await addLabel({ client, repo, prNum, label });
-      } else if (curLabels.includes(label)) {
+      } else if (curLabels.filter((l) => l.name === label).length > 0) {
         core.debug(
           `${matches} < ${opts.requires} matches, removing label "${label}"...`,
         );
