@@ -4635,6 +4635,7 @@ exports.parsePRContext = (context) => {
             branch: pr.head.ref,
             description: pr.body || '',
             isDraft: pr.draft,
+            state: pr.state,
             title: pr.title,
         },
     };
@@ -5198,8 +5199,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const descriptionMatches_1 = __importDefault(__webpack_require__(658));
+const isClosed_1 = __importDefault(__webpack_require__(457));
+const isOpen_1 = __importDefault(__webpack_require__(708));
 const titleMatches_1 = __importDefault(__webpack_require__(686));
-exports.handlers = [descriptionMatches_1.default, titleMatches_1.default];
+exports.handlers = [descriptionMatches_1.default, isClosed_1.default, isOpen_1.default, titleMatches_1.default];
 __export(__webpack_require__(223));
 __export(__webpack_require__(545));
 
@@ -7040,6 +7043,19 @@ exports.Headers = Headers;
 exports.Request = Request;
 exports.Response = Response;
 exports.FetchError = FetchError;
+
+
+/***/ }),
+
+/***/ 457:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'isClosed';
+const isClosed = (_condition, issue) => issue.state === 'closed';
+exports.default = [TYPE, isClosed];
 
 
 /***/ }),
@@ -8951,6 +8967,19 @@ module.exports = (promise, onFinally) => {
 		})
 	);
 };
+
+
+/***/ }),
+
+/***/ 708:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'isOpen';
+const isOpen = (_condition, issue) => issue.state === 'open';
+exports.default = [TYPE, isOpen];
 
 
 /***/ }),

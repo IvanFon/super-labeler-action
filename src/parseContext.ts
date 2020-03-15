@@ -2,6 +2,7 @@ import { Context } from '@actions/github/lib/context';
 
 interface Props {
   description: string;
+  state: 'open' | 'closed';
   title: string;
 }
 
@@ -10,9 +11,7 @@ export interface PRProps extends Props {
   isDraft: boolean;
 }
 
-export interface IssueProps extends Props {
-  state: 'open' | 'closed';
-}
+export interface IssueProps extends Props {}
 
 export interface Label {
   name: string;
@@ -50,6 +49,7 @@ export const parsePRContext = (context: Context): PRContext | undefined => {
       branch: pr.head.ref,
       description: pr.body || '',
       isDraft: pr.draft,
+      state: pr.state,
       title: pr.title,
     },
   };
