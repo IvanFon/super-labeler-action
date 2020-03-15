@@ -3,6 +3,7 @@ import { Context } from '@actions/github/lib/context';
 export interface PRProps {
   branch: string;
   isDraft: boolean;
+  title: string;
 }
 
 type Labels = {
@@ -33,6 +34,7 @@ export const parsePRContext = (
     prProps: {
       branch: pr.head.ref,
       isDraft: pr.draft,
+      title: pr.title,
     },
   };
 };

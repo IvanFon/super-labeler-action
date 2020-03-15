@@ -1865,6 +1865,22 @@ module.exports = opts => {
 
 /***/ }),
 
+/***/ 179:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'titleMatches';
+const titleMatches = (condition, pr) => {
+    const pattern = new RegExp(condition.pattern);
+    return pattern.test(pr.title);
+};
+exports.default = [TYPE, titleMatches];
+
+
+/***/ }),
+
 /***/ 190:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -4560,6 +4576,7 @@ exports.parsePRContext = (context) => {
         prProps: {
             branch: pr.head.ref,
             isDraft: pr.draft,
+            title: pr.title,
         },
     };
 };
@@ -8150,7 +8167,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const branchMatches_1 = __importDefault(__webpack_require__(618));
 const isDraft_1 = __importDefault(__webpack_require__(755));
-const handlers = [branchMatches_1.default, isDraft_1.default];
+const titleMatches_1 = __importDefault(__webpack_require__(179));
+const handlers = [branchMatches_1.default, isDraft_1.default, titleMatches_1.default];
 exports.getConditionHandler = (condition) => {
     var _a;
     const handler = handlers.find((handler) => handler[0] === condition.type);
