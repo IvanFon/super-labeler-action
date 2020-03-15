@@ -1816,6 +1816,24 @@ function paginatePlugin(octokit) {
 
 /***/ }),
 
+/***/ 163:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.formatColour = (colour) => {
+    if (colour[0] === '#') {
+        return colour.substr(1);
+    }
+    else {
+        return colour;
+    }
+};
+
+
+/***/ }),
+
 /***/ 168:
 /***/ (function(module) {
 
@@ -2312,7 +2330,7 @@ function applyAcceptHeader (res, headers) {
 /***/ }),
 
 /***/ 272:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
@@ -2326,11 +2344,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 exports.createLabel = ({ client, repo, label, }) => __awaiter(void 0, void 0, void 0, function* () {
-    let color = label.color;
-    if (color[0] === '#') {
-        color = color.substr(1);
-    }
+    let color = utils_1.formatColour(label.color);
     yield client.issues.createLabel(Object.assign(Object.assign(Object.assign({}, repo), label), { color }));
 });
 
@@ -7513,6 +7529,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const api_1 = __webpack_require__(924);
+const utils_1 = __webpack_require__(163);
 const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
     const curLabels = yield api_1.getLabels({ client, repo });
     core.debug(`curLabels: ${JSON.stringify(curLabels)}`);
@@ -7522,7 +7539,7 @@ const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void
         if (curLabel.length > 0) {
             const label = curLabel[0];
             if (label.description !== configLabel.description ||
-                label.color !== configLabel.color) {
+                label.color !== utils_1.formatColour(configLabel.color)) {
                 core.debug(`Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(label)})`);
                 yield api_1.deleteLabel({ client, repo, name: label.name });
                 yield api_1.createLabel({ client, repo, label: configLabel });
