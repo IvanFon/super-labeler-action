@@ -4,11 +4,6 @@ A superpowered issue and pull request labeler for Github Actions.
 
 Super Labeler allows you to define your repository's labels in a config file that's checked into your repository. You can then define conditions that will be checked to apply and remove these labels on issues and pull requests.
 
-- [Getting Started](#getting-started)
-- [How it Works](#how-it-works)
-- [Config File Format](#config-file-format)
-- [Available Conditions](#available-conditions)
-
 ## Getting Started
 
 Create a new Github Actions workflow at `.github/workflows/label.yml`:
@@ -82,6 +77,21 @@ Now create the labeler config file at `.github/labels.json`:
 </details>
 
 Be sure that Github Actions is enabled for in your repository's settings. Super Labeler will now run on your issues and pull requests.
+
+## Index
+
+- [Getting Started](#getting-started)
+- [Index](#index)
+- [How it Works](#how-it-works)
+- [Config File Format](#config-file-format)
+- [Available Conditions](#available-conditions)
+  - [branchMatches](#branchmatches)
+  - [creatorMatches](#creatormatches)
+  - [descriptionMatches](#descriptionmatches)
+  - [isDraft](#isdraft)
+  - [isLocked](#islocked)
+  - [isOpen](#isopen)
+  - [titleMatches](#titlematches)
 
 ## How it Works
 
