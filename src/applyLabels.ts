@@ -30,6 +30,7 @@ const addRemoveLabel = async ({
   client,
   curLabels,
   label,
+  labelIdToName,
   matches,
   num,
   repo,
@@ -38,21 +39,23 @@ const addRemoveLabel = async ({
   client: GitHub;
   curLabels: Labels;
   label: string;
+  labelIdToName: { [key: string]: string };
   matches: number;
   num: number;
   repo: Repo;
   requires: number;
 }) => {
-  const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
+  const labelName = labelIdToName[label];
+  const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0;
   if (matches >= requires && !hasLabel) {
     core.debug(`${matches} >= ${requires} matches, adding label "${label}"...`);
-    await addLabel({ client, repo, num, label });
+    await addLabel({ client, repo, num, label: labelName });
   }
   if (matches < requires && hasLabel) {
     core.debug(
       `${matches} < ${requires} matches, removing label "${label}"...`,
     );
-    await removeLabel({ client, repo, num, label });
+    await removeLabel({ client, repo, num, label: labelName });
   }
 };
 
@@ -60,11 +63,13 @@ export const applyIssueLabels = async ({
   client,
   config,
   issueContext,
+  labelIdToName,
   repo,
 }: {
   client: GitHub;
   config: Config['issue'];
   issueContext: IssueContext;
+  labelIdToName: { [key: string]: string };
   repo: Repo;
 }) => {
   const { labels: curLabels, issueProps, num } = issueContext;
@@ -83,6 +88,7 @@ export const applyIssueLabels = async ({
       client,
       curLabels,
       label,
+      labelIdToName,
       matches,
       num,
       repo,
@@ -94,11 +100,13 @@ export const applyIssueLabels = async ({
 export const applyPRLabels = async ({
   client,
   config,
+  labelIdToName,
   prContext,
   repo,
 }: {
   client: GitHub;
   config: Config['pr'];
+  labelIdToName: { [key: string]: string };
   prContext: PRContext;
   repo: Repo;
 }) => {
@@ -115,6 +123,7 @@ export const applyPRLabels = async ({
       client,
       curLabels,
       label,
+      labelIdToName,
       matches,
       num,
       repo,

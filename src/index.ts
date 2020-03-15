@@ -88,10 +88,20 @@ const context = github.context;
 
     await syncLabels({ client, repo, config: config.labels });
 
+    // Mapping of label ids to Github names
+    const labelIdToName = Object.entries(config.labels).reduce(
+      (acc: { [key: string]: string }, cur) => {
+        acc[cur[0]] = cur[1].name;
+        return acc;
+      },
+      {},
+    );
+
     if (curContext.type === 'pr') {
       await applyPRLabels({
         client,
         config: config.pr,
+        labelIdToName,
         prContext: curContext.context,
         repo,
       });
@@ -100,6 +110,7 @@ const context = github.context;
         client,
         config: config.issue,
         issueContext: curContext.context,
+        labelIdToName,
         repo,
       });
     }

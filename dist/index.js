@@ -4282,10 +4282,16 @@ const context = github.context;
         }
         const client = new github.GitHub(token);
         yield syncLabels_1.default({ client, repo, config: config.labels });
+        // Mapping of label ids to Github names
+        const labelIdToName = Object.entries(config.labels).reduce((acc, cur) => {
+            acc[cur[0]] = cur[1].name;
+            return acc;
+        }, {});
         if (curContext.type === 'pr') {
             yield applyLabels_1.applyPRLabels({
                 client,
                 config: config.pr,
+                labelIdToName,
                 prContext: curContext.context,
                 repo,
             });
@@ -4295,6 +4301,7 @@ const context = github.context;
                 client,
                 config: config.issue,
                 issueContext: curContext.context,
+                labelIdToName,
                 repo,
             });
         }
@@ -25126,18 +25133,19 @@ const forConditions = (conditions, callback) => {
     core.debug(`Matches: ${matches}`);
     return matches;
 };
-const addRemoveLabel = ({ client, curLabels, label, matches, num, repo, requires, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
+const addRemoveLabel = ({ client, curLabels, label, labelIdToName, matches, num, repo, requires, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const labelName = labelIdToName[label];
+    const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0;
     if (matches >= requires && !hasLabel) {
         core.debug(`${matches} >= ${requires} matches, adding label "${label}"...`);
-        yield api_1.addLabel({ client, repo, num, label });
+        yield api_1.addLabel({ client, repo, num, label: labelName });
     }
     if (matches < requires && hasLabel) {
         core.debug(`${matches} < ${requires} matches, removing label "${label}"...`);
-        yield api_1.removeLabel({ client, repo, num, label });
+        yield api_1.removeLabel({ client, repo, num, label: labelName });
     }
 });
-exports.applyIssueLabels = ({ client, config, issueContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+exports.applyIssueLabels = ({ client, config, issueContext, labelIdToName, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
     const { labels: curLabels, issueProps, num } = issueContext;
     for (const [label, opts] of Object.entries(config)) {
         core.debug(`Label: ${label}`);
@@ -25150,6 +25158,7 @@ exports.applyIssueLabels = ({ client, config, issueContext, repo, }) => __awaite
             client,
             curLabels,
             label,
+            labelIdToName,
             matches,
             num,
             repo,
@@ -25157,7 +25166,7 @@ exports.applyIssueLabels = ({ client, config, issueContext, repo, }) => __awaite
         });
     }
 });
-exports.applyPRLabels = ({ client, config, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+exports.applyPRLabels = ({ client, config, labelIdToName, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
     const { labels: curLabels, prProps, num } = prContext;
     for (const [label, opts] of Object.entries(config)) {
         core.debug(`Label: ${label}`);
@@ -25170,6 +25179,7 @@ exports.applyPRLabels = ({ client, config, prContext, repo, }) => __awaiter(void
             client,
             curLabels,
             label,
+            labelIdToName,
             matches,
             num,
             repo,
