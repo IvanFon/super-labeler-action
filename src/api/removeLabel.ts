@@ -1,15 +1,15 @@
-import { PRApiProps } from '.';
+import { IssueApiProps } from '.';
 
 export const removeLabel = async ({
   client,
   repo,
-  prNum,
+  num,
   label,
-}: PRApiProps & {
+}: IssueApiProps & {
   label: string;
 }) =>
   await client.issues.removeLabel({
     ...repo,
-    issue_number: prNum,
+    issue_number: num,
     name: label,
   });

@@ -1,10 +1,17 @@
 import { Context } from '@actions/github/lib/context';
 
-export interface PRProps {
-  branch: string;
+interface Props {
   description: string;
-  isDraft: boolean;
   title: string;
+}
+
+export interface PRProps extends Props {
+  branch: string;
+  isDraft: boolean;
+}
+
+export interface IssueProps extends Props {
+  state: 'open' | 'closed';
 }
 
 export interface Label {
@@ -15,10 +22,17 @@ export interface Label {
 
 export type Labels = Label[];
 
-export interface PRContext {
+interface GeneralContext {
   labels: Labels;
-  prNum: number;
+  num: number;
+}
+
+export interface PRContext extends GeneralContext {
   prProps: PRProps;
+}
+
+export interface IssueContext extends GeneralContext {
+  issueProps: IssueProps;
 }
 
 export const parsePRContext = (context: Context): PRContext | undefined => {
@@ -31,12 +45,33 @@ export const parsePRContext = (context: Context): PRContext | undefined => {
 
   return {
     labels,
-    prNum: pr.number,
+    num: pr.number,
     prProps: {
       branch: pr.head.ref,
       description: pr.body || '',
       isDraft: pr.draft,
       title: pr.title,
+    },
+  };
+};
+
+export const parseIssueContext = (
+  context: Context,
+): IssueContext | undefined => {
+  const issue = context.payload.issue;
+  if (!issue) {
+    return;
+  }
+
+  const labels = parseLabels(issue.labels);
+
+  return {
+    labels,
+    num: issue.number,
+    issueProps: {
+      description: issue.body || '',
+      state: issue.state,
+      title: issue.title,
     },
   };
 };

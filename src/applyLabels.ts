@@ -3,8 +3,93 @@ import { GitHub } from '@actions/github';
 
 import { Config } from '.';
 import { addLabel, removeLabel, Repo } from './api';
-import { getConditionHandler as getPRConditionHandler } from './conditions/pr';
-import { PRContext } from './parseContext';
+import {
+  getIssueConditionHandler,
+  getPRConditionHandler,
+  IssueCondition,
+  PRCondition,
+} from './conditions';
+import { IssueContext, PRContext, Labels } from './parseContext';
+
+const forConditions = <T extends IssueCondition | PRCondition>(
+  conditions: T[],
+  callback: (condition: T) => boolean,
+) => {
+  let matches = 0;
+  for (const condition of conditions) {
+    core.debug(`Condition: ${JSON.stringify(condition)}`);
+    if (callback(condition)) {
+      matches++;
+    }
+  }
+  core.debug(`Matches: ${matches}`);
+  return matches;
+};
+
+const addRemoveLabel = async ({
+  client,
+  curLabels,
+  label,
+  matches,
+  num,
+  repo,
+  requires,
+}: {
+  client: GitHub;
+  curLabels: Labels;
+  label: string;
+  matches: number;
+  num: number;
+  repo: Repo;
+  requires: number;
+}) => {
+  const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
+  if (matches >= requires && !hasLabel) {
+    core.debug(`${matches} >= ${requires} matches, adding label "${label}"...`);
+    await addLabel({ client, repo, num, label });
+  }
+  if (matches < requires && hasLabel) {
+    core.debug(
+      `${matches} < ${requires} matches, removing label "${label}"...`,
+    );
+    await removeLabel({ client, repo, num, label });
+  }
+};
+
+export const applyIssueLabels = async ({
+  client,
+  config,
+  issueContext,
+  repo,
+}: {
+  client: GitHub;
+  config: Config['issue'];
+  issueContext: IssueContext;
+  repo: Repo;
+}) => {
+  const { labels: curLabels, issueProps, num } = issueContext;
+  for (const [label, opts] of Object.entries(config)) {
+    core.debug(`Label: ${label}`);
+
+    const matches = forConditions<IssueCondition>(
+      opts.conditions,
+      (condition) => {
+        const handler = getIssueConditionHandler(condition);
+        return handler?.(condition as any, issueProps) || false;
+      },
+    );
+
+    await addRemoveLabel({
+      client,
+      curLabels,
+      label,
+      matches,
+      num,
+      repo,
+      requires: opts.requires,
+    });
+  }
+};
 
 export const applyPRLabels = async ({
   client,
@@ -17,35 +102,23 @@ export const applyPRLabels = async ({
   prContext: PRContext;
   repo: Repo;
 }) => {
-  const { labels: curLabels, prProps, prNum } = prContext;
+  const { labels: curLabels, prProps, num } = prContext;
   for (const [label, opts] of Object.entries(config)) {
     core.debug(`Label: ${label}`);
 
-    let matches = 0;
-
-    for (const condition of opts.conditions) {
-      core.debug(`Condition: ${JSON.stringify(condition)}`);
-
+    const matches = forConditions<PRCondition>(opts.conditions, (condition) => {
       const handler = getPRConditionHandler(condition);
-      if (handler?.(condition as any, prProps)) {
-        matches++;
-      }
-      core.debug(`Matches: ${matches}`);
-    }
+      return handler?.(condition as any, prProps) || false;
+    });
 
-    const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
-
-    if (matches >= opts.requires && !hasLabel) {
-      core.debug(
-        `${matches} >= ${opts.requires} matches, adding label "${label}"...`,
-      );
-      await addLabel({ client, repo, prNum, label });
-    }
-    if (matches < opts.requires && hasLabel) {
-      core.debug(
-        `${matches} < ${opts.requires} matches, removing label "${label}"...`,
-      );
-      await removeLabel({ client, repo, prNum, label });
-    }
+    await addRemoveLabel({
+      client,
+      curLabels,
+      label,
+      matches,
+      num,
+      repo,
+      requires: opts.requires,
+    });
   }
 };

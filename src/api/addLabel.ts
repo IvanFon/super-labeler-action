@@ -1,15 +1,15 @@
-import { PRApiProps } from '.';
+import { IssueApiProps } from '.';
 
 export const addLabel = async ({
   client,
   repo,
-  prNum,
+  num,
   label,
-}: PRApiProps & {
+}: IssueApiProps & {
   label: string;
 }) =>
   await client.issues.addLabels({
     ...repo,
-    issue_number: prNum,
+    issue_number: num,
     labels: [label],
   });

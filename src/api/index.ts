@@ -10,8 +10,8 @@ export interface ApiProps {
   repo: Repo;
 }
 
-export interface PRApiProps extends ApiProps {
-  prNum: number;
+export interface IssueApiProps extends ApiProps {
+  num: number;
 }
 
 export * from './addLabel';

@@ -1883,22 +1883,6 @@ module.exports = opts => {
 
 /***/ }),
 
-/***/ 179:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const TYPE = 'titleMatches';
-const titleMatches = (condition, pr) => {
-    const pattern = new RegExp(condition.pattern);
-    return pattern.test(pr.title);
-};
-exports.default = [TYPE, titleMatches];
-
-
-/***/ }),
-
 /***/ 190:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -2064,6 +2048,23 @@ exports.getUserAgent = getUserAgent;
 /***/ (function(module) {
 
 module.exports = {"name":"@octokit/rest","version":"16.43.1","publishConfig":{"access":"public"},"description":"GitHub REST API client for Node.js","keywords":["octokit","github","rest","api-client"],"author":"Gregor Martynus (https://github.com/gr2m)","contributors":[{"name":"Mike de Boer","email":"info@mikedeboer.nl"},{"name":"Fabian Jakobs","email":"fabian@c9.io"},{"name":"Joe Gallo","email":"joe@brassafrax.com"},{"name":"Gregor Martynus","url":"https://github.com/gr2m"}],"repository":"https://github.com/octokit/rest.js","dependencies":{"@octokit/auth-token":"^2.4.0","@octokit/plugin-paginate-rest":"^1.1.1","@octokit/plugin-request-log":"^1.0.0","@octokit/plugin-rest-endpoint-methods":"2.4.0","@octokit/request":"^5.2.0","@octokit/request-error":"^1.0.2","atob-lite":"^2.0.0","before-after-hook":"^2.0.0","btoa-lite":"^1.0.0","deprecation":"^2.0.0","lodash.get":"^4.4.2","lodash.set":"^4.3.2","lodash.uniq":"^4.5.0","octokit-pagination-methods":"^1.1.0","once":"^1.4.0","universal-user-agent":"^4.0.0"},"devDependencies":{"@gimenete/type-writer":"^0.1.3","@octokit/auth":"^1.1.1","@octokit/fixtures-server":"^5.0.6","@octokit/graphql":"^4.2.0","@types/node":"^13.1.0","bundlesize":"^0.18.0","chai":"^4.1.2","compression-webpack-plugin":"^3.1.0","cypress":"^3.0.0","glob":"^7.1.2","http-proxy-agent":"^4.0.0","lodash.camelcase":"^4.3.0","lodash.merge":"^4.6.1","lodash.upperfirst":"^4.3.1","lolex":"^5.1.2","mkdirp":"^1.0.0","mocha":"^7.0.1","mustache":"^4.0.0","nock":"^11.3.3","npm-run-all":"^4.1.2","nyc":"^15.0.0","prettier":"^1.14.2","proxy":"^1.0.0","semantic-release":"^17.0.0","sinon":"^8.0.0","sinon-chai":"^3.0.0","sort-keys":"^4.0.0","string-to-arraybuffer":"^1.0.0","string-to-jsdoc-comment":"^1.0.0","typescript":"^3.3.1","webpack":"^4.0.0","webpack-bundle-analyzer":"^3.0.0","webpack-cli":"^3.0.0"},"types":"index.d.ts","scripts":{"coverage":"nyc report --reporter=html && open coverage/index.html","lint":"prettier --check '{lib,plugins,scripts,test}/**/*.{js,json,ts}' 'docs/*.{js,json}' 'docs/src/**/*' index.js README.md package.json","lint:fix":"prettier --write '{lib,plugins,scripts,test}/**/*.{js,json,ts}' 'docs/*.{js,json}' 'docs/src/**/*' index.js README.md package.json","pretest":"npm run -s lint","test":"nyc mocha test/mocha-node-setup.js \"test/*/**/*-test.js\"","test:browser":"cypress run --browser chrome","build":"npm-run-all build:*","build:ts":"npm run -s update-endpoints:typescript","prebuild:browser":"mkdirp dist/","build:browser":"npm-run-all build:browser:*","build:browser:development":"webpack --mode development --entry . --output-library=Octokit --output=./dist/octokit-rest.js --profile --json > dist/bundle-stats.json","build:browser:production":"webpack --mode production --entry . --plugin=compression-webpack-plugin --output-library=Octokit --output-path=./dist --output-filename=octokit-rest.min.js --devtool source-map","generate-bundle-report":"webpack-bundle-analyzer dist/bundle-stats.json --mode=static --no-open --report dist/bundle-report.html","update-endpoints":"npm-run-all update-endpoints:*","update-endpoints:fetch-json":"node scripts/update-endpoints/fetch-json","update-endpoints:typescript":"node scripts/update-endpoints/typescript","prevalidate:ts":"npm run -s build:ts","validate:ts":"tsc --target es6 --noImplicitAny index.d.ts","postvalidate:ts":"tsc --noEmit --target es6 test/typescript-validate.ts","start-fixtures-server":"octokit-fixtures-server"},"license":"MIT","files":["index.js","index.d.ts","lib","plugins"],"nyc":{"ignore":["test"]},"release":{"publish":["@semantic-release/npm",{"path":"@semantic-release/github","assets":["dist/*","!dist/*.map.gz"]}]},"bundlesize":[{"path":"./dist/octokit-rest.min.js.gz","maxSize":"33 kB"}]};
+
+/***/ }),
+
+/***/ 223:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const __1 = __webpack_require__(428);
+const handlers = [...__1.handlers];
+exports.getIssueConditionHandler = (condition) => {
+    var _a;
+    const handler = handlers.find((handler) => handler[0] === condition.type);
+    return (_a = handler) === null || _a === void 0 ? void 0 : _a[1];
+};
+
 
 /***/ }),
 
@@ -4247,20 +4248,56 @@ const context = github.context;
         const token = core.getInput('github-token', { required: true });
         const configPath = path_1.default.join(process.env.GITHUB_WORKSPACE, core.getInput('config'));
         const repo = context.repo;
-        const prContext = parseContext_1.parsePRContext(context);
-        if (!prContext) {
-            throw new Error('pull request not found on context');
-        }
-        core.debug(`PR context: ${JSON.stringify(prContext)}`);
         // Load config
         if (!fs_1.default.existsSync(configPath)) {
             throw new Error(`config not found at "${configPath}"`);
         }
         const config = JSON.parse(fs_1.default.readFileSync(configPath).toString());
         core.debug(`Config: ${JSON.stringify(config)}`);
+        let curContext;
+        if (context.payload.pull_request) {
+            const ctx = parseContext_1.parsePRContext(context);
+            if (!ctx) {
+                throw new Error('pull request not found on context');
+            }
+            core.debug(`PR context: ${JSON.stringify(ctx)}`);
+            curContext = {
+                type: 'pr',
+                context: ctx,
+            };
+        }
+        else if (context.payload.issue) {
+            const ctx = parseContext_1.parseIssueContext(context);
+            if (!ctx) {
+                throw new Error('issue not found on context');
+            }
+            core.debug(`issue context: ${JSON.stringify(ctx)}`);
+            curContext = {
+                type: 'issue',
+                context: ctx,
+            };
+        }
+        else {
+            return;
+        }
         const client = new github.GitHub(token);
         yield syncLabels_1.default({ client, repo, config: config.labels });
-        yield applyLabels_1.applyPRLabels({ client, config: config.pr, prContext, repo });
+        if (curContext.type === 'pr') {
+            yield applyLabels_1.applyPRLabels({
+                client,
+                config: config.pr,
+                prContext: curContext.context,
+                repo,
+            });
+        }
+        else if (curContext.type === 'issue') {
+            yield applyLabels_1.applyIssueLabels({
+                client,
+                config: config.issue,
+                issueContext: curContext.context,
+                repo,
+            });
+        }
     }
     catch (err) {
         core.error(err.message);
@@ -4593,12 +4630,28 @@ exports.parsePRContext = (context) => {
     const labels = parseLabels(pr.labels);
     return {
         labels,
-        prNum: pr.number,
+        num: pr.number,
         prProps: {
             branch: pr.head.ref,
             description: pr.body || '',
             isDraft: pr.draft,
             title: pr.title,
+        },
+    };
+};
+exports.parseIssueContext = (context) => {
+    const issue = context.payload.issue;
+    if (!issue) {
+        return;
+    }
+    const labels = parseLabels(issue.labels);
+    return {
+        labels,
+        num: issue.number,
+        issueProps: {
+            description: issue.body || '',
+            state: issue.state,
+            title: issue.title,
         },
     };
 };
@@ -5128,6 +5181,27 @@ function errname(uv, code) {
 	return `Unknown system error ${code}`;
 }
 
+
+
+/***/ }),
+
+/***/ 428:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const descriptionMatches_1 = __importDefault(__webpack_require__(658));
+const titleMatches_1 = __importDefault(__webpack_require__(686));
+exports.handlers = [descriptionMatches_1.default, titleMatches_1.default];
+__export(__webpack_require__(223));
+__export(__webpack_require__(545));
 
 
 /***/ }),
@@ -7623,8 +7697,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addLabel = ({ client, repo, prNum, label, }) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield client.issues.addLabels(Object.assign(Object.assign({}, repo), { issue_number: prNum, labels: [label] }));
+exports.addLabel = ({ client, repo, num, label, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield client.issues.addLabels(Object.assign(Object.assign({}, repo), { issue_number: num, labels: [label] }));
 });
 
 
@@ -7700,22 +7774,6 @@ module.exports.Collection = Hook.Collection
 const factory = __webpack_require__(47);
 
 module.exports = factory();
-
-
-/***/ }),
-
-/***/ 535:
-/***/ (function(__unusedmodule, exports) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-const TYPE = 'descriptionMatches';
-const descriptionMatches = (condition, pr) => {
-    const pattern = new RegExp(condition.pattern);
-    return pattern.test(pr.description);
-};
-exports.default = [TYPE, descriptionMatches];
 
 
 /***/ }),
@@ -8254,11 +8312,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const branchMatches_1 = __importDefault(__webpack_require__(618));
-const descriptionMatches_1 = __importDefault(__webpack_require__(535));
 const isDraft_1 = __importDefault(__webpack_require__(755));
-const titleMatches_1 = __importDefault(__webpack_require__(179));
-const handlers = [branchMatches_1.default, descriptionMatches_1.default, isDraft_1.default, titleMatches_1.default];
-exports.getConditionHandler = (condition) => {
+const __1 = __webpack_require__(428);
+const handlers = [...__1.handlers, branchMatches_1.default, isDraft_1.default];
+exports.getPRConditionHandler = (condition) => {
     var _a;
     const handler = handlers.find((handler) => handler[0] === condition.type);
     return (_a = handler) === null || _a === void 0 ? void 0 : _a[1];
@@ -8683,6 +8740,22 @@ if (process.platform === 'linux') {
 
 /***/ }),
 
+/***/ 658:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'descriptionMatches';
+const descriptionMatches = (condition, issue) => {
+    const pattern = new RegExp(condition.pattern);
+    return pattern.test(issue.description);
+};
+exports.default = [TYPE, descriptionMatches];
+
+
+/***/ }),
+
 /***/ 669:
 /***/ (function(module) {
 
@@ -8755,6 +8828,22 @@ function authenticate(state, options) {
 module.exports = function btoa(str) {
   return new Buffer(str).toString('base64')
 }
+
+
+/***/ }),
+
+/***/ 686:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'titleMatches';
+const titleMatches = (condition, issue) => {
+    const pattern = new RegExp(condition.pattern);
+    return pattern.test(issue.title);
+};
+exports.default = [TYPE, titleMatches];
 
 
 /***/ }),
@@ -9201,8 +9290,8 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeLabel = ({ client, repo, prNum, label, }) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield client.issues.removeLabel(Object.assign(Object.assign({}, repo), { issue_number: prNum, name: label }));
+exports.removeLabel = ({ client, repo, num, label, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield client.issues.removeLabel(Object.assign(Object.assign({}, repo), { issue_number: num, name: label }));
 });
 
 
@@ -25008,30 +25097,67 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const core = __importStar(__webpack_require__(470));
 const api_1 = __webpack_require__(924);
-const pr_1 = __webpack_require__(545);
-exports.applyPRLabels = ({ client, config, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const { labels: curLabels, prProps, prNum } = prContext;
+const conditions_1 = __webpack_require__(428);
+const forConditions = (conditions, callback) => {
+    let matches = 0;
+    for (const condition of conditions) {
+        core.debug(`Condition: ${JSON.stringify(condition)}`);
+        if (callback(condition)) {
+            matches++;
+        }
+    }
+    core.debug(`Matches: ${matches}`);
+    return matches;
+};
+const addRemoveLabel = ({ client, curLabels, label, matches, num, repo, requires, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
+    if (matches >= requires && !hasLabel) {
+        core.debug(`${matches} >= ${requires} matches, adding label "${label}"...`);
+        yield api_1.addLabel({ client, repo, num, label });
+    }
+    if (matches < requires && hasLabel) {
+        core.debug(`${matches} < ${requires} matches, removing label "${label}"...`);
+        yield api_1.removeLabel({ client, repo, num, label });
+    }
+});
+exports.applyIssueLabels = ({ client, config, issueContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { labels: curLabels, issueProps, num } = issueContext;
     for (const [label, opts] of Object.entries(config)) {
         core.debug(`Label: ${label}`);
-        let matches = 0;
-        for (const condition of opts.conditions) {
-            core.debug(`Condition: ${JSON.stringify(condition)}`);
-            const handler = pr_1.getConditionHandler(condition);
-            if ((_a = handler) === null || _a === void 0 ? void 0 : _a(condition, prProps)) {
-                matches++;
-            }
-            core.debug(`Matches: ${matches}`);
-        }
-        const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
-        if (matches >= opts.requires && !hasLabel) {
-            core.debug(`${matches} >= ${opts.requires} matches, adding label "${label}"...`);
-            yield api_1.addLabel({ client, repo, prNum, label });
-        }
-        if (matches < opts.requires && hasLabel) {
-            core.debug(`${matches} < ${opts.requires} matches, removing label "${label}"...`);
-            yield api_1.removeLabel({ client, repo, prNum, label });
-        }
+        const matches = forConditions(opts.conditions, (condition) => {
+            var _a;
+            const handler = conditions_1.getIssueConditionHandler(condition);
+            return ((_a = handler) === null || _a === void 0 ? void 0 : _a(condition, issueProps)) || false;
+        });
+        yield addRemoveLabel({
+            client,
+            curLabels,
+            label,
+            matches,
+            num,
+            repo,
+            requires: opts.requires,
+        });
+    }
+});
+exports.applyPRLabels = ({ client, config, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const { labels: curLabels, prProps, num } = prContext;
+    for (const [label, opts] of Object.entries(config)) {
+        core.debug(`Label: ${label}`);
+        const matches = forConditions(opts.conditions, (condition) => {
+            var _a;
+            const handler = conditions_1.getPRConditionHandler(condition);
+            return ((_a = handler) === null || _a === void 0 ? void 0 : _a(condition, prProps)) || false;
+        });
+        yield addRemoveLabel({
+            client,
+            curLabels,
+            label,
+            matches,
+            num,
+            repo,
+            requires: opts.requires,
+        });
     }
 });
 

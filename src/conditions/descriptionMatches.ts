@@ -1,4 +1,4 @@
-import { PRProps } from '.';
+import { IssueProps, PRProps } from '.';
 
 const TYPE = 'descriptionMatches';
 
@@ -9,10 +9,10 @@ export interface ConditionDescriptionMatches {
 
 const descriptionMatches = (
   condition: ConditionDescriptionMatches,
-  pr: PRProps,
+  issue: IssueProps | PRProps,
 ) => {
   const pattern = new RegExp(condition.pattern);
-  return pattern.test(pr.description);
+  return pattern.test(issue.description);
 };
 
 export default [TYPE, descriptionMatches] as const;

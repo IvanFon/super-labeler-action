@@ -1,19 +1,12 @@
 import branchMatches, { ConditionBranchMatches } from './branchMatches';
-import descriptionMatches, {
-  ConditionDescriptionMatches,
-} from './descriptionMatches';
 import isDraft, { ConditionIsDraft } from './isDraft';
-import titleMatches, { ConditionTitleMatches } from './titleMatches';
+import { Condition, handlers as sharedHandlers } from '../';
 
-export type Condition =
-  | ConditionBranchMatches
-  | ConditionDescriptionMatches
-  | ConditionIsDraft
-  | ConditionTitleMatches;
+export type PRCondition = ConditionBranchMatches | ConditionIsDraft | Condition;
 
-const handlers = [branchMatches, descriptionMatches, isDraft, titleMatches];
+const handlers = [...sharedHandlers, branchMatches, isDraft];
 
-export const getConditionHandler = (condition: Condition) => {
+export const getPRConditionHandler = (condition: PRCondition) => {
   const handler = handlers.find((handler) => handler[0] === condition.type);
   return handler?.[1];
 };

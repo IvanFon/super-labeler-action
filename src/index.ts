@@ -4,9 +4,14 @@ import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 
-import { applyPRLabels } from './applyLabels';
-import { Condition as PRCondition } from './conditions/pr';
-import { parsePRContext } from './parseContext';
+import { applyIssueLabels, applyPRLabels } from './applyLabels';
+import { IssueCondition, PRCondition } from './conditions';
+import {
+  IssueContext,
+  parseIssueContext,
+  parsePRContext,
+  PRContext,
+} from './parseContext';
 import syncLabels from './syncLabels';
 
 export interface Config {
@@ -15,6 +20,12 @@ export interface Config {
       name: string;
       colour: string;
       description: string;
+    };
+  };
+  issue: {
+    [key: string]: {
+      requires: number;
+      conditions: IssueCondition[];
     };
   };
   pr: {
@@ -37,12 +48,6 @@ const context = github.context;
     );
     const repo = context.repo;
 
-    const prContext = parsePRContext(context);
-    if (!prContext) {
-      throw new Error('pull request not found on context');
-    }
-    core.debug(`PR context: ${JSON.stringify(prContext)}`);
-
     // Load config
     if (!fs.existsSync(configPath)) {
       throw new Error(`config not found at "${configPath}"`);
@@ -50,11 +55,54 @@ const context = github.context;
     const config: Config = JSON.parse(fs.readFileSync(configPath).toString());
     core.debug(`Config: ${JSON.stringify(config)}`);
 
+    let curContext:
+      | { type: 'pr'; context: PRContext }
+      | { type: 'issue'; context: IssueContext };
+    if (context.payload.pull_request) {
+      const ctx = parsePRContext(context);
+      if (!ctx) {
+        throw new Error('pull request not found on context');
+      }
+      core.debug(`PR context: ${JSON.stringify(ctx)}`);
+
+      curContext = {
+        type: 'pr',
+        context: ctx,
+      };
+    } else if (context.payload.issue) {
+      const ctx = parseIssueContext(context);
+      if (!ctx) {
+        throw new Error('issue not found on context');
+      }
+      core.debug(`issue context: ${JSON.stringify(ctx)}`);
+
+      curContext = {
+        type: 'issue',
+        context: ctx,
+      };
+    } else {
+      return;
+    }
+
     const client = new github.GitHub(token);
 
     await syncLabels({ client, repo, config: config.labels });
 
-    await applyPRLabels({ client, config: config.pr, prContext, repo });
+    if (curContext.type === 'pr') {
+      await applyPRLabels({
+        client,
+        config: config.pr,
+        prContext: curContext.context,
+        repo,
+      });
+    } else if (curContext.type === 'issue') {
+      await applyIssueLabels({
+        client,
+        config: config.issue,
+        issueContext: curContext.context,
+        repo,
+      });
+    }
   } catch (err) {
     core.error(err.message);
     core.setFailed(err.message);
