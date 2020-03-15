@@ -4643,6 +4643,7 @@ exports.parsePRContext = (context) => {
             creator: pr.user.login,
             description: pr.body || '',
             isDraft: pr.draft,
+            locked: pr.locked,
             state: pr.state,
             title: pr.title,
         },
@@ -4660,6 +4661,7 @@ exports.parseIssueContext = (context) => {
         issueProps: {
             creator: issue.user.login,
             description: issue.body || '',
+            locked: issue.locked,
             state: issue.state,
             title: issue.title,
         },
@@ -5148,6 +5150,19 @@ module.exports = require("stream");
 
 /***/ }),
 
+/***/ 417:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'isLocked';
+const isLocked = (condition, issue) => issue.locked === condition.value;
+exports.default = [TYPE, isLocked];
+
+
+/***/ }),
+
 /***/ 427:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -5209,11 +5224,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const creatorMatches_1 = __importDefault(__webpack_require__(435));
 const descriptionMatches_1 = __importDefault(__webpack_require__(658));
+const isLocked_1 = __importDefault(__webpack_require__(417));
 const isOpen_1 = __importDefault(__webpack_require__(708));
 const titleMatches_1 = __importDefault(__webpack_require__(686));
 exports.handlers = [
     creatorMatches_1.default,
     descriptionMatches_1.default,
+    isLocked_1.default,
     isOpen_1.default,
     titleMatches_1.default,
 ];

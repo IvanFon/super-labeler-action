@@ -3,6 +3,7 @@ import { Context } from '@actions/github/lib/context';
 interface Props {
   creator: string;
   description: string;
+  locked: boolean;
   state: 'open' | 'closed';
   title: string;
 }
@@ -51,6 +52,7 @@ export const parsePRContext = (context: Context): PRContext | undefined => {
       creator: pr.user.login,
       description: pr.body || '',
       isDraft: pr.draft,
+      locked: pr.locked,
       state: pr.state,
       title: pr.title,
     },
@@ -73,6 +75,7 @@ export const parseIssueContext = (
     issueProps: {
       creator: issue.user.login,
       description: issue.body || '',
+      locked: issue.locked,
       state: issue.state,
       title: issue.title,
     },

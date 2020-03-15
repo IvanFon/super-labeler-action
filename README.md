@@ -222,6 +222,21 @@ Example:
 }
 ```
 
+### isLocked
+
+**Applies to: issues and pull requests**
+
+Checks if an issue or pull request is locked.
+
+Example:
+
+```json
+{
+  "type": "isLocked",
+  "value": true
+}
+```
+
 ### isOpen
 
 **Applies to: issues and pull requests**
