@@ -14,6 +14,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Super Labeler
     steps:
+      - uses: actions/checkout@v2
       - uses: IvanFon/super-labeler-action@master
         with:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
