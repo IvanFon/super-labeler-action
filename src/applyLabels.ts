@@ -33,12 +33,14 @@ export const applyPRLabels = async ({
       core.debug(`Matches: ${matches}`);
     }
 
-    if (matches >= opts.requires) {
+    const hasLabel = curLabels.filter((l) => l.name === label).length > 0;
+
+    if (matches >= opts.requires && !hasLabel) {
       core.debug(
         `${matches} >= ${opts.requires} matches, adding label "${label}"...`,
       );
       await addLabel({ client, repo, prNum, label });
-    } else if (curLabels.filter((l) => l.name === label).length > 0) {
+    } else if (hasLabel) {
       core.debug(
         `${matches} < ${opts.requires} matches, removing label "${label}"...`,
       );
