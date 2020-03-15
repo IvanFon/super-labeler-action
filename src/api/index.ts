@@ -1,6 +1,6 @@
 import * as github from '@actions/github';
 
-interface Repo {
+export interface Repo {
   owner: string;
   repo: string;
 }

@@ -4195,12 +4195,10 @@ const fs_1 = __importDefault(__webpack_require__(747));
 const path_1 = __importDefault(__webpack_require__(622));
 const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
-const api_1 = __webpack_require__(924);
-const pr_1 = __webpack_require__(545);
+const applyLabels_1 = __webpack_require__(919);
 const parseContext_1 = __webpack_require__(380);
 const context = github.context;
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
     try {
         // Get inputs
         const token = core.getInput('github-token', { required: true });
@@ -4210,7 +4208,6 @@ const context = github.context;
         if (!prContext) {
             throw new Error('pull request not found on context');
         }
-        const { labels: curLabels, prProps, prNum } = prContext;
         core.debug(`PR context: ${JSON.stringify(prContext)}`);
         // Load config
         if (!fs_1.default.existsSync(configPath)) {
@@ -4219,27 +4216,7 @@ const context = github.context;
         const config = JSON.parse(fs_1.default.readFileSync(configPath).toString());
         core.debug(`Config: ${JSON.stringify(config)}`);
         const client = new github.GitHub(token);
-        const labels = Object.entries(config.pr);
-        for (const [label, opts] of labels) {
-            core.debug(`Label: ${label}`);
-            let matches = 0;
-            for (const condition of opts.conditions) {
-                core.debug(`Condition: ${JSON.stringify(condition)}`);
-                const handler = pr_1.getConditionHandler(condition);
-                if ((_a = handler) === null || _a === void 0 ? void 0 : _a(condition, prProps)) {
-                    matches++;
-                }
-                core.debug(`Matches: ${matches}`);
-            }
-            if (matches >= opts.requires) {
-                core.debug(`${matches} >= ${opts.requires} matches, adding label "${label}"...`);
-                yield api_1.addLabel({ client, repo, prNum, label });
-            }
-            else if (curLabels.filter((l) => l.name === label).length > 0) {
-                core.debug(`${matches} < ${opts.requires} matches, removing label "${label}"...`);
-                yield api_1.removeLabel({ client, repo, prNum, label });
-            }
-        }
+        yield applyLabels_1.applyPRLabels({ client, config: config.pr, prContext, repo });
     }
     catch (err) {
         core.error(err.message);
@@ -24841,6 +24818,59 @@ requestLog.VERSION = VERSION;
 
 exports.requestLog = requestLog;
 //# sourceMappingURL=index.js.map
+
+
+/***/ }),
+
+/***/ 919:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(__webpack_require__(470));
+const api_1 = __webpack_require__(924);
+const pr_1 = __webpack_require__(545);
+exports.applyPRLabels = ({ client, config, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a;
+    const { labels: curLabels, prProps, prNum } = prContext;
+    for (const [label, opts] of Object.entries(config)) {
+        core.debug(`Label: ${label}`);
+        let matches = 0;
+        for (const condition of opts.conditions) {
+            core.debug(`Condition: ${JSON.stringify(condition)}`);
+            const handler = pr_1.getConditionHandler(condition);
+            if ((_a = handler) === null || _a === void 0 ? void 0 : _a(condition, prProps)) {
+                matches++;
+            }
+            core.debug(`Matches: ${matches}`);
+        }
+        if (matches >= opts.requires) {
+            core.debug(`${matches} >= ${opts.requires} matches, adding label "${label}"...`);
+            yield api_1.addLabel({ client, repo, prNum, label });
+        }
+        else if (curLabels.filter((l) => l.name === label).length > 0) {
+            core.debug(`${matches} < ${opts.requires} matches, removing label "${label}"...`);
+            yield api_1.removeLabel({ client, repo, prNum, label });
+        }
+    }
+});
 
 
 /***/ }),

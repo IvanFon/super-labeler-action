@@ -4,14 +4,11 @@ import path from 'path';
 import * as core from '@actions/core';
 import * as github from '@actions/github';
 
-import { addLabel, removeLabel } from './api';
-import {
-  Condition as PRCondition,
-  getConditionHandler as getPRConditionHandler,
-} from './conditions/pr';
+import { applyPRLabels } from './applyLabels';
+import { Condition as PRCondition } from './conditions/pr';
 import { parsePRContext } from './parseContext';
 
-interface Config {
+export interface Config {
   pr: {
     [key: string]: {
       requires: number;
@@ -36,7 +33,6 @@ const context = github.context;
     if (!prContext) {
       throw new Error('pull request not found on context');
     }
-    const { labels: curLabels, prProps, prNum } = prContext;
     core.debug(`PR context: ${JSON.stringify(prContext)}`);
 
     // Load config
@@ -48,34 +44,7 @@ const context = github.context;
 
     const client = new github.GitHub(token);
 
-    const labels = Object.entries(config.pr);
-    for (const [label, opts] of labels) {
-      core.debug(`Label: ${label}`);
-
-      let matches = 0;
-
-      for (const condition of opts.conditions) {
-        core.debug(`Condition: ${JSON.stringify(condition)}`);
-
-        const handler = getPRConditionHandler(condition);
-        if (handler?.(condition as any, prProps)) {
-          matches++;
-        }
-        core.debug(`Matches: ${matches}`);
-      }
-
-      if (matches >= opts.requires) {
-        core.debug(
-          `${matches} >= ${opts.requires} matches, adding label "${label}"...`,
-        );
-        await addLabel({ client, repo, prNum, label });
-      } else if (curLabels.filter((l) => l.name === label).length > 0) {
-        core.debug(
-          `${matches} < ${opts.requires} matches, removing label "${label}"...`,
-        );
-        await removeLabel({ client, repo, prNum, label });
-      }
-    }
+    await applyPRLabels({ client, config: config.pr, prContext, repo });
   } catch (err) {
     core.error(err.message);
     core.setFailed(err.message);

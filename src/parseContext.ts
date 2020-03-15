@@ -7,13 +7,13 @@ export interface PRProps {
   title: string;
 }
 
-type Labels = {
+export type Labels = {
   name: string;
   description: string;
   color: string;
 }[];
 
-interface PRContext {
+export interface PRContext {
   labels: Labels;
   prNum: number;
   prProps: PRProps;
