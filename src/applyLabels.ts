@@ -40,7 +40,8 @@ export const applyPRLabels = async ({
         `${matches} >= ${opts.requires} matches, adding label "${label}"...`,
       );
       await addLabel({ client, repo, prNum, label });
-    } else if (hasLabel) {
+    }
+    if (matches < opts.requires && hasLabel) {
       core.debug(
         `${matches} < ${opts.requires} matches, removing label "${label}"...`,
       );

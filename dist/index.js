@@ -25005,7 +25005,7 @@ exports.applyPRLabels = ({ client, config, prContext, repo, }) => __awaiter(void
             core.debug(`${matches} >= ${opts.requires} matches, adding label "${label}"...`);
             yield api_1.addLabel({ client, repo, prNum, label });
         }
-        else if (hasLabel) {
+        if (matches < opts.requires && hasLabel) {
             core.debug(`${matches} < ${opts.requires} matches, removing label "${label}"...`);
             yield api_1.removeLabel({ client, repo, prNum, label });
         }
