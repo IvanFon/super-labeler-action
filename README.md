@@ -2,17 +2,32 @@
 
 A superpowered issue and pull request labeler for Github Actions.
 
-## Example Workflow
+Super Labeler allows you to define your repository's labels in a config file that's checked into your repository. You can then define conditions that will be checked to apply and remove these labels on issues and pull requests.
+
+- [Getting Started](#getting-started)
+- [How it Works](#how-it-works)
+- [Config File Format](#config-file-format)
+- [Available Conditions](#available-conditions)
+
+## Getting Started
+
+Create a new Github Actions workflow at `.github/workflows/label.yml`:
+
+<details>
+  <summary><b>Click to show example workflow</b></summary>
+
+_Note: `actions/checkout` must be run first so that the labeler action can find your config file._
 
 ```yaml
 on:
+  issues: [opened, edited, closed, reopened]
   pull_request:
-    types: [opened, ready_for_review]
+    types: [opened, edited, closed, reopened, ready_for_review, synchronize]
 
 jobs:
-  test:
+  label:
     runs-on: ubuntu-latest
-    name: Super Labeler
+    name: Label issues and pull requests
     steps:
       - uses: actions/checkout@v2
       - uses: IvanFon/super-labeler-action@master
@@ -20,43 +35,208 @@ jobs:
           github-token: '${{ secrets.GITHUB_TOKEN }}'
 ```
 
-## Example Config
+</details>
 
-Place your config at `.github/labels.json`.
+Now create the labeler config file at `.github/labels.json`:
+
+<details>
+  <summary><b>Click here to show example config</b></summary>
 
 ```json
 {
   "labels": {
-    "bugfix": {
-      "name": "bugfix",
-      "colour": "#abcdef",
-      "description": "Fixes a bug"
-    },
-    "draft": {
-      "name": "draft",
-      "colour": "#abcdef",
-      "description": "Is a draft pull request"
+    "example": {
+      "name": "example",
+      "colour": "#00ff00",
+      "description": "Example label"
+    }
+  },
+  "issue": {
+    "example": {
+      "requires": 2,
+      "conditions": [
+        {
+          "type": "titleMatches",
+          "pattern": "example"
+        },
+        {
+          "type": "isOpen"
+        }
+      ]
     }
   },
   "pr": {
-    "bugfix": {
-      "requires": 1,
-      "conditions": [
-        {
-          "type": "branchMatches",
-          "pattern": "^bugfix\\/"
-        }
-      ]
-    },
-    "draft": {
+    "example": {
       "requires": 1,
       "conditions": [
         {
           "type": "isDraft",
-          "value": true
+          "value": false
         }
       ]
     }
   }
 }
 ```
+
+</details>
+
+Be sure that Github Actions is enabled for in your repository's settings. Super Labeler will now run on your issues and pull requests.
+
+## How it Works
+
+Whenever Super Labeler runs, it will first add and update your repository's labels to match your config. Then it will go through each label's conditions to determine if it should apply or remove that label.
+
+Each label has a list of conditions that must be met for it to be applied. You must specify the minimum number of conditions that must be met for the label to be applied.
+
+Each label has a key, which can be different from it's name. This key should be in plaintext, and will be used to refer to the given label when defining your conditions. For example, given the following labels definition:
+
+```json
+{
+  "labels": {
+    "bugfix": {
+      "name": "Bugfix! 🎉",
+      "colour": "ff0000",
+      "description": "Fixes a bug."
+    }
+  }
+}
+```
+
+While the label's name, which will be displayed on Github, is "Bugfix! 🎉", to be able to easily refer to it from our conditions, we would use it's key, which is just `bugfix`:
+
+```json
+{
+  "pr": {
+    "bugfix": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "branchMatches",
+          "pattern": "^bugfix"
+        }
+      ]
+    }
+  }
+}
+```
+
+## Config File Format
+
+The config object contains three keys:
+
+- `labels`: Your repository's labels, which will be automatically created and updated by Super Labeler
+- `issue`: Labels to apply to issues, and their conditions
+- `pr`: Labels to apply to pull requests, and their conditions
+
+Take a look at the examples in this file to get a feel for how to configure it. The below Typescript interface, which is used by this action, may also be helpful:
+
+<details>
+  <summary><b>Click to show Typescript config interface</b></summary>
+
+```js
+interface Config {
+  labels: {
+    [key: string]: {
+      name: string,
+      colour: string,
+      description: string,
+    },
+  };
+  issue: {
+    [key: string]: {
+      requires: number,
+      conditions: IssueCondition[],
+    },
+  };
+  pr: {
+    [key: string]: {
+      requires: number,
+      conditions: PRCondition[],
+    },
+  };
+}
+```
+
+</details>
+
+## Available Conditions
+
+### branchMatches
+
+**Applies to: pull requests**
+
+Checks if branch name matches a Regex pattern.
+
+Example:
+
+```json
+{
+  "type": "branchMatches",
+  "pattern": "^bugfix\\/"
+}
+```
+
+### descriptionMatches
+
+**Applies to: issues and pull requests**
+
+Checks if an issue or pull request's description matches a Regex pattern.
+
+Example:
+
+```json
+{
+  "type": "descriptionMatches",
+  "pattern": "foo.*bar"
+}
+```
+
+### isDraft
+
+**Applies to: pull requests**
+
+Checks if a pull request is a draft.
+
+Example:
+
+```json
+{
+  "type": "isDraft",
+  "value": true
+}
+```
+
+### isOpen
+
+**Applies to: issues and pull requests**
+
+Checks if an issue or pull request is open or closed.
+
+Example:
+
+```json
+{
+  "type": "isOpen",
+  "value": true
+}
+```
+
+### titleMatches
+
+**Applies to: issues and pull requests**
+
+Checks if an issue or pull request's title matches a Regex pattern.
+
+Example:
+
+```json
+{
+  "type": "titleMatches",
+  "pattern": "^(wip|WIP):"
+}
+```
+
+---
+
+[back to top](#super-labeler-action)
