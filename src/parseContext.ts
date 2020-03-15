@@ -1,6 +1,7 @@
 import { Context } from '@actions/github/lib/context';
 
 interface Props {
+  creator: string;
   description: string;
   state: 'open' | 'closed';
   title: string;
@@ -47,6 +48,7 @@ export const parsePRContext = (context: Context): PRContext | undefined => {
     num: pr.number,
     prProps: {
       branch: pr.head.ref,
+      creator: pr.user.login,
       description: pr.body || '',
       isDraft: pr.draft,
       state: pr.state,
@@ -69,6 +71,7 @@ export const parseIssueContext = (
     labels,
     num: issue.number,
     issueProps: {
+      creator: issue.user.login,
       description: issue.body || '',
       state: issue.state,
       title: issue.title,

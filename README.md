@@ -177,6 +177,21 @@ Example:
 }
 ```
 
+### creatorMatches
+
+**Applies to: issues and pull requests**
+
+Checks if an issue or pull request's creator's username matches a Regex pattern.
+
+Example:
+
+```json
+{
+  "type": "creatorMatches",
+  "pattern": "^foo"
+}
+```
+
 ### descriptionMatches
 
 **Applies to: issues and pull requests**

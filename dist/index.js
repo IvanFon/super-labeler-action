@@ -4640,6 +4640,7 @@ exports.parsePRContext = (context) => {
         num: pr.number,
         prProps: {
             branch: pr.head.ref,
+            creator: pr.user.login,
             description: pr.body || '',
             isDraft: pr.draft,
             state: pr.state,
@@ -4657,6 +4658,7 @@ exports.parseIssueContext = (context) => {
         labels,
         num: issue.number,
         issueProps: {
+            creator: issue.user.login,
             description: issue.body || '',
             state: issue.state,
             title: issue.title,
@@ -5205,10 +5207,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const creatorMatches_1 = __importDefault(__webpack_require__(435));
 const descriptionMatches_1 = __importDefault(__webpack_require__(658));
 const isOpen_1 = __importDefault(__webpack_require__(708));
 const titleMatches_1 = __importDefault(__webpack_require__(686));
-exports.handlers = [descriptionMatches_1.default, isOpen_1.default, titleMatches_1.default];
+exports.handlers = [
+    creatorMatches_1.default,
+    descriptionMatches_1.default,
+    isOpen_1.default,
+    titleMatches_1.default,
+];
 __export(__webpack_require__(223));
 __export(__webpack_require__(545));
 
@@ -5311,6 +5319,22 @@ function escapeProperty(s) {
         .replace(/,/g, '%2C');
 }
 //# sourceMappingURL=command.js.map
+
+/***/ }),
+
+/***/ 435:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'creatorMatches';
+const creatorMatches = (condition, issue) => {
+    const pattern = new RegExp(condition.pattern);
+    return pattern.test(issue.creator);
+};
+exports.default = [TYPE, creatorMatches];
+
 
 /***/ }),
 
