@@ -4188,14 +4188,14 @@ const context = github.context;
     try {
         // Get inputs
         const token = core.getInput('github-token', { required: true });
-        const configPath = path_1.default.join(__dirname, '../', core.getInput('config'));
+        const configPath = path_1.default.join(process.env.GITHUB_WORKSPACE, core.getInput('config'));
         const repo = context.repo;
         const prContext = parseContext_1.parsePRContext(context);
         if (!prContext) {
             throw new Error('pull request not found on context');
         }
         const { labels: curLabels, prProps, prNum } = prContext;
-        core.info(`Running on PR #${prNum}`);
+        core.debug(`PR context: ${JSON.stringify(prContext)}`);
         // Load config
         if (!fs_1.default.existsSync(configPath)) {
             throw new Error(`config not found at "${configPath}"`);
