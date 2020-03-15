@@ -2,7 +2,7 @@ import * as core from '@actions/core';
 import { GitHub } from '@actions/github';
 
 import { Config } from '.';
-import { createLabel, deleteLabel, getLabels, Repo } from './api';
+import { createLabel, getLabels, Repo, updateLabel } from './api';
 import { formatColour } from './utils';
 
 const syncLabels = async ({
@@ -35,8 +35,7 @@ const syncLabels = async ({
             label,
           )})`,
         );
-        await deleteLabel({ client, repo, name: label.name });
-        await createLabel({ client, repo, label: configLabel });
+        await updateLabel({ client, repo, label: configLabel });
       }
     } else {
       core.debug(`Create ${JSON.stringify(configLabel)}`);

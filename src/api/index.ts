@@ -19,3 +19,4 @@ export * from './createLabel';
 export * from './deleteLabel';
 export * from './getLabels';
 export * from './removeLabel';
+export * from './updateLabel';

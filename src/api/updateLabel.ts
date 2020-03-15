@@ -2,15 +2,16 @@ import { ApiProps } from '.';
 import { Label } from '../parseContext';
 import { formatColour } from '../utils';
 
-export const createLabel = async ({
+export const updateLabel = async ({
   client,
   repo,
   label,
 }: ApiProps & { label: Label }) => {
   const color = formatColour(label.color);
-  await client.issues.createLabel({
+  await client.issues.updateLabel({
     ...repo,
-    ...label,
+    current_name: label.name,
+    description: label.description,
     color,
   });
 };

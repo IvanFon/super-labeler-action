@@ -2346,7 +2346,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", { value: true });
 const utils_1 = __webpack_require__(163);
 exports.createLabel = ({ client, repo, label, }) => __awaiter(void 0, void 0, void 0, function* () {
-    let color = utils_1.formatColour(label.color);
+    const color = utils_1.formatColour(label.color);
     yield client.issues.createLabel(Object.assign(Object.assign(Object.assign({}, repo), label), { color }));
 });
 
@@ -7541,8 +7541,7 @@ const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void
             if (label.description !== configLabel.description ||
                 label.color !== utils_1.formatColour(configLabel.color)) {
                 core.debug(`Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(label)})`);
-                yield api_1.deleteLabel({ client, repo, name: label.name });
-                yield api_1.createLabel({ client, repo, label: configLabel });
+                yield api_1.updateLabel({ client, repo, label: configLabel });
             }
         }
         else {
@@ -8863,6 +8862,30 @@ module.exports = (promise, onFinally) => {
 		})
 	);
 };
+
+
+/***/ }),
+
+/***/ 735:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
+exports.updateLabel = ({ client, repo, label, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const color = utils_1.formatColour(label.color);
+    yield client.issues.updateLabel(Object.assign(Object.assign({}, repo), { current_name: label.name, description: label.description, color }));
+});
 
 
 /***/ }),
@@ -25029,6 +25052,7 @@ __export(__webpack_require__(272));
 __export(__webpack_require__(613));
 __export(__webpack_require__(933));
 __export(__webpack_require__(769));
+__export(__webpack_require__(735));
 
 
 /***/ }),
