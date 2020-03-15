@@ -7,8 +7,16 @@ import * as github from '@actions/github';
 import { applyPRLabels } from './applyLabels';
 import { Condition as PRCondition } from './conditions/pr';
 import { parsePRContext } from './parseContext';
+import syncLabels from './syncLabels';
 
 export interface Config {
+  labels: {
+    [key: string]: {
+      name: string;
+      colour: string;
+      description: string;
+    };
+  };
   pr: {
     [key: string]: {
       requires: number;
@@ -43,6 +51,8 @@ const context = github.context;
     core.debug(`Config: ${JSON.stringify(config)}`);
 
     const client = new github.GitHub(token);
+
+    await syncLabels({ client, repo, config: config.labels });
 
     await applyPRLabels({ client, config: config.pr, prContext, repo });
   } catch (err) {

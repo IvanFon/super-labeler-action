@@ -2311,6 +2311,32 @@ function applyAcceptHeader (res, headers) {
 
 /***/ }),
 
+/***/ 272:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.createLabel = ({ client, repo, label, }) => __awaiter(void 0, void 0, void 0, function* () {
+    let color = label.color;
+    if (color[0] === '#') {
+        color = color.substr(1);
+    }
+    yield client.issues.createLabel(Object.assign(Object.assign(Object.assign({}, repo), label), { color }));
+});
+
+
+/***/ }),
+
 /***/ 280:
 /***/ (function(module, exports) {
 
@@ -4197,6 +4223,7 @@ const core = __importStar(__webpack_require__(470));
 const github = __importStar(__webpack_require__(469));
 const applyLabels_1 = __webpack_require__(919);
 const parseContext_1 = __webpack_require__(380);
+const syncLabels_1 = __importDefault(__webpack_require__(491));
 const context = github.context;
 (() => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -4216,6 +4243,7 @@ const context = github.context;
         const config = JSON.parse(fs_1.default.readFileSync(configPath).toString());
         core.debug(`Config: ${JSON.stringify(config)}`);
         const client = new github.GitHub(token);
+        yield syncLabels_1.default({ client, repo, config: config.labels });
         yield applyLabels_1.applyPRLabels({ client, config: config.pr, prContext, repo });
     }
     catch (err) {
@@ -7461,6 +7489,56 @@ module.exports = resolveCommand;
 
 /***/ }),
 
+/***/ 491:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
+    result["default"] = mod;
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const core = __importStar(__webpack_require__(470));
+const api_1 = __webpack_require__(924);
+const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const curLabels = yield api_1.getLabels({ client, repo });
+    core.debug(`curLabels: ${JSON.stringify(curLabels)}`);
+    for (const _configLabel of Object.values(config)) {
+        const configLabel = Object.assign(Object.assign({}, _configLabel), { color: _configLabel.colour });
+        const curLabel = curLabels.filter((l) => l.name === configLabel.name);
+        if (curLabel.length > 0) {
+            const label = curLabel[0];
+            if (label.description !== configLabel.description ||
+                label.color !== configLabel.color) {
+                core.debug(`Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(label)})`);
+                yield api_1.deleteLabel({ client, repo, name: label.name });
+                yield api_1.createLabel({ client, repo, label: configLabel });
+            }
+        }
+        else {
+            core.debug(`Create ${JSON.stringify(configLabel)}`);
+            yield api_1.createLabel({ client, repo, label: configLabel });
+        }
+    }
+});
+exports.default = syncLabels;
+
+
+/***/ }),
+
 /***/ 510:
 /***/ (function(module) {
 
@@ -8409,6 +8487,28 @@ module.exports = require("http");
 
 /***/ }),
 
+/***/ 613:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.deleteLabel = ({ client, repo, name, }) => __awaiter(void 0, void 0, void 0, function* () {
+    yield client.issues.deleteLabel(Object.assign(Object.assign({}, repo), { name }));
+});
+
+
+/***/ }),
+
 /***/ 614:
 /***/ (function(module) {
 
@@ -9042,6 +9142,28 @@ module.exports = function (x) {
 
 	return x;
 };
+
+
+/***/ }),
+
+/***/ 769:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.removeLabel = ({ client, repo, prNum, label, }) => __awaiter(void 0, void 0, void 0, function* () {
+    return yield client.issues.removeLabel(Object.assign(Object.assign({}, repo), { issue_number: prNum, name: label }));
+});
 
 
 /***/ }),
@@ -24885,7 +25007,10 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(511));
+__export(__webpack_require__(272));
+__export(__webpack_require__(613));
 __export(__webpack_require__(933));
+__export(__webpack_require__(769));
 
 
 /***/ }),
@@ -24921,8 +25046,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.removeLabel = ({ client, repo, prNum, label, }) => __awaiter(void 0, void 0, void 0, function* () {
-    return yield client.issues.removeLabel(Object.assign(Object.assign({}, repo), { issue_number: prNum, name: label }));
+exports.getLabels = ({ client, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+    const labels = yield client.issues.listLabelsForRepo(Object.assign({}, repo));
+    return labels.data.map((label) => ({
+        name: label.name,
+        description: label.description,
+        color: label.color,
+    }));
 });
 
 
