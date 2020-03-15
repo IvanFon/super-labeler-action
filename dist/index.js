@@ -4575,6 +4575,7 @@ exports.parsePRContext = (context) => {
         prNum: pr.number,
         prProps: {
             branch: pr.head.ref,
+            description: pr.body || '',
             isDraft: pr.draft,
             title: pr.title,
         },
@@ -7632,6 +7633,22 @@ module.exports = factory();
 
 /***/ }),
 
+/***/ 535:
+/***/ (function(__unusedmodule, exports) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+const TYPE = 'descriptionMatches';
+const descriptionMatches = (condition, pr) => {
+    const pattern = new RegExp(condition.pattern);
+    return pattern.test(pr.description);
+};
+exports.default = [TYPE, descriptionMatches];
+
+
+/***/ }),
+
 /***/ 536:
 /***/ (function(module, __unusedexports, __webpack_require__) {
 
@@ -8166,9 +8183,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const branchMatches_1 = __importDefault(__webpack_require__(618));
+const descriptionMatches_1 = __importDefault(__webpack_require__(535));
 const isDraft_1 = __importDefault(__webpack_require__(755));
 const titleMatches_1 = __importDefault(__webpack_require__(179));
-const handlers = [branchMatches_1.default, isDraft_1.default, titleMatches_1.default];
+const handlers = [branchMatches_1.default, descriptionMatches_1.default, isDraft_1.default, titleMatches_1.default];
 exports.getConditionHandler = (condition) => {
     var _a;
     const handler = handlers.find((handler) => handler[0] === condition.type);
