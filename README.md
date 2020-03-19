@@ -2,7 +2,7 @@
 
 A superpowered issue and pull request labeler for Github Actions.
 
-Super Labeler allows you to define your repository's labels in a config file that's checked into your repository. You can then define conditions that will be checked to apply and remove these labels on issues and pull requests.
+Super Labeler allows you to declaratively define your repository's labels, and when to apply them, in a config file that's checked into your repository.
 
 ## Getting Started
 
