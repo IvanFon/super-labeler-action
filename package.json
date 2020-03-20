@@ -20,9 +20,11 @@
   },
   "dependencies": {
     "@actions/core": "^1.2.3",
-    "@actions/github": "^2.1.1"
+    "@actions/github": "^2.1.1",
+    "minimatch": "^3.0.4"
   },
   "devDependencies": {
+    "@types/minimatch": "^3.0.3",
     "@zeit/ncc": "^0.21.1",
     "prettier": "^1.19.1"
   }

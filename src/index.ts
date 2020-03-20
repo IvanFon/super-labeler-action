@@ -48,6 +48,8 @@ const context = github.context;
     );
     const repo = context.repo;
 
+    const client = new github.GitHub(token);
+
     // Load config
     if (!fs.existsSync(configPath)) {
       throw new Error(`config not found at "${configPath}"`);
@@ -59,7 +61,7 @@ const context = github.context;
       | { type: 'pr'; context: PRContext }
       | { type: 'issue'; context: IssueContext };
     if (context.payload.pull_request) {
-      const ctx = parsePRContext(context);
+      const ctx = await parsePRContext(context, client, repo);
       if (!ctx) {
         throw new Error('pull request not found on context');
       }
@@ -83,8 +85,6 @@ const context = github.context;
     } else {
       return;
     }
-
-    const client = new github.GitHub(token);
 
     await syncLabels({ client, repo, config: config.labels });
 

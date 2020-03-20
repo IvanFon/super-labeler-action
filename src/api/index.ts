@@ -18,5 +18,6 @@ export * from './addLabel';
 export * from './createLabel';
 export * from './deleteLabel';
 export * from './getLabels';
+export * from './listFiles';
 export * from './removeLabel';
 export * from './updateLabel';

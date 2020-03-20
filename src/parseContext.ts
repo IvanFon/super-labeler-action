@@ -1,4 +1,7 @@
+import { GitHub } from '@actions/github';
 import { Context } from '@actions/github/lib/context';
+
+import { listFiles, Repo } from './api';
 
 interface Props {
   creator: string;
@@ -11,6 +14,7 @@ interface Props {
 export interface PRProps extends Props {
   branch: string;
   isDraft: boolean;
+  files: string[];
 }
 
 export interface IssueProps extends Props {}
@@ -36,21 +40,28 @@ export interface IssueContext extends GeneralContext {
   issueProps: IssueProps;
 }
 
-export const parsePRContext = (context: Context): PRContext | undefined => {
+export const parsePRContext = async (
+  context: Context,
+  client: GitHub,
+  repo: Repo,
+): Promise<PRContext | undefined> => {
   const pr = context.payload.pull_request;
   if (!pr) {
     return;
   }
 
+  const num = pr.number;
   const labels = parseLabels(pr.labels);
+  const files = await listFiles({ client, repo, num });
 
   return {
     labels,
-    num: pr.number,
+    num,
     prProps: {
       branch: pr.head.ref,
       creator: pr.user.login,
       description: pr.body || '',
+      files,
       isDraft: pr.draft,
       locked: pr.locked,
       state: pr.state,
