@@ -1,4 +1,5 @@
 import { IssueProps, PRProps } from '.';
+import { processRegExpPattern } from '../utils';
 
 const TYPE = 'creatorMatches';
 
@@ -11,7 +12,7 @@ const creatorMatches = (
   condition: ConditionCreatorMatches,
   issue: IssueProps | PRProps,
 ) => {
-  const pattern = new RegExp(condition.pattern);
+  const pattern = new RegExp(processRegExpPattern(condition.pattern));
   return pattern.test(issue.creator);
 };
 
