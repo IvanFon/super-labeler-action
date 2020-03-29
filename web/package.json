@@ -1,0 +1,39 @@
+{
+  "name": "web",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "repository": "https://github.com/IvanFon/super-labeler-action",
+  "author": "Ivan Fonseca <ivanfon@riseup.net>",
+  "license": "GPL-3.0",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "build": "parcel build src/index.html"
+  },
+  "browserslist": [
+    "last 1 chrome versions",
+    "last 1 firefox versions"
+  ],
+  "purgecss": {
+    "content": [
+      "src/index.html",
+      "src/**/*.js",
+      "src/**/*.svelte"
+    ],
+    "css": [
+      "src/style.scss"
+    ]
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "parcel-plugin-purgecss": "^2.1.3",
+    "parcel-plugin-svelte": "^4.0.6",
+    "sass": "^1.26.3",
+    "svelte": "^3.20.1",
+    "svelte-preprocess": "^3.5.0",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@primer/css": "^14.2.0",
+    "src": "^1.1.2"
+  }
+}
