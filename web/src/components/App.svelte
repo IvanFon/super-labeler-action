@@ -1,7 +1,12 @@
 <script>
+  import { onMount } from 'svelte';
+
+  import { resetLabels } from '~/stores/labels';
   import { route } from '~/stores/router';
   import Intro from './Intro';
   import Labels from './labels/Labels';
+
+  onMount(() => resetLabels());
 
   const ROUTES = {
     '/': Intro,

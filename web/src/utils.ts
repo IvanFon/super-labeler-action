@@ -1,5 +1,5 @@
-export const nameToId = (name: string) =>
-  name
+export const nameToId = (index: number, name: string) =>
+  `${index}-${name
     .toLowerCase()
     .replace(/ /g, '-')
-    .replace(/[^0-9a-z-]/gi, '');
+    .replace(/[^0-9a-z-]/gi, '')}`;
