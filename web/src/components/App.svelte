@@ -4,20 +4,11 @@
   import Labels from './labels/Labels';
 
   const ROUTES = {
-    '/': {
-      component: Intro,
-    },
-    '/labels': {
-      component: Labels,
-      step: {
-        num: 1,
-        text: 'Define your labels',
-      },
-    },
+    '/': Intro,
+    '/labels': Labels,
   };
 
-  $: component = ROUTES[$route].component || Intro;
-  $: step = ROUTES[$route].step;
+  $: component = ROUTES[$route] || Intro;
 </script>
 
 <div class="Box box-shadow-medium container-lg mt-6 p-3">
@@ -29,8 +20,5 @@
     </a>
   </p>
   <hr />
-  {#if step}
-    <p class="h4">Step {step.num}/3: {step.text}</p>
-  {/if}
   <svelte:component this={component} />
 </div>

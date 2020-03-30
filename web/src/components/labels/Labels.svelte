@@ -2,6 +2,7 @@
   import { createLabel, labels } from '~/stores/labels';
   import EditLabel from './EditLabel';
   import Label from './Label';
+  import Step from '../Step';
 
   let newLabel = false;
 
@@ -17,6 +18,8 @@
     newLabel = false;
   }
 </script>
+
+<Step num="1" text="Define your labels" />
 
 <div class="Box">
   <div class="Box-header d-flex p-3 flex-justify-between flex-items-baseline">
