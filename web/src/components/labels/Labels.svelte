@@ -21,7 +21,7 @@
 </script>
 
 <div class="d-flex flex-justify-between flex-items-baseline mb-1">
-  <Step num="1" text="Define your labels" />
+  <Step text="Declare your repository's labels:" />
   <ImportDropdown />
 </div>
 

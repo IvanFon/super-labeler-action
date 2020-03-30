@@ -1,12 +1,9 @@
 <script>
-  import { onMount } from 'svelte';
-
   import { resetLabels } from '~/stores/labels';
   import { route } from '~/stores/router';
   import Intro from './Intro';
   import Labels from './labels/Labels';
-
-  onMount(() => resetLabels());
+  import Tab from './Tab';
 
   const ROUTES = {
     '/': Intro,
@@ -25,5 +22,13 @@
     </a>
   </p>
   <hr />
+  <div class="tabnav">
+    <nav class="tabnav-tabs">
+      <Tab name="Intro" tabRoute="/" />
+      <Tab name="Labels" tabRoute="/labels" />
+      <Tab name="Conditions" tabRoute="/conditions" />
+      <Tab name="Generate Workflow/Config" tabRoute="/generate" />
+    </nav>
+  </div>
   <svelte:component this={component} />
 </div>
