@@ -84,6 +84,7 @@ Be sure that Github Actions is enabled for in your repository's settings. Super 
 - [Index](#index)
 - [How it Works](#how-it-works)
 - [Config File Format](#config-file-format)
+- [Using Regex Patterns](#using-regex-patterns)
 - [Available Conditions](#available-conditions)
   - [branchMatches](#branchmatches)
   - [creatorMatches](#creatormatches)
@@ -170,6 +171,16 @@ interface Config {
 ```
 
 </details>
+
+## Using Regex Patterns
+
+Many conditions use regular expressions (usually with a `pattern` parameter).
+Since these regular expressions are passed in through JSON strings, there are
+some things to pay attention to.
+
+Special characters must be double escaped: `pattern: "\\W+$"` is equivalent to the Regex: `/\W+$/`.
+
+If you want to use flags, use the following format: `pattern: "/^wip:/i"` is equivalent to the Regex: `/^wip:/i`.
 
 ## Available Conditions
 
@@ -291,7 +302,7 @@ Example:
 ```json
 {
   "type": "titleMatches",
-  "pattern": "^(wip|WIP):"
+  "pattern": "/^wip:/i"
 }
 ```
 
