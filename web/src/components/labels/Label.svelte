@@ -1,5 +1,5 @@
 <script>
-  import { deleteLabel, setEditLabel, updateLabel } from '../stores/labels';
+  import { deleteLabel, setEditLabel, updateLabel } from '~/stores/labels';
   import EditLabel from './EditLabel';
 
   export let label;

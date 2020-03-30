@@ -1,5 +1,5 @@
 <script>
-  import { route } from '../stores/router';
+  import { route } from '~/stores/router';
 
   const handleNewConfig = () => route.set('/labels');
 </script>

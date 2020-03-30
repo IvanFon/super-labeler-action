@@ -1,5 +1,5 @@
 <script>
-  import { createLabel, labels } from '../stores/labels';
+  import { createLabel, labels } from '~/stores/labels';
   import EditLabel from './EditLabel';
   import Label from './Label';
 

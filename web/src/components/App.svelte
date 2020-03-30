@@ -1,7 +1,7 @@
 <script>
-  import { route } from '../stores/router';
+  import { route } from '~/stores/router';
   import Intro from './Intro';
-  import Labels from './Labels';
+  import Labels from './labels/Labels';
 
   const ROUTES = {
     '/': {
