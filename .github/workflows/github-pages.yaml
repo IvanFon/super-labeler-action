@@ -1,0 +1,26 @@
+name: Deploy web interface to Github Pages
+
+on:
+  push:
+    branches:
+      - web
+
+jobs:
+  build-deploy-web:
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Install and build
+        run: |
+          cd web
+          yarn
+          yarn build
+      - name: Deploy to Github pages
+        uses: JamesIves/github-pages-deploy-action@7f268ed3ea7156bd51bd958484036f70b90f5f03 # 3.4.0
+        with:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: web/dist
