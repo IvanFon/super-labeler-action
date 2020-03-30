@@ -15,5 +15,5 @@ export const processRegExpPattern = (pattern: string) => {
 
   return flags
     ? RegExp.apply(RegExp, [source, flags])
-    : pattern;
+    : new RegExp(pattern);
 };

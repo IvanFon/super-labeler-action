@@ -12,7 +12,7 @@ const creatorMatches = (
   condition: ConditionCreatorMatches,
   issue: IssueProps | PRProps,
 ) => {
-  const pattern = new RegExp(processRegExpPattern(condition.pattern));
+  const pattern = processRegExpPattern(condition.pattern);
   return pattern.test(issue.creator);
 };
 
