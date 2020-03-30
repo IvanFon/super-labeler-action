@@ -24,4 +24,4 @@ var t=arguments[3];function e(){}Object.defineProperty(exports,"__esModule",{val
 },{"svelte/internal":"YkLP","../stores/router":"D2PA","./Intro":"wK9O","./Labels":"F5T3"}],"QCba":[function(require,module,exports) {
 "use strict";var e=this&&this.__importDefault||function(e){return e&&e.__esModule?e:{default:e}};Object.defineProperty(exports,"__esModule",{value:!0});const t=e(require("./components/App.svelte")),o=new t.default({target:document.body});exports.default=o;
 },{"./components/App.svelte":"HjHG"}]},{},["QCba"], null)
-//# sourceMappingURL=/src.ca2e75dc.js.map
+//# sourceMappingURL=src.ca2e75dc.js.map
