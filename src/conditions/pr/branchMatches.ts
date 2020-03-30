@@ -1,4 +1,5 @@
 import { PRProps } from '.';
+import { processRegExpPattern } from '../../utils';
 
 const TYPE = 'branchMatches';
 
@@ -8,7 +9,7 @@ export interface ConditionBranchMatches {
 }
 
 const branchMatches = (condition: ConditionBranchMatches, pr: PRProps) => {
-  const pattern = new RegExp(condition.pattern);
+  const pattern = processRegExpPattern(condition.pattern);
   return pattern.test(pr.branch);
 };
 

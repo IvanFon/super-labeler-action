@@ -1,4 +1,5 @@
 import { IssueProps, PRProps } from '.';
+import { processRegExpPattern } from '../utils';
 
 const TYPE = 'descriptionMatches';
 
@@ -11,7 +12,7 @@ const descriptionMatches = (
   condition: ConditionDescriptionMatches,
   issue: IssueProps | PRProps,
 ) => {
-  const pattern = new RegExp(condition.pattern);
+  const pattern = processRegExpPattern(condition.pattern);
   return pattern.test(issue.description);
 };
 
