@@ -13,4 +13,3 @@ export const processRegExpPattern = (pattern: string) => {
   
   return new RegExp(source || pattern, flags);
 };
-
