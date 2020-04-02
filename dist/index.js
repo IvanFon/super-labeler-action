@@ -26578,8 +26578,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getLabels = ({ client, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const labels = yield client.issues.listLabelsForRepo(Object.assign({}, repo));
-    return labels.data.map((label) => ({
+    const options = yield client.issues.listLabelsForRepo.endpoint.merge(Object.assign({}, repo));
+    const labels = yield client.paginate(options);
+    return labels.map((label) => ({
         name: label.name,
         description: label.description,
         color: label.color,
