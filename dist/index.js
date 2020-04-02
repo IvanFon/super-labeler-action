@@ -2760,6 +2760,15 @@ exports.formatColour = (colour) => {
         return colour;
     }
 };
+exports.processRegExpPattern = (pattern) => {
+    const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/);
+    const regexp = (matchDelimiters || []).slice(1);
+    const flags = regexp.pop();
+    const source = regexp.join('');
+    return flags
+        ? RegExp.apply(RegExp, [source, flags])
+        : new RegExp(pattern);
+};
 
 
 /***/ }),
@@ -6558,14 +6567,15 @@ function escapeProperty(s) {
 /***/ }),
 
 /***/ 435:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'creatorMatches';
 const creatorMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.creator);
 };
 exports.default = [TYPE, creatorMatches];
@@ -8902,7 +8912,12 @@ const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void
         }
         else {
             core.debug(`Create ${JSON.stringify(configLabel)}`);
-            yield api_1.createLabel({ client, repo, label: configLabel });
+            try {
+                yield api_1.createLabel({ client, repo, label: configLabel });
+            }
+            catch (e) {
+                core.error(e);
+            }
         }
     }
 });
@@ -9873,14 +9888,15 @@ module.exports = require("events");
 /***/ }),
 
 /***/ 618:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'branchMatches';
 const branchMatches = (condition, pr) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(pr.branch);
 };
 exports.default = [TYPE, branchMatches];
@@ -10024,14 +10040,15 @@ if (process.platform === 'linux') {
 /***/ }),
 
 /***/ 658:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'descriptionMatches';
 const descriptionMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.description);
 };
 exports.default = [TYPE, descriptionMatches];
@@ -10116,14 +10133,15 @@ module.exports = function btoa(str) {
 /***/ }),
 
 /***/ 686:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'titleMatches';
 const titleMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.title);
 };
 exports.default = [TYPE, titleMatches];

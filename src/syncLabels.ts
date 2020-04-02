@@ -39,7 +39,12 @@ const syncLabels = async ({
       }
     } else {
       core.debug(`Create ${JSON.stringify(configLabel)}`);
-      await createLabel({ client, repo, label: configLabel });
+      try {
+        await createLabel({ client, repo, label: configLabel });
+      }
+      catch (e) {
+        core.error(e)
+      }
     }
   }
 };
