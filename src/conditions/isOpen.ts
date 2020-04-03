@@ -1,10 +1,11 @@
 import { IssueProps, PRProps } from '.';
+import { normalize } from '../utils';
 
 const TYPE = 'isOpen';
 
-const STATES = {
-  open: "OPEN",
-  closed: "CLOSED"
+enum States {
+  Open = 'OPEN',
+  Closed = 'CLOSED',
 }
 
 export interface ConditionIsOpen {
@@ -12,10 +13,11 @@ export interface ConditionIsOpen {
   value: boolean;
 }
 
-const normalize = (text: string ) => (text || '').toUpperCase();
-
 const isOpen = (condition: ConditionIsOpen, issue: IssueProps | PRProps) => {
-  return normalize(issue.state) === normalize(condition.value ?  STATES.open : STATES.closed);
+  return (
+    normalize(issue.state) ===
+    normalize(condition.value ? States.Open : States.Closed)
+  );
 };
 
 export default [TYPE, isOpen] as const;
