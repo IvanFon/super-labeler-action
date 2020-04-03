@@ -2,7 +2,7 @@ name: 'Super Labeler'
 description: 'A superpowered issue and pull request labeler for Github Actions.'
 author: 'IvanFon'
 inputs:
-  github-token:
+  GITHUB_TOKEN:
     description: 'The GITHUB_TOKEN secret'
     required: true
   config:

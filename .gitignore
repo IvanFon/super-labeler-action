@@ -103,3 +103,9 @@ typings/
 .tern-port
 
 web/dist/
+
+# local config file
+/labels.local.json
+/event*.json
+
+!examples/

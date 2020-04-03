@@ -5,10 +5,12 @@ export const addLabel = async ({
   repo,
   num,
   label,
+  dryRun,
 }: IssueApiProps & {
   label: string;
+  dryRun: boolean;
 }) =>
-  await client.issues.addLabels({
+  !dryRun && await client.issues.addLabels({
     ...repo,
     issue_number: num,
     labels: [label],

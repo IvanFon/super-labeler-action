@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import { GitHub } from '@actions/github';
 
-import { Config } from '.';
+import { Config } from './types';
 import { createLabel, getLabels, Repo, updateLabel } from './api';
 import { formatColour } from './utils';
 
@@ -9,10 +9,12 @@ const syncLabels = async ({
   client,
   config,
   repo,
+  dryRun,
 }: {
   client: GitHub;
   config: Config['labels'];
   repo: Repo;
+  dryRun: boolean;
 }) => {
   const curLabels = await getLabels({ client, repo });
   core.debug(`curLabels: ${JSON.stringify(curLabels)}`);
@@ -35,11 +37,11 @@ const syncLabels = async ({
             label,
           )})`,
         );
-        await updateLabel({ client, repo, label: configLabel });
+        await updateLabel({ client, repo, label: configLabel, dryRun });
       }
     } else {
       core.debug(`Create ${JSON.stringify(configLabel)}`);
-      await createLabel({ client, repo, label: configLabel });
+      await createLabel({ client, repo, label: configLabel, dryRun });
     }
   }
 };
