@@ -2762,12 +2762,8 @@ exports.formatColour = (colour) => {
 };
 exports.processRegExpPattern = (pattern) => {
     const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/);
-    const regexp = (matchDelimiters || []).slice(1);
-    const flags = regexp.pop();
-    const source = regexp.join('');
-    return flags
-        ? RegExp.apply(RegExp, [source, flags])
-        : new RegExp(pattern);
+    const [, source, flags] = matchDelimiters || [];
+    return new RegExp(source || pattern, flags);
 };
 
 
@@ -8907,7 +8903,12 @@ const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void
             if (label.description !== configLabel.description ||
                 label.color !== utils_1.formatColour(configLabel.color)) {
                 core.debug(`Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(label)})`);
-                yield api_1.updateLabel({ client, repo, label: configLabel });
+                try {
+                    yield api_1.updateLabel({ client, repo, label: configLabel });
+                }
+                catch (e) {
+                    core.error(`Label update error: ${e.message}`);
+                }
             }
         }
         else {
@@ -8916,7 +8917,7 @@ const syncLabels = ({ client, config, repo, }) => __awaiter(void 0, void 0, void
                 yield api_1.createLabel({ client, repo, label: configLabel });
             }
             catch (e) {
-                core.error(e);
+                core.error(`Label create error: ${e.message}`);
             }
         }
     }
