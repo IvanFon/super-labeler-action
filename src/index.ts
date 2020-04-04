@@ -34,6 +34,7 @@ export interface Config {
       conditions: PRCondition[];
     };
   };
+  skip_labeling: string;
 }
 
 const context = github.context;
@@ -101,6 +102,7 @@ const context = github.context;
       await applyPRLabels({
         client,
         config: config.pr,
+        skipLabeling: config.skip_labeling,
         labelIdToName,
         prContext: curContext.context,
         repo,
@@ -109,6 +111,7 @@ const context = github.context;
       await applyIssueLabels({
         client,
         config: config.issue,
+        skipLabeling: config.skip_labeling,
         issueContext: curContext.context,
         labelIdToName,
         repo,

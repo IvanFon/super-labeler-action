@@ -11,6 +11,8 @@ import {
 } from './conditions';
 import { IssueContext, PRContext, Labels } from './parseContext';
 
+type LabelIDToName =  { [key: string]: string };
+
 const forConditions = <T extends IssueCondition | PRCondition>(
   conditions: T[],
   callback: (condition: T) => boolean,
@@ -26,6 +28,8 @@ const forConditions = <T extends IssueCondition | PRCondition>(
   return matches;
 };
 
+const skipLabelingLabelAssigned = (curLabels: Labels, labelIdToName: LabelIDToName, skipLabeling: string) => Object.values(curLabels).map(({name}) => name).some((existingLabel) => existingLabel === labelIdToName[skipLabeling])
+
 const addRemoveLabel = async ({
   client,
   curLabels,
@@ -39,7 +43,7 @@ const addRemoveLabel = async ({
   client: GitHub;
   curLabels: Labels;
   label: string;
-  labelIdToName: { [key: string]: string };
+  labelIdToName: LabelIDToName;
   matches: number;
   num: number;
   repo: Repo;
@@ -62,17 +66,24 @@ const addRemoveLabel = async ({
 export const applyIssueLabels = async ({
   client,
   config,
+  skipLabeling,
   issueContext,
   labelIdToName,
   repo,
 }: {
   client: GitHub;
   config: Config['issue'];
+  skipLabeling: string;
   issueContext: IssueContext;
-  labelIdToName: { [key: string]: string };
+  labelIdToName: LabelIDToName;
   repo: Repo;
 }) => {
   const { labels: curLabels, issueProps, num } = issueContext;
+  
+  if (skipLabelingLabelAssigned(curLabels, labelIdToName, skipLabeling)) {
+    return;
+  }
+
   for (const [label, opts] of Object.entries(config)) {
     core.debug(`Label: ${label}`);
 
@@ -101,16 +112,23 @@ export const applyPRLabels = async ({
   client,
   config,
   labelIdToName,
+  skipLabeling,
   prContext,
   repo,
 }: {
   client: GitHub;
   config: Config['pr'];
-  labelIdToName: { [key: string]: string };
+  skipLabeling: string;
+  labelIdToName: LabelIDToName;
   prContext: PRContext;
   repo: Repo;
 }) => {
   const { labels: curLabels, prProps, num } = prContext;
+
+  if (skipLabelingLabelAssigned(curLabels, labelIdToName, skipLabeling)) {
+    return;
+  }
+
   for (const [label, opts] of Object.entries(config)) {
     core.debug(`Label: ${label}`);
 

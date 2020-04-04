@@ -2760,6 +2760,11 @@ exports.formatColour = (colour) => {
         return colour;
     }
 };
+exports.processRegExpPattern = (pattern) => {
+    const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/);
+    const [, source, flags] = matchDelimiters || [];
+    return new RegExp(source || pattern, flags);
+};
 
 
 /***/ }),
@@ -5496,6 +5501,7 @@ const context = github.context;
             yield applyLabels_1.applyPRLabels({
                 client,
                 config: config.pr,
+                skipLabeling: config.skip_labeling,
                 labelIdToName,
                 prContext: curContext.context,
                 repo,
@@ -5505,6 +5511,7 @@ const context = github.context;
             yield applyLabels_1.applyIssueLabels({
                 client,
                 config: config.issue,
+                skipLabeling: config.skip_labeling,
                 issueContext: curContext.context,
                 labelIdToName,
                 repo,
@@ -6558,14 +6565,15 @@ function escapeProperty(s) {
 /***/ }),
 
 /***/ 435:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'creatorMatches';
 const creatorMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.creator);
 };
 exports.default = [TYPE, creatorMatches];
@@ -9873,14 +9881,15 @@ module.exports = require("events");
 /***/ }),
 
 /***/ 618:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'branchMatches';
 const branchMatches = (condition, pr) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(pr.branch);
 };
 exports.default = [TYPE, branchMatches];
@@ -10024,14 +10033,15 @@ if (process.platform === 'linux') {
 /***/ }),
 
 /***/ 658:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'descriptionMatches';
 const descriptionMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.description);
 };
 exports.default = [TYPE, descriptionMatches];
@@ -10116,14 +10126,15 @@ module.exports = function btoa(str) {
 /***/ }),
 
 /***/ 686:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'titleMatches';
 const titleMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.title);
 };
 exports.default = [TYPE, titleMatches];
@@ -26450,6 +26461,7 @@ const forConditions = (conditions, callback) => {
     core.debug(`Matches: ${matches}`);
     return matches;
 };
+const skipLabelingLabelAssigned = (curLabels, labelIdToName, skipLabeling) => Object.values(curLabels).map(({ name }) => name).some((existingLabel) => existingLabel === labelIdToName[skipLabeling]);
 const addRemoveLabel = ({ client, curLabels, label, labelIdToName, matches, num, repo, requires, }) => __awaiter(void 0, void 0, void 0, function* () {
     const labelName = labelIdToName[label];
     const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0;
@@ -26462,8 +26474,11 @@ const addRemoveLabel = ({ client, curLabels, label, labelIdToName, matches, num,
         yield api_1.removeLabel({ client, repo, num, label: labelName });
     }
 });
-exports.applyIssueLabels = ({ client, config, issueContext, labelIdToName, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+exports.applyIssueLabels = ({ client, config, skipLabeling, issueContext, labelIdToName, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
     const { labels: curLabels, issueProps, num } = issueContext;
+    if (skipLabelingLabelAssigned(curLabels, labelIdToName, skipLabeling)) {
+        return;
+    }
     for (const [label, opts] of Object.entries(config)) {
         core.debug(`Label: ${label}`);
         const matches = forConditions(opts.conditions, (condition) => {
@@ -26483,8 +26498,11 @@ exports.applyIssueLabels = ({ client, config, issueContext, labelIdToName, repo,
         });
     }
 });
-exports.applyPRLabels = ({ client, config, labelIdToName, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
+exports.applyPRLabels = ({ client, config, labelIdToName, skipLabeling, prContext, repo, }) => __awaiter(void 0, void 0, void 0, function* () {
     const { labels: curLabels, prProps, num } = prContext;
+    if (skipLabelingLabelAssigned(curLabels, labelIdToName, skipLabeling)) {
+        return;
+    }
     for (const [label, opts] of Object.entries(config)) {
         core.debug(`Label: ${label}`);
         const matches = forConditions(opts.conditions, (condition) => {
