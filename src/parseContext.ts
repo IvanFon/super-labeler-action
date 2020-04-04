@@ -29,7 +29,7 @@ export type Labels = Label[];
 
 interface GeneralContext {
   labels: Labels;
-  num: number;
+  IDNumber: number;
 }
 
 export interface PRContext extends GeneralContext {
@@ -50,13 +50,13 @@ export const parsePRContext = async (
     return;
   }
 
-  const num = pr.number;
+  const IDNumber = pr.number;
   const labels = parseLabels(pr.labels);
-  const files = await listFiles({ client, repo, num });
+  const files = await listFiles({ client, repo, IDNumber });
 
   return {
     labels,
-    num,
+    IDNumber,
     prProps: {
       branch: pr.head.ref,
       creator: pr.user.login,
@@ -82,7 +82,7 @@ export const parseIssueContext = (
 
   return {
     labels,
-    num: issue.number,
+    IDNumber: issue.number,
     issueProps: {
       creator: issue.user.login,
       description: issue.body || '',

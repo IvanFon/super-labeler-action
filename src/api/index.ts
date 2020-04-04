@@ -11,7 +11,7 @@ export interface ApiProps {
 }
 
 export interface IssueApiProps extends ApiProps {
-  num: number;
+  IDNumber: number;
 }
 
 export * from './addLabel';

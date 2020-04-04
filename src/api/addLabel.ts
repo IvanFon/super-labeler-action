@@ -3,13 +3,13 @@ import { IssueApiProps } from '.';
 export const addLabel = async ({
   client,
   repo,
-  num,
+  IDNumber,
   label,
 }: IssueApiProps & {
   label: string;
 }) =>
   await client.issues.addLabels({
     ...repo,
-    issue_number: num,
+    issue_number: IDNumber,
     labels: [label],
   });
