@@ -140,33 +140,35 @@ The config object contains three keys:
 - `labels`: Your repository's labels, which will be automatically created and updated by Super Labeler
 - `issue`: Labels to apply to issues, and their conditions
 - `pr`: Labels to apply to pull requests, and their conditions
+- `skip_labeling`: Label name that indicates, that labeling should not be performed. Content is a key of `labels` options
 
 Take a look at the examples in this file to get a feel for how to configure it. The below Typescript interface, which is used by this action, may also be helpful:
 
 <details>
   <summary><b>Click to show Typescript config interface</b></summary>
 
-```js
+```ts
 interface Config {
   labels: {
     [key: string]: {
-      name: string,
-      colour: string,
-      description: string,
-    },
+      name: string;
+      colour: string;
+      description: string;
+    };
   };
   issue: {
     [key: string]: {
-      requires: number,
-      conditions: IssueCondition[],
-    },
+      requires: number;
+      conditions: IssueCondition[];
+    };
   };
   pr: {
     [key: string]: {
-      requires: number,
-      conditions: PRCondition[],
-    },
+      requires: number;
+      conditions: PRCondition[];
+    };
   };
+  skip_labeling: string;
 }
 ```
 
