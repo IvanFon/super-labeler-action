@@ -2766,9 +2766,6 @@ exports.processRegExpPattern = (pattern) => {
     return new RegExp(source || pattern, flags);
 };
 
-
-/***/ }),
-
 /***/ 168:
 /***/ (function(module) {
 
@@ -10290,19 +10287,21 @@ module.exports = (promise, onFinally) => {
 /***/ }),
 
 /***/ 708:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'isOpen';
-const STATES = {
-    open: "OPEN",
-    closed: "CLOSED"
-};
-const normalize = (text) => (text || '').toUpperCase();
+var States;
+(function (States) {
+    States["Open"] = "OPEN";
+    States["Closed"] = "CLOSED";
+})(States || (States = {}));
 const isOpen = (condition, issue) => {
-    return normalize(issue.state) === normalize(condition.value ? STATES.open : STATES.closed);
+    return (utils_1.normalize(issue.state) ===
+        utils_1.normalize(condition.value ? States.Open : States.Closed));
 };
 exports.default = [TYPE, isOpen];
 

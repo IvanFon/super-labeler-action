@@ -13,3 +13,5 @@ export const processRegExpPattern = (pattern: string) => {
 
   return new RegExp(source || pattern, flags);
 };
+
+export const normalize = (text: string ) => (text || '').toUpperCase();
