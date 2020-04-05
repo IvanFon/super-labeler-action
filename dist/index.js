@@ -2760,6 +2760,12 @@ exports.formatColour = (colour) => {
         return colour;
     }
 };
+exports.processRegExpPattern = (pattern) => {
+    const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/);
+    const [, source, flags] = matchDelimiters || [];
+    return new RegExp(source || pattern, flags);
+};
+exports.normalize = (text) => (text || '').toUpperCase();
 
 
 /***/ }),
@@ -6558,14 +6564,15 @@ function escapeProperty(s) {
 /***/ }),
 
 /***/ 435:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'creatorMatches';
 const creatorMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.creator);
 };
 exports.default = [TYPE, creatorMatches];
@@ -9873,14 +9880,15 @@ module.exports = require("events");
 /***/ }),
 
 /***/ 618:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'branchMatches';
 const branchMatches = (condition, pr) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(pr.branch);
 };
 exports.default = [TYPE, branchMatches];
@@ -10024,14 +10032,15 @@ if (process.platform === 'linux') {
 /***/ }),
 
 /***/ 658:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'descriptionMatches';
 const descriptionMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.description);
 };
 exports.default = [TYPE, descriptionMatches];
@@ -10116,14 +10125,15 @@ module.exports = function btoa(str) {
 /***/ }),
 
 /***/ 686:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'titleMatches';
 const titleMatches = (condition, issue) => {
-    const pattern = new RegExp(condition.pattern);
+    const pattern = utils_1.processRegExpPattern(condition.pattern);
     return pattern.test(issue.title);
 };
 exports.default = [TYPE, titleMatches];
@@ -10239,14 +10249,21 @@ module.exports = (promise, onFinally) => {
 /***/ }),
 
 /***/ 708:
-/***/ (function(__unusedmodule, exports) {
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+const utils_1 = __webpack_require__(163);
 const TYPE = 'isOpen';
+var States;
+(function (States) {
+    States["Open"] = "OPEN";
+    States["Closed"] = "CLOSED";
+})(States || (States = {}));
 const isOpen = (condition, issue) => {
-    return condition.value ? issue.state === 'open' : issue.state === 'closed';
+    return (utils_1.normalize(issue.state) ===
+        utils_1.normalize(condition.value ? States.Open : States.Closed));
 };
 exports.default = [TYPE, isOpen];
 
