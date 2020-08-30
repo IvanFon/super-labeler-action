@@ -22,7 +22,7 @@ const syncLabels = async ({
   for (const _configLabel of Object.values(config)) {
     const configLabel = {
       ..._configLabel,
-      color: _configLabel.colour,
+      color: _configLabel.color,
     }
 
     const curLabel = curLabels.filter((l) => l.name === configLabel.name)

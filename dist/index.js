@@ -27235,7 +27235,7 @@ const syncLabels = ({ client, config, repo, dryRun, }) => __awaiter(void 0, void
     const curLabels = yield api_1.getLabels({ client, repo });
     core.debug(`curLabels: ${JSON.stringify(curLabels)}`);
     for (const _configLabel of Object.values(config)) {
-        const configLabel = Object.assign(Object.assign({}, _configLabel), { color: _configLabel.colour });
+        const configLabel = Object.assign(Object.assign({}, _configLabel), { color: _configLabel.color });
         const curLabel = curLabels.filter((l) => l.name === configLabel.name);
         if (curLabel.length > 0) {
             const label = curLabel[0];
