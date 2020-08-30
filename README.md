@@ -4,6 +4,8 @@ A superpowered issue and pull request labeler for Github Actions.
 
 Super Labeler allows you to declaratively define your repository's labels, and when to apply them, in a config file that's checked into your repository.
 
+*This is a fork of [IvanFon/super-labeler-action](https://github.com/IvanFon/super-labeler-action) which we are maintaining due to the main repository going inactive. The original idea and all credit goes to IvanFon.*
+
 ## Getting Started
 
 Create a new Github Actions workflow at `.github/workflows/label.yml`:
