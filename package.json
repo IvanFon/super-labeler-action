@@ -6,9 +6,6 @@
   "repository": "git@github.com:IvanFon/super-labeler-action.git",
   "author": "Ivan Fonseca <ivanfon@riseup.net>",
   "license": "GPL-3.0",
-  "engines": {
-    "node": ">12"
-  },
   "directories": {
     "lib": "./lib",
     "doc": "./docs",
