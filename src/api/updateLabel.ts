@@ -1,6 +1,6 @@
 import { ApiProps } from '.'
 import { Label } from '../parseContext'
-import { formatColour } from '../utils'
+import { formatColor } from '../utils'
 
 export const updateLabel = async ({
   client,
@@ -8,7 +8,7 @@ export const updateLabel = async ({
   label,
   dryRun,
 }: ApiProps & { label: Label; dryRun: boolean }) => {
-  const color = formatColour(label.color)
+  const color = formatColor(label.color)
   !dryRun &&
     (await client.issues.updateLabel({
       ...repo,

@@ -39,10 +39,10 @@ const settings = {
   },
 }
 test('test colour format', async () => {
-  await expect(utils.formatColour(settings.labels.test.color)).toBe('CFD3D7')
+  await expect(utils.formatColor(settings.labels.test.color)).toBe('CFD3D7')
 })
 test('test colour format', async () => {
-  await expect(utils.formatColour(`#${settings.labels.test.color}`)).toBe(
+  await expect(utils.formatColor(`#${settings.labels.test.color}`)).toBe(
     'CFD3D7',
   )
 })

@@ -1,8 +1,8 @@
-export const formatColour = (colour: string) => {
-  if (colour.charAt(0) === '#') {
-    return colour.substr(1)
+export const formatColor = (color: string) => {
+  if (color.charAt(0) === '#') {
+    return color.substr(1)
   } else {
-    return colour
+    return color
   }
 }
 

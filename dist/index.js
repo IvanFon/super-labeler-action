@@ -26420,7 +26420,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.createLabel = void 0;
 const utils_1 = __webpack_require__(1314);
 exports.createLabel = ({ client, repo, label, dryRun, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const color = utils_1.formatColour(label.color);
+    const color = utils_1.formatColor(label.color);
     !dryRun &&
         (yield client.issues.createLabel(Object.assign(Object.assign(Object.assign({}, repo), label), { color })));
 });
@@ -26574,7 +26574,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.updateLabel = void 0;
 const utils_1 = __webpack_require__(1314);
 exports.updateLabel = ({ client, repo, label, dryRun, }) => __awaiter(void 0, void 0, void 0, function* () {
-    const color = utils_1.formatColour(label.color);
+    const color = utils_1.formatColor(label.color);
     !dryRun &&
         (yield client.issues.updateLabel(Object.assign(Object.assign({}, repo), { current_name: label.name, description: label.description, color })));
 });
@@ -27240,7 +27240,7 @@ const syncLabels = ({ client, config, repo, dryRun, }) => __awaiter(void 0, void
         if (curLabel.length > 0) {
             const label = curLabel[0];
             if (label.description !== configLabel.description ||
-                label.color !== utils_1.formatColour(configLabel.color)) {
+                label.color !== utils_1.formatColor(configLabel.color)) {
                 core.debug(`Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(label)})`);
                 try {
                     yield api_1.updateLabel({ client, repo, label: configLabel, dryRun });
@@ -27272,13 +27272,13 @@ exports.default = syncLabels;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.normalize = exports.processRegExpPattern = exports.formatColour = void 0;
-exports.formatColour = (colour) => {
-    if (colour.charAt(0) === '#') {
-        return colour.substr(1);
+exports.normalize = exports.processRegExpPattern = exports.formatColor = void 0;
+exports.formatColor = (color) => {
+    if (color.charAt(0) === '#') {
+        return color.substr(1);
     }
     else {
-        return colour;
+        return color;
     }
 };
 exports.processRegExpPattern = (pattern) => {

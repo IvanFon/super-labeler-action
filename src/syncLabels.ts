@@ -3,7 +3,7 @@ import { GitHub } from '@actions/github'
 
 import { Config } from './types'
 import { createLabel, getLabels, Repo, updateLabel } from './api'
-import { formatColour } from './utils'
+import { formatColor } from './utils'
 
 const syncLabels = async ({
   client,
@@ -30,7 +30,7 @@ const syncLabels = async ({
       const label = curLabel[0]
       if (
         label.description !== configLabel.description ||
-        label.color !== formatColour(configLabel.color)
+        label.color !== formatColor(configLabel.color)
       ) {
         core.debug(
           `Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(

@@ -14,7 +14,7 @@ export interface Config {
   labels: {
     [key: string]: {
       name: string
-      colour: string
+      color: string
       description: string
     }
   }
