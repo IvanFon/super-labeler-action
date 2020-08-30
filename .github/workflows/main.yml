@@ -1,0 +1,32 @@
+on:
+  issues:
+    types: [opened, edited, closed, reopened]
+  pull_request:
+    types: [opened, edited, closed, reopened, ready_for_review, synchronize]
+
+jobs:
+  jest:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'edited')
+    name: Check tests work first
+    steps:
+      - uses: actions/checkout@v2
+      - run: yarn && yarn test
+      - uses: tanmen/jest-reporter@v1
+        if: always()
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: TestCoverage
+        uses: anuraag016/Jest-Coverage-Diff@master
+        with:
+          fullCoverageDiff: false
+
+  labeller_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Test labeller
+        id: labeller
+        uses: ./
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -80,20 +80,21 @@ Be sure that Github Actions is enabled for in your repository's settings. Super 
 
 ## Index
 
-- [Getting Started](#getting-started)
-- [Index](#index)
-- [How it Works](#how-it-works)
-- [Config File Format](#config-file-format)
-- [Using Regex Patterns](#using-regex-patterns)
-- [Available Conditions](#available-conditions)
-  - [branchMatches](#branchmatches)
-  - [creatorMatches](#creatormatches)
-  - [descriptionMatches](#descriptionmatches)
-  - [filesMatch](#filesmatch)
-  - [isDraft](#isdraft)
-  - [isLocked](#islocked)
-  - [isOpen](#isopen)
-  - [titleMatches](#titlematches)
+- [super-labeler-action](#super-labeler-action)
+  - [Getting Started](#getting-started)
+  - [Index](#index)
+  - [How it Works](#how-it-works)
+  - [Config File Format](#config-file-format)
+  - [Using Regex Patterns](#using-regex-patterns)
+  - [Available Conditions](#available-conditions)
+    - [branchMatches](#branchmatches)
+    - [creatorMatches](#creatormatches)
+    - [descriptionMatches](#descriptionmatches)
+    - [filesMatch](#filesmatch)
+    - [isDraft](#isdraft)
+    - [isLocked](#islocked)
+    - [isOpen](#isopen)
+    - [titleMatches](#titlematches)
 
 ## How it Works
 
@@ -146,7 +147,7 @@ Take a look at the examples in this file to get a feel for how to configure it. 
 <details>
   <summary><b>Click to show Typescript config interface</b></summary>
 
-```js
+```ts
 interface Config {
   labels: {
     [key: string]: {
@@ -167,6 +168,7 @@ interface Config {
       conditions: PRCondition[],
     },
   };
+  skip_labeling: string;
 }
 ```
 

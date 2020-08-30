@@ -1,19 +1,19 @@
-import branchMatches, { ConditionBranchMatches } from './branchMatches';
-import filesMatch, { ConditionFilesMatch } from './filesMatch';
-import isDraft, { ConditionIsDraft } from './isDraft';
-import { Condition, handlers as sharedHandlers } from '../';
+import branchMatches, { ConditionBranchMatches } from './branchMatches'
+import filesMatch, { ConditionFilesMatch } from './filesMatch'
+import isDraft, { ConditionIsDraft } from './isDraft'
+import { Condition, handlers as sharedHandlers } from '../'
 
 export type PRCondition =
   | ConditionBranchMatches
   | ConditionFilesMatch
   | ConditionIsDraft
-  | Condition;
+  | Condition
 
-const handlers = [...sharedHandlers, branchMatches, filesMatch, isDraft];
+const handlers = [...sharedHandlers, branchMatches, filesMatch, isDraft]
 
 export const getPRConditionHandler = (condition: PRCondition) => {
-  const handler = handlers.find((handler) => handler[0] === condition.type);
-  return handler?.[1];
-};
+  const handler = handlers.find((handler) => handler[0] === condition.type)
+  return handler?.[1]
+}
 
-export { PRProps } from 'src/parseContext';
+export { PRProps } from '../../parseContext'

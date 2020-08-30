@@ -1,15 +1,18 @@
-import { IssueApiProps } from '.';
+import { IssueApiProps } from '.'
 
 export const removeLabel = async ({
   client,
   repo,
-  num,
+  IDNumber,
   label,
+  dryRun,
 }: IssueApiProps & {
-  label: string;
+  label: string
+  dryRun: boolean
 }) =>
-  await client.issues.removeLabel({
+  !dryRun &&
+  (await client.issues.removeLabel({
     ...repo,
-    issue_number: num,
+    issue_number: IDNumber,
     name: label,
-  });
+  }))

@@ -6,12 +6,22 @@
   "repository": "git@github.com:IvanFon/super-labeler-action.git",
   "author": "Ivan Fonseca <ivanfon@riseup.net>",
   "license": "GPL-3.0",
-  "engines": {
-    "node": "12"
+  "directories": {
+    "lib": "./lib",
+    "doc": "./docs",
+    "test": "./__tests__"
   },
   "scripts": {
-    "build": "ncc build src/index.ts -o dist",
-    "format": "prettier --write src/**/*.ts"
+    "all": "npm run build && npm run format && npm run package && npm run test",
+    "build": "tsc",
+    "format": "prettier-standard --write **/*.ts",
+    "format-check": "prettier-standard --check **/*.ts",
+    "package": "ncc build --source-map",
+    "test": "jest --json --outputFile=result.json --testLocationInResults",
+    "dev:pr": "EVENT_PATH=event.pr.json yarn dev:run",
+    "dev:issue": "EVENT_PATH=event.issue.json yarn dev:run",
+    "dev:run": "source .env && GITHUB_EVENT_PATH=${EVENT_PATH} node dist/index.js",
+    "dev:init": "node bin/copyLocalRun.js"
   },
   "prettier": {
     "arrowParens": "always",
@@ -21,11 +31,17 @@
   "dependencies": {
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
-    "minimatch": "^3.0.4"
+    "minimatch": "^3.0.4",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/node": "^14.6.0",
     "@types/minimatch": "^3.0.3",
-    "@zeit/ncc": "^0.21.1",
-    "prettier": "^1.19.1"
+    "@vercel/ncc": "^0.24.0",
+    "jest": "^26.3.0",
+    "prettier-standard": "^16.4.1",
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
   }
 }

@@ -1,6 +1,12 @@
 import { IssueProps, PRProps } from '.';
+import { normalize } from '../utils';
 
 const TYPE = 'isOpen';
+
+enum States {
+  Open = 'OPEN',
+  Closed = 'CLOSED',
+}
 
 export interface ConditionIsOpen {
   type: typeof TYPE;
@@ -8,7 +14,10 @@ export interface ConditionIsOpen {
 }
 
 const isOpen = (condition: ConditionIsOpen, issue: IssueProps | PRProps) => {
-  return condition.value ? issue.state === 'open' : issue.state === 'closed';
+  return (
+    normalize(issue.state) ===
+    normalize(condition.value ? States.Open : States.Closed)
+  );
 };
 
 export default [TYPE, isOpen] as const;
