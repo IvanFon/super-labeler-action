@@ -1,43 +1,43 @@
-import { GitHub } from '@actions/github';
-import { Context } from '@actions/github/lib/context';
+import { GitHub } from '@actions/github'
+import { Context } from '@actions/github/lib/context'
 
-import { listFiles, Repo } from './api';
+import { listFiles, Repo } from './api'
 
 interface Props {
-  creator: string;
-  description: string;
-  locked: boolean;
-  state: 'open' | 'closed';
-  title: string;
+  creator: string
+  description: string
+  locked: boolean
+  state: 'open' | 'closed'
+  title: string
 }
 
 export interface PRProps extends Props {
-  branch: string;
-  isDraft: boolean;
-  files: string[];
+  branch: string
+  isDraft: boolean
+  files: string[]
 }
 
 export interface IssueProps extends Props {}
 
 export interface Label {
-  name: string;
-  description: string;
-  color: string;
+  name: string
+  description: string
+  color: string
 }
 
-export type Labels = Label[];
+export type Labels = Label[]
 
 interface GeneralContext {
-  labels: Labels;
-  num: number;
+  labels: Labels
+  IDNumber: number
 }
 
 export interface PRContext extends GeneralContext {
-  prProps: PRProps;
+  prProps: PRProps
 }
 
 export interface IssueContext extends GeneralContext {
-  issueProps: IssueProps;
+  issueProps: IssueProps
 }
 
 export const parsePRContext = async (
@@ -45,18 +45,18 @@ export const parsePRContext = async (
   client: GitHub,
   repo: Repo,
 ): Promise<PRContext | undefined> => {
-  const pr = context.payload.pull_request;
+  const pr = context.payload.pull_request
   if (!pr) {
-    return;
+    return
   }
 
-  const num = pr.number;
-  const labels = parseLabels(pr.labels);
-  const files = await listFiles({ client, repo, num });
+  const IDNumber = pr.number
+  const labels = parseLabels(pr.labels)
+  const files = await listFiles({ client, repo, IDNumber })
 
   return {
     labels,
-    num,
+    IDNumber,
     prProps: {
       branch: pr.head.ref,
       creator: pr.user.login,
@@ -67,22 +67,22 @@ export const parsePRContext = async (
       state: pr.state,
       title: pr.title,
     },
-  };
-};
+  }
+}
 
 export const parseIssueContext = (
   context: Context,
 ): IssueContext | undefined => {
-  const issue = context.payload.issue;
+  const issue = context.payload.issue
   if (!issue) {
-    return;
+    return
   }
 
-  const labels = parseLabels(issue.labels);
+  const labels = parseLabels(issue.labels)
 
   return {
     labels,
-    num: issue.number,
+    IDNumber: issue.number,
     issueProps: {
       creator: issue.user.login,
       description: issue.body || '',
@@ -90,12 +90,12 @@ export const parseIssueContext = (
       state: issue.state,
       title: issue.title,
     },
-  };
-};
+  }
+}
 
 const parseLabels = (labels: any): Labels => {
   if (!Array.isArray(labels)) {
-    return [];
+    return []
   }
 
   return labels.filter(
@@ -104,5 +104,5 @@ const parseLabels = (labels: any): Labels => {
       'name' in label &&
       'description' in label &&
       'color' in label,
-  );
-};
+  )
+}

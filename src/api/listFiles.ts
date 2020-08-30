@@ -1,10 +1,10 @@
-import { IssueApiProps } from '.';
+import { IssueApiProps } from '.'
 
-export const listFiles = async ({ client, num, repo }: IssueApiProps) => {
+export const listFiles = async ({ client, IDNumber, repo }: IssueApiProps) => {
   const files = await client.pulls.listFiles({
     ...repo,
-    pull_number: num,
+    pull_number: IDNumber,
     per_page: 100,
-  });
-  return files.data.map((file) => file.filename);
-};
+  })
+  return files.data.map((file) => file.filename)
+}

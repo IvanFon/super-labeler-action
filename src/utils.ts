@@ -1,15 +1,17 @@
 export const formatColour = (colour: string) => {
-  if (colour[0] === '#') {
-    return colour.substr(1);
+  if (colour.charAt(0) === '#') {
+    return colour.substr(1)
   } else {
-    return colour;
+    return colour
   }
-};
+}
 
 export const processRegExpPattern = (pattern: string) => {
-  const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/);
+  const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/)
 
-  const [, source, flags] = matchDelimiters || [];
+  const [, source, flags] = matchDelimiters || []
 
-  return new RegExp(source || pattern, flags);
-};
+  return new RegExp(source || pattern, flags)
+}
+
+export const normalize = (text: string) => (text || '').toUpperCase()

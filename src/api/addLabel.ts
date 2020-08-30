@@ -1,15 +1,18 @@
-import { IssueApiProps } from '.';
+import { IssueApiProps } from '.'
 
 export const addLabel = async ({
   client,
   repo,
-  num,
+  IDNumber,
   label,
+  dryRun,
 }: IssueApiProps & {
-  label: string;
+  label: string
+  dryRun: boolean
 }) =>
-  await client.issues.addLabels({
+  !dryRun &&
+  (await client.issues.addLabels({
     ...repo,
-    issue_number: num,
+    issue_number: IDNumber,
     labels: [label],
-  });
+  }))
