@@ -1,6 +1,6 @@
 {
   "name": "super-labeler-action",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A superpowered issue and pull request labeler for Github Actions.",
   "main": "src/index.ts",
   "repository": "git@github.com:IvanFon/super-labeler-action.git",
