@@ -16,6 +16,11 @@ const syncLabels = async ({
   repo: Repo
   dryRun: boolean
 }) => {
+  /**
+   * Syncronises the repo labels
+   * !todo Add delete labels
+   * @since 2.0.0
+   */
   const curLabels = await getLabels({ client, repo })
   core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
 

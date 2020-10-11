@@ -25,6 +25,7 @@ export interface Config {
     [key: string]: PRConditionConfig
   }
   skip_labeling: string
+  delete_labels: boolean
 }
 
 export interface Options {

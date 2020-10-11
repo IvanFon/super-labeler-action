@@ -4,7 +4,7 @@ A superpowered issue and pull request labeler for Github Actions.
 
 Super Labeler allows you to declaratively define your repository's labels, and when to apply them, in a config file that's checked into your repository.
 
-*This is a fork of [IvanFon/super-labeler-action](https://github.com/IvanFon/super-labeler-action) which we are maintaining due to the main repository going inactive. The original idea and all credit goes to IvanFon.*
+_This is a fork of [IvanFon/super-labeler-action](https://github.com/IvanFon/super-labeler-action) which we are maintaining due to the main repository going inactive. The original idea and all credit goes to IvanFon._
 
 ## Getting Started
 
@@ -72,7 +72,9 @@ Now create the labeler config file at `.github/labels.json`:
         }
       ]
     }
-  }
+  },
+  "skip_labeling": true,
+  "delete_labels": true
 }
 ```
 
@@ -153,24 +155,25 @@ Take a look at the examples in this file to get a feel for how to configure it. 
 interface Config {
   labels: {
     [key: string]: {
-      name: string,
-      colour: string,
-      description: string,
-    },
-  };
+      name: string
+      colour: string
+      description: string
+    }
+  }
   issue: {
     [key: string]: {
-      requires: number,
-      conditions: IssueCondition[],
-    },
-  };
+      requires: number
+      conditions: IssueCondition[]
+    }
+  }
   pr: {
     [key: string]: {
-      requires: number,
-      conditions: PRCondition[],
-    },
-  };
-  skip_labeling: string;
+      requires: number
+      conditions: PRCondition[]
+    }
+  }
+  skip_labeling: string
+  delete_labels: boolean
 }
 ```
 
