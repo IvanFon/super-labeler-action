@@ -12,10 +12,10 @@
     "test": "./__tests__"
   },
   "scripts": {
-    "all": "npm run build && npm run format && npm run package && npm run test",
-    "build": "tsc",
-    "format": "prettier-standard --write **/*.ts",
-    "format-check": "prettier-standard --check **/*.ts",
+    "all": "npm run build && npm run format && npm run test",
+    "build": "tsc && npm run package",
+    "format": "prettier-standard **/*",
+    "format-check": "prettier-standard --check **/*",
     "package": "ncc build --source-map",
     "test": "jest --json --outputFile=result.json --testLocationInResults",
     "dev:pr": "EVENT_PATH=__tests__/event.pr.json yarn dev:run",

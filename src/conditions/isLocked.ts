@@ -1,13 +1,13 @@
-import { IssueProps, PRProps } from '.';
+import { IssueProps, PRProps } from '.'
 
-const TYPE = 'isLocked';
+const TYPE = 'isLocked'
 
 export interface ConditionIsLocked {
-  type: typeof TYPE;
-  value: boolean;
+  type: typeof TYPE
+  value: boolean
 }
 
 const isLocked = (condition: ConditionIsLocked, issue: IssueProps | PRProps) =>
-  issue.locked === condition.value;
+  issue.locked === condition.value
 
-export default [TYPE, isLocked] as const;
+export default [TYPE, isLocked] as const

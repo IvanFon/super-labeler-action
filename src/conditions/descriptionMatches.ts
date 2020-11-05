@@ -1,19 +1,19 @@
-import { IssueProps, PRProps } from '.';
-import { processRegExpPattern } from '../utils';
+import { IssueProps, PRProps } from '.'
+import { processRegExpPattern } from '../utils'
 
-const TYPE = 'descriptionMatches';
+const TYPE = 'descriptionMatches'
 
 export interface ConditionDescriptionMatches {
-  type: typeof TYPE;
-  pattern: string;
+  type: typeof TYPE
+  pattern: string
 }
 
 const descriptionMatches = (
   condition: ConditionDescriptionMatches,
   issue: IssueProps | PRProps,
 ) => {
-  const pattern = processRegExpPattern(condition.pattern);
-  return pattern.test(issue.description);
-};
+  const pattern = processRegExpPattern(condition.pattern)
+  return pattern.test(issue.description)
+}
 
-export default [TYPE, descriptionMatches] as const;
+export default [TYPE, descriptionMatches] as const
