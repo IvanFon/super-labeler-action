@@ -7,7 +7,7 @@ on:
 jobs:
   jest:
     runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'edited')
+    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'edited' && github.event.action == 'synchronize')
     name: Check tests work first
     steps:
       - uses: actions/checkout@v2

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@actions/core@^1.2.3":
-  version "1.2.3"
-  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.3.tgz#e844b4fa0820e206075445079130868f95bfca95"
-  integrity sha512-Wp4xnyokakM45Uuj4WLUxdsa8fJjKVl1fDTsPbTEcTcuu0Nb26IPQbOtjmnfaCPGcaoPOOqId8H9NapZ8gii4w==
+"@actions/core@^1.2.6":
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/@actions/core/-/core-1.2.6.tgz#a78d49f41a4def18e88ce47c2cac615d5694bf09"
+  integrity sha512-ZQYitnqiyBc3D+k7LsgSBmMDVkOVidaagDG7j3fOym77jNunWRuYx7VSHa9GNfFZh+zh61xsCjRj4JxMZlDqTA==
 
 "@actions/github@^2.1.1":
   version "2.1.1"
@@ -2876,32 +2876,6 @@ jest-changed-files@^26.3.0:
   dependencies:
     "@jest/types" "^26.3.0"
     execa "^4.0.0"
-    throat "^5.0.0"
-
-jest-circus@^26.2.2:
-  version "26.4.2"
-  resolved "https://registry.yarnpkg.com/jest-circus/-/jest-circus-26.4.2.tgz#f84487d2ea635cadf1feb269b14ad0602135ad17"
-  integrity sha512-gzxoteivskdUTNxT7Jx6hrANsEm+x1wh8jaXmQCtzC7zoNWirk9chYdSosHFC4tJlfDZa0EsPreVAxLicLsV0w==
-  dependencies:
-    "@babel/traverse" "^7.1.0"
-    "@jest/environment" "^26.3.0"
-    "@jest/test-result" "^26.3.0"
-    "@jest/types" "^26.3.0"
-    "@types/node" "*"
-    chalk "^4.0.0"
-    co "^4.6.0"
-    dedent "^0.7.0"
-    expect "^26.4.2"
-    is-generator-fn "^2.0.0"
-    jest-each "^26.4.2"
-    jest-matcher-utils "^26.4.2"
-    jest-message-util "^26.3.0"
-    jest-runner "^26.4.2"
-    jest-runtime "^26.4.2"
-    jest-snapshot "^26.4.2"
-    jest-util "^26.3.0"
-    pretty-format "^26.4.2"
-    stack-utils "^2.0.2"
     throat "^5.0.0"
 
 jest-cli@^26.4.2:

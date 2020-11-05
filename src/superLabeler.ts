@@ -77,6 +77,10 @@ class ActionSuperLabeler {
         repo,
         config: config.labels,
         dryRun,
+      }).catch((err) => {
+        core.debug('Error thrown while handling syncLabels tasks')
+        core.error(err.message)
+        core.setFailed(err.message)
       })
 
       // Mapping of label ids to Github names
@@ -96,6 +100,10 @@ class ActionSuperLabeler {
           prContext: curContext.context,
           repo,
           dryRun,
+        }).catch((err) => {
+          core.debug('Error thrown while handling PRLabel tasks')
+          core.error(err.message)
+          core.setFailed(err.message)
         })
       } else if (curContext.type === 'issue') {
         await applyIssueLabels({
@@ -105,6 +113,10 @@ class ActionSuperLabeler {
           labelIdToName,
           repo,
           dryRun,
+        }).catch((err) => {
+          core.debug('Error thrown while handling issueLabel tasks')
+          core.error(err.message)
+          core.setFailed(err.message)
         })
       }
     } catch (err) {
