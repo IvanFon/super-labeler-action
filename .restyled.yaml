@@ -33,4 +33,4 @@ restylers_version: stable
 restylers:
   - prettier:
       arguments:
-        - --config .prettier.json
+        - '--config .prettier.json'
