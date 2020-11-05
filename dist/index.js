@@ -28813,8 +28813,8 @@ module.exports = /******/ (() => {
       Object.defineProperty(exports, '__esModule', { value: true })
       const core = __importStar(__webpack_require__(2186))
       const github = __importStar(__webpack_require__(5438))
-      const superLabeler_1 = __webpack_require__(1812)
       const path_1 = __importDefault(__webpack_require__(5622))
+      const superLabeler = __webpack_require__(1812)
       const {
         GITHUB_WORKSPACE = '',
         SHOW_LOGS,
@@ -28832,10 +28832,7 @@ module.exports = /******/ (() => {
         showLogs,
         dryRun
       }
-      const action = new superLabeler_1.SuperLabeler(
-        new github.GitHub(GITHUB_TOKEN),
-        options
-      )
+      const action = new superLabeler(new github.GitHub(GITHUB_TOKEN), options)
       action.run()
 
       /***/
@@ -29028,7 +29025,6 @@ module.exports = /******/ (() => {
           return mod && mod.__esModule ? mod : { default: mod }
         }
       Object.defineProperty(exports, '__esModule', { value: true })
-      exports.SuperLabeler = void 0
       const fs_1 = __importDefault(__webpack_require__(5747))
       const core = __importStar(__webpack_require__(2186))
       const github = __importStar(__webpack_require__(5438))
@@ -29143,7 +29139,6 @@ module.exports = /******/ (() => {
           })
         }
       }
-      exports.SuperLabeler = SuperLabeler
       module.exports = SuperLabeler
 
       /***/

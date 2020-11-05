@@ -16,7 +16,7 @@ import { syncLabels } from './syncLabels'
 
 const context = github.context
 
-export class SuperLabeler {
+class SuperLabeler {
   client: GitHub
   opts: Options
 
