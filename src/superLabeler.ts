@@ -16,7 +16,7 @@ import syncLabels from './syncLabels'
 
 const context = github.context
 
-class ActionSuperLabeler {
+export class SuperLabeler {
   client: GitHub
   opts: Options
 
@@ -126,4 +126,4 @@ class ActionSuperLabeler {
   }
 }
 
-module.exports = ActionSuperLabeler
+module.exports = SuperLabeler
