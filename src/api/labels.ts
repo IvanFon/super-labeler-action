@@ -1,8 +1,8 @@
 import { IssueApiProps, ApiProps } from '.'
-import { Label } from '../parseContext'
+import { Label, Labels } from '../parseContext'
 import { formatColor } from '../utils'
 
-class Labels {
+class labels {
   async add ({
     client,
     repo,
@@ -91,4 +91,4 @@ class Labels {
   }
 }
 
-export const label = new Labels()
+export const labelAPI = new labels()

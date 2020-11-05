@@ -12,7 +12,7 @@ import {
   parsePRContext,
   PRContext,
 } from './parseContext'
-import syncLabels from './syncLabels'
+import { syncLabels } from './syncLabels'
 
 const context = github.context
 
@@ -77,7 +77,7 @@ export class SuperLabeler {
         repo,
         config: config.labels,
         dryRun,
-      }).catch((err) => {
+      }).catch((err: { message: string | Error }) => {
         core.debug('Error thrown while handling syncLabels tasks')
         core.error(err.message)
         core.setFailed(err.message)
@@ -113,7 +113,7 @@ export class SuperLabeler {
           labelIdToName,
           repo,
           dryRun,
-        }).catch((err) => {
+        }).catch((err: { message: string | Error }) => {
           core.debug('Error thrown while handling issueLabel tasks')
           core.error(err.message)
           core.setFailed(err.message)

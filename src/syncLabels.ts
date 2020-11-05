@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import { GitHub } from '@actions/github'
 
 import { Config } from './types'
-import { createLabel, getLabels, Repo, updateLabel } from './api'
+import { labelAPI, Repo } from './api'
 import { formatColor } from './utils'
 
 export const syncLabels = async ({
@@ -21,7 +21,7 @@ export const syncLabels = async ({
    * !todo Add delete labels
    * @since 2.0.0
    */
-  const curLabels = await getLabels({ client, repo })
+  const curLabels = await labelAPI.get({ client, repo })
   core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
 
   for (const _configLabel of Object.values(config)) {
@@ -43,7 +43,7 @@ export const syncLabels = async ({
           )})`,
         )
         try {
-          await updateLabel({ client, repo, label: configLabel, dryRun })
+          await labelAPI.update({ client, repo, label: configLabel, dryRun })
         } catch (e) {
           core.error(`Label update error: ${e.message}`)
         }
@@ -51,7 +51,7 @@ export const syncLabels = async ({
     } else {
       core.debug(`Create ${JSON.stringify(configLabel)}`)
       try {
-        await createLabel({ client, repo, label: configLabel, dryRun })
+        await labelAPI.create({ client, repo, label: configLabel, dryRun })
       } catch (e) {
         core.debug(`Label Creation failed: ${e.message}`)
       }

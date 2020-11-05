@@ -1,6 +1,6 @@
 import { IssueApiProps } from '.'
 
-class Files {
+class File {
   async list ({ client, IDNumber, repo }: IssueApiProps) {
     const files = await client.pulls.listFiles({
       ...repo,
@@ -11,4 +11,4 @@ class Files {
   }
 }
 
-export const files = new Files()
+export const file = new File()

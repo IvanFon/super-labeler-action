@@ -15898,6 +15898,7 @@ module.exports = /******/ (() => {
         octokit.registerEndpoints = registerEndpoints.bind(null, octokit)
         registerEndpoints(octokit, endpointsByScope) // Aliasing scopes for backward compatibility
         // See https://github.com/octokit/rest.js/pull/1134
+
         ;[
           ['gitdata', 'git'],
           ['authorization', 'oauthAuthorizations'],
@@ -19056,11 +19057,11 @@ module.exports = /******/ (() => {
         var oppositeDirectionsLessThan =
           cmp(this.semver, '<', comp.semver, options) &&
           (this.operator === '>=' || this.operator === '>') &&
-          (comp.operator === '<=' || comp.operator === '<')
+            (comp.operator === '<=' || comp.operator === '<')
         var oppositeDirectionsGreaterThan =
           cmp(this.semver, '>', comp.semver, options) &&
           (this.operator === '<=' || this.operator === '<') &&
-          (comp.operator === '>=' || comp.operator === '>')
+            (comp.operator === '>=' || comp.operator === '>')
 
         return (
           sameDirectionIncreasing ||
@@ -22765,9 +22766,7 @@ module.exports = /******/ (() => {
         return (
           !!length &&
           (typeof value == 'number' || reIsUint.test(value)) &&
-          value > -1 &&
-          value % 1 == 0 &&
-          value < length
+          value > -1 && value % 1 == 0 && value < length
         )
       }
 
@@ -28051,7 +28050,7 @@ module.exports = /******/ (() => {
       /***/
     },
 
-    /***/ 3988: /***/ function (__unused_webpack_module, exports) {
+    /***/ 1137: /***/ function (__unused_webpack_module, exports) {
       'use strict'
 
       var __awaiter =
@@ -28090,185 +28089,21 @@ module.exports = /******/ (() => {
           })
         }
       Object.defineProperty(exports, '__esModule', { value: true })
-      exports.addLabel = void 0
-      exports.addLabel = ({ client, repo, IDNumber, label, dryRun }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          return (
-            !dryRun &&
-            (yield client.issues.addLabels(
+      exports.file = void 0
+      class File {
+        list ({ client, IDNumber, repo }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            const files = yield client.pulls.listFiles(
               Object.assign(Object.assign({}, repo), {
-                issue_number: IDNumber,
-                labels: [label],
+                pull_number: IDNumber,
+                per_page: 100,
               }),
-            ))
-          )
-        })
-
-      /***/
-    },
-
-    /***/ 3194: /***/ function (
-      __unused_webpack_module,
-      exports,
-      __webpack_require__,
-    ) {
-      'use strict'
-
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt (value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled (value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected (value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step (result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next(),
             )
+            return files.data.map((file) => file.filename)
           })
         }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.createLabel = void 0
-      const utils_1 = __webpack_require__(1314)
-      exports.createLabel = ({ client, repo, label, dryRun }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          const color = utils_1.formatColor(label.color)
-          !dryRun &&
-            (yield client.issues.createLabel(
-              Object.assign(Object.assign(Object.assign({}, repo), label), {
-                color,
-              }),
-            ))
-        })
-
-      /***/
-    },
-
-    /***/ 8821: /***/ function (__unused_webpack_module, exports) {
-      'use strict'
-
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt (value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled (value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected (value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step (result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next(),
-            )
-          })
-        }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.deleteLabel = void 0
-      exports.deleteLabel = ({ client, repo, name, dryRun }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          !dryRun &&
-            (yield client.issues.deleteLabel(
-              Object.assign(Object.assign({}, repo), { name }),
-            ))
-        })
-
-      /***/
-    },
-
-    /***/ 5144: /***/ function (__unused_webpack_module, exports) {
-      'use strict'
-
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt (value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled (value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected (value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step (result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next(),
-            )
-          })
-        }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.getLabels = void 0
-      exports.getLabels = ({ client, repo }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          const options = yield client.issues.listLabelsForRepo.endpoint.merge(
-            Object.assign({}, repo),
-          )
-          const labels = yield client.paginate(options)
-          return labels.map((label) => ({
-            name: label.name,
-            description: label.description,
-            color: label.color,
-          }))
-        })
+      }
+      exports.file = new File()
 
       /***/
     },
@@ -28304,128 +28139,13 @@ module.exports = /******/ (() => {
               __createBinding(exports, m, p)
         }
       Object.defineProperty(exports, '__esModule', { value: true })
-      __exportStar(__webpack_require__(3988), exports)
-      __exportStar(__webpack_require__(3194), exports)
-      __exportStar(__webpack_require__(8821), exports)
-      __exportStar(__webpack_require__(5144), exports)
-      __exportStar(__webpack_require__(7858), exports)
-      __exportStar(__webpack_require__(4615), exports)
-      __exportStar(__webpack_require__(7757), exports)
+      __exportStar(__webpack_require__(1137), exports)
+      __exportStar(__webpack_require__(8307), exports)
 
       /***/
     },
 
-    /***/ 7858: /***/ function (__unused_webpack_module, exports) {
-      'use strict'
-
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt (value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled (value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected (value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step (result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next(),
-            )
-          })
-        }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.listFiles = void 0
-      exports.listFiles = ({ client, IDNumber, repo }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          const files = yield client.pulls.listFiles(
-            Object.assign(Object.assign({}, repo), {
-              pull_number: IDNumber,
-              per_page: 100,
-            }),
-          )
-          return files.data.map((file) => file.filename)
-        })
-
-      /***/
-    },
-
-    /***/ 4615: /***/ function (__unused_webpack_module, exports) {
-      'use strict'
-
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt (value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled (value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected (value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step (result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next(),
-            )
-          })
-        }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.removeLabel = void 0
-      exports.removeLabel = ({ client, repo, IDNumber, label, dryRun }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          return (
-            !dryRun &&
-            (yield client.issues.removeLabel(
-              Object.assign(Object.assign({}, repo), {
-                issue_number: IDNumber,
-                name: label,
-              }),
-            ))
-          )
-        })
-
-      /***/
-    },
-
-    /***/ 7757: /***/ function (
+    /***/ 8307: /***/ function (
       __unused_webpack_module,
       exports,
       __webpack_require__,
@@ -28468,20 +28188,78 @@ module.exports = /******/ (() => {
           })
         }
       Object.defineProperty(exports, '__esModule', { value: true })
-      exports.updateLabel = void 0
+      exports.labelAPI = void 0
       const utils_1 = __webpack_require__(1314)
-      exports.updateLabel = ({ client, repo, label, dryRun }) =>
-        __awaiter(void 0, void 0, void 0, function * () {
-          const color = utils_1.formatColor(label.color)
-          !dryRun &&
-            (yield client.issues.updateLabel(
-              Object.assign(Object.assign({}, repo), {
-                current_name: label.name,
-                description: label.description,
-                color,
-              }),
-            ))
-        })
+      class labels {
+        add ({ client, repo, IDNumber, label, dryRun }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            if (!dryRun)
+              yield client.issues.addLabels(
+                Object.assign(Object.assign({}, repo), {
+                  issue_number: IDNumber,
+                  labels: [label],
+                }),
+              )
+          })
+        }
+        create ({ client, repo, label, dryRun }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            const color = utils_1.formatColor(label.color)
+            if (!dryRun)
+              yield client.issues.createLabel(
+                Object.assign(Object.assign(Object.assign({}, repo), label), {
+                  color,
+                }),
+              )
+          })
+        }
+        deleteLabel ({ client, repo, name, dryRun }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            if (!dryRun)
+              yield client.issues.deleteLabel(
+                Object.assign(Object.assign({}, repo), { name }),
+              )
+          })
+        }
+        get ({ client, repo }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            const options = yield client.issues.listLabelsForRepo.endpoint.merge(
+              Object.assign({}, repo),
+            )
+            const labels = yield client.paginate(options)
+            return labels.map((label) => ({
+              name: label.name,
+              description: label.description,
+              color: label.color,
+            }))
+          })
+        }
+        remove ({ client, repo, IDNumber, label, dryRun }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            if (!dryRun)
+              yield client.issues.removeLabel(
+                Object.assign(Object.assign({}, repo), {
+                  issue_number: IDNumber,
+                  name: label,
+                }),
+              )
+          })
+        }
+        update ({ client, repo, label, dryRun }) {
+          return __awaiter(this, void 0, void 0, function * () {
+            const color = utils_1.formatColor(label.color)
+            if (!dryRun)
+              yield client.issues.updateLabel(
+                Object.assign(Object.assign({}, repo), {
+                  current_name: label.name,
+                  description: label.description,
+                  color,
+                }),
+              )
+          })
+        }
+      }
+      exports.labelAPI = new labels()
 
       /***/
     },
@@ -28588,7 +28366,7 @@ module.exports = /******/ (() => {
             curLabels.filter((l) => l.name === labelName).length > 0
           if (shouldHaveLabel && !hasLabel) {
             core.debug(`Adding label "${labelID}"...`)
-            yield api_1.addLabel({
+            yield api_1.labelAPI.add({
               client,
               repo,
               IDNumber,
@@ -28598,7 +28376,7 @@ module.exports = /******/ (() => {
           }
           if (!shouldHaveLabel && hasLabel) {
             core.debug(`Removing label "${labelID}"...`)
-            yield api_1.removeLabel({
+            yield api_1.labelAPI.remove({
               client,
               repo,
               IDNumber,
@@ -29067,8 +28845,8 @@ module.exports = /******/ (() => {
       Object.defineProperty(exports, '__esModule', { value: true })
       const core = __importStar(__webpack_require__(2186))
       const github = __importStar(__webpack_require__(5438))
+      const superLabeler_1 = __webpack_require__(1812)
       const path_1 = __importDefault(__webpack_require__(5622))
-      const superLabeler = __webpack_require__(1812)
       const {
         GITHUB_WORKSPACE = '',
         SHOW_LOGS,
@@ -29086,7 +28864,10 @@ module.exports = /******/ (() => {
         showLogs,
         dryRun,
       }
-      const action = new superLabeler(new github.GitHub(GITHUB_TOKEN), options)
+      const action = new superLabeler_1.SuperLabeler(
+        new github.GitHub(GITHUB_TOKEN),
+        options,
+      )
       action.run()
 
       /***/
@@ -29145,7 +28926,7 @@ module.exports = /******/ (() => {
           }
           const IDNumber = pr.number
           const labels = parseLabels(pr.labels)
-          const files = yield api_1.listFiles({ client, repo, IDNumber })
+          const files = yield api_1.file.list({ client, repo, IDNumber })
           return {
             labels,
             IDNumber,
@@ -29279,14 +29060,15 @@ module.exports = /******/ (() => {
           return mod && mod.__esModule ? mod : { default: mod }
         }
       Object.defineProperty(exports, '__esModule', { value: true })
+      exports.SuperLabeler = void 0
       const fs_1 = __importDefault(__webpack_require__(5747))
       const core = __importStar(__webpack_require__(2186))
       const github = __importStar(__webpack_require__(5438))
       const applyLabels_1 = __webpack_require__(4625)
       const parseContext_1 = __webpack_require__(1189)
-      const syncLabels_1 = __importDefault(__webpack_require__(1617))
+      const syncLabels_1 = __webpack_require__(1617)
       const context = github.context
-      class ActionSuperLabeler {
+      class SuperLabeler {
         constructor (client, options) {
           this.client = client
           this.opts = options
@@ -29337,7 +29119,7 @@ module.exports = /******/ (() => {
                 return
               }
               yield syncLabels_1
-                .default({
+                .syncLabels({
                   client: this.client,
                   repo,
                   config: config.labels,
@@ -29393,7 +29175,8 @@ module.exports = /******/ (() => {
           })
         }
       }
-      module.exports = ActionSuperLabeler
+      exports.SuperLabeler = SuperLabeler
+      module.exports = SuperLabeler
 
       /***/
     },
@@ -29481,12 +29264,13 @@ module.exports = /******/ (() => {
           })
         }
       Object.defineProperty(exports, '__esModule', { value: true })
+      exports.syncLabels = void 0
       const core = __importStar(__webpack_require__(2186))
       const api_1 = __webpack_require__(9343)
       const utils_1 = __webpack_require__(1314)
-      const syncLabels = ({ client, config, repo, dryRun }) =>
+      exports.syncLabels = ({ client, config, repo, dryRun }) =>
         __awaiter(void 0, void 0, void 0, function * () {
-          const curLabels = yield api_1.getLabels({ client, repo })
+          const curLabels = yield api_1.labelAPI.get({ client, repo })
           core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
           for (const _configLabel of Object.values(config)) {
             const configLabel = Object.assign(Object.assign({}, _configLabel), {
@@ -29507,7 +29291,7 @@ module.exports = /******/ (() => {
                   )} (prev: ${JSON.stringify(label)})`,
                 )
                 try {
-                  yield api_1.updateLabel({
+                  yield api_1.labelAPI.update({
                     client,
                     repo,
                     label: configLabel,
@@ -29520,7 +29304,7 @@ module.exports = /******/ (() => {
             } else {
               core.debug(`Create ${JSON.stringify(configLabel)}`)
               try {
-                yield api_1.createLabel({
+                yield api_1.labelAPI.create({
                   client,
                   repo,
                   label: configLabel,
@@ -29532,7 +29316,6 @@ module.exports = /******/ (() => {
             }
           }
         })
-      exports.default = syncLabels
 
       /***/
     },
@@ -29701,11 +29484,13 @@ module.exports = /******/ (() => {
 
     /******/ /******/ return module.exports
     /******/
-  } /* webpack/runtime/compat */ /******/
+  } /* webpack/runtime/compat */
   /******/
 
   /************************************************************************/
-  /******/ /******/ __webpack_require__.ab =
+  /******/ /******/
+
+  /******/ __webpack_require__.ab =
     __dirname +
     '/' /************************************************************************/ // module exports must be returned from runtime so entry inlining is disabled // startup // Load entry module and return exports
   /******/ /******/ /******/ /******/ return __webpack_require__(6144)

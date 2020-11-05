@@ -1,7 +1,7 @@
 import { GitHub } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
 
-import { files, Repo } from './api'
+import { file, Repo } from './api'
 
 interface Props {
   creator: string
@@ -52,7 +52,7 @@ export const parsePRContext = async (
 
   const IDNumber = pr.number
   const labels = parseLabels(pr.labels)
-  const files = await files.list({ client, repo, IDNumber })
+  const files = await file.list({ client, repo, IDNumber })
 
   return {
     labels,
