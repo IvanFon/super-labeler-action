@@ -1,7 +1,7 @@
 module.exports = /******/ (() => {
   // webpackBootstrap
   /******/ var __webpack_modules__ = {
-    /***/ 650: /***/ (module) => {
+    /***/ 650: /***/ module => {
       var toString = Object.prototype.toString
 
       var isModern =
@@ -9,11 +9,11 @@ module.exports = /******/ (() => {
         typeof Buffer.allocUnsafe === 'function' &&
         typeof Buffer.from === 'function'
 
-      function isArrayBuffer (input) {
+      function isArrayBuffer(input) {
         return toString.call(input).slice(8, -1) === 'ArrayBuffer'
       }
 
-      function fromArrayBuffer (obj, byteOffset, length) {
+      function fromArrayBuffer(obj, byteOffset, length) {
         byteOffset >>>= 0
 
         var maxLength = obj.byteLength - byteOffset
@@ -35,11 +35,11 @@ module.exports = /******/ (() => {
         return isModern
           ? Buffer.from(obj.slice(byteOffset, byteOffset + length))
           : new Buffer(
-              new Uint8Array(obj.slice(byteOffset, byteOffset + length)),
+              new Uint8Array(obj.slice(byteOffset, byteOffset + length))
             )
       }
 
-      function fromString (string, encoding) {
+      function fromString(string, encoding) {
         if (typeof encoding !== 'string' || encoding === '') {
           encoding = 'utf8'
         }
@@ -53,7 +53,7 @@ module.exports = /******/ (() => {
           : new Buffer(string, encoding)
       }
 
-      function bufferFrom (value, encodingOrOffset, length) {
+      function bufferFrom(value, encodingOrOffset, length) {
         if (typeof value === 'number') {
           throw new TypeError('"value" argument must not be a number')
         }
@@ -77,7 +77,7 @@ module.exports = /******/ (() => {
     /***/ 645: /***/ (
       __unused_webpack_module,
       __unused_webpack_exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       __webpack_require__(284).install()
 
@@ -87,7 +87,7 @@ module.exports = /******/ (() => {
     /***/ 284: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       var SourceMapConsumer = __webpack_require__(596).SourceMapConsumer
       var path = __webpack_require__(622)
@@ -128,7 +128,7 @@ module.exports = /******/ (() => {
       var retrieveFileHandlers = []
       var retrieveMapHandlers = []
 
-      function isInBrowser () {
+      function isInBrowser() {
         if (environment === 'browser') return true
         if (environment === 'node') return false
         return (
@@ -143,7 +143,7 @@ module.exports = /******/ (() => {
         )
       }
 
-      function hasGlobalProcessEventEmitter () {
+      function hasGlobalProcessEventEmitter() {
         return (
           typeof process === 'object' &&
           process !== null &&
@@ -151,7 +151,7 @@ module.exports = /******/ (() => {
         )
       }
 
-      function handlerExec (list) {
+      function handlerExec(list) {
         return function (arg) {
           for (var i = 0; i < list.length; i++) {
             var ret = list[i](arg)
@@ -203,7 +203,7 @@ module.exports = /******/ (() => {
 
       // Support URLs relative to a directory, but be careful about a protocol prefix
       // in case we are in the browser (i.e. directories may start with "http://" or "file:///")
-      function supportRelativeURL (file, url) {
+      function supportRelativeURL(file, url) {
         if (!file) return url
         var dir = path.dirname(file)
         var match = /^\w+:\/\/[^\/]*/.exec(dir)
@@ -220,7 +220,7 @@ module.exports = /******/ (() => {
         return protocol + path.resolve(dir.slice(protocol.length), url)
       }
 
-      function retrieveSourceMapURL (source) {
+      function retrieveSourceMapURL(source) {
         var fileData
 
         if (isInBrowser()) {
@@ -266,7 +266,7 @@ module.exports = /******/ (() => {
         if (reSourceMap.test(sourceMappingURL)) {
           // Support source map URL as a data url
           var rawData = sourceMappingURL.slice(
-            sourceMappingURL.indexOf(',') + 1,
+            sourceMappingURL.indexOf(',') + 1
           )
           sourceMapData = bufferFrom(rawData, 'base64').toString()
           sourceMappingURL = source
@@ -282,11 +282,11 @@ module.exports = /******/ (() => {
 
         return {
           url: sourceMappingURL,
-          map: sourceMapData,
+          map: sourceMapData
         }
       })
 
-      function mapSourcePosition (position) {
+      function mapSourcePosition(position) {
         var sourceMap = sourceMapCache[position.source]
         if (!sourceMap) {
           // Call the (overrideable) retrieveSourceMap function to get the source map.
@@ -294,7 +294,7 @@ module.exports = /******/ (() => {
           if (urlAndMap) {
             sourceMap = sourceMapCache[position.source] = {
               url: urlAndMap.url,
-              map: new SourceMapConsumer(urlAndMap.map),
+              map: new SourceMapConsumer(urlAndMap.map)
             }
 
             // Load all sources stored inline with the source map into the file cache
@@ -311,7 +311,7 @@ module.exports = /******/ (() => {
           } else {
             sourceMap = sourceMapCache[position.source] = {
               url: null,
-              map: null,
+              map: null
             }
           }
         }
@@ -328,7 +328,7 @@ module.exports = /******/ (() => {
           if (originalPosition.source !== null) {
             originalPosition.source = supportRelativeURL(
               sourceMap.url,
-              originalPosition.source,
+              originalPosition.source
             )
             return originalPosition
           }
@@ -339,14 +339,14 @@ module.exports = /******/ (() => {
 
       // Parses code generated by FormatEvalOrigin(), a function inside V8:
       // https://code.google.com/p/v8/source/browse/trunk/src/messages.js
-      function mapEvalOrigin (origin) {
+      function mapEvalOrigin(origin) {
         // Most eval() calls are in this format
         var match = /^eval at ([^(]+) \((.+):(\d+):(\d+)\)$/.exec(origin)
         if (match) {
           var position = mapSourcePosition({
             source: match[2],
             line: +match[3],
-            column: match[4] - 1,
+            column: match[4] - 1
           })
           return (
             'eval at ' +
@@ -377,7 +377,7 @@ module.exports = /******/ (() => {
       // code of CallSite.prototype.toString but unfortunately a new release of V8
       // did something to the prototype chain and broke the shim. The only fix I
       // could find was copy/paste.
-      function CallSiteToString () {
+      function CallSiteToString() {
         var fileName
         var fileLocation = ''
         if (this.isNative()) {
@@ -448,7 +448,7 @@ module.exports = /******/ (() => {
         return line
       }
 
-      function cloneCallSite (frame) {
+      function cloneCallSite(frame) {
         var object = {}
         Object.getOwnPropertyNames(Object.getPrototypeOf(frame)).forEach(
           function (name) {
@@ -457,13 +457,13 @@ module.exports = /******/ (() => {
                   return frame[name].call(frame)
                 }
               : frame[name]
-          },
+          }
         )
         object.toString = CallSiteToString
         return object
       }
 
-      function wrapCallSite (frame) {
+      function wrapCallSite(frame) {
         if (frame.isNative()) {
           return frame
         }
@@ -491,7 +491,7 @@ module.exports = /******/ (() => {
           var position = mapSourcePosition({
             source: source,
             line: line,
-            column: column,
+            column: column
           })
           frame = cloneCallSite(frame)
           var originalFunctionName = frame.getFunctionName
@@ -530,7 +530,7 @@ module.exports = /******/ (() => {
 
       // This function is part of the V8 stack trace API, for more info see:
       // http://code.google.com/p/v8/wiki/JavaScriptStackTraceApi
-      function prepareStackTrace (error, stack) {
+      function prepareStackTrace(error, stack) {
         if (emptyCacheBetweenOperations) {
           fileContentsCache = {}
           sourceMapCache = {}
@@ -547,7 +547,7 @@ module.exports = /******/ (() => {
       }
 
       // Generate position and snippet of original source with pointer
-      function getErrorSource (error) {
+      function getErrorSource(error) {
         var match = /\n    at [^(]+ \((.*):(\d+):(\d+)\)/.exec(error.stack)
         if (match) {
           var source = match[1]
@@ -586,7 +586,7 @@ module.exports = /******/ (() => {
         return null
       }
 
-      function printErrorAndExit (error) {
+      function printErrorAndExit(error) {
         var source = getErrorSource(error)
 
         // Ensure error is printed synchronously and not truncated
@@ -603,7 +603,7 @@ module.exports = /******/ (() => {
         process.exit(1)
       }
 
-      function shimEmitUncaughtException () {
+      function shimEmitUncaughtException() {
         var origEmit = process.emit
 
         process.emit = function (type) {
@@ -637,7 +637,7 @@ module.exports = /******/ (() => {
             throw new Error(
               'environment ' +
                 environment +
-                ' was unknown. Available options are {auto, browser, node}',
+                ' was unknown. Available options are {auto, browser, node}'
             )
           }
         }
@@ -731,7 +731,7 @@ module.exports = /******/ (() => {
     /***/ 837: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       /* -*- Mode: js; js-indent-level: 2; -*- */
       /*
@@ -750,7 +750,7 @@ module.exports = /******/ (() => {
        * element is O(1). Removing elements from the set is not supported. Only
        * strings are supported for membership.
        */
-      function ArraySet () {
+      function ArraySet() {
         this._array = []
         this._set = hasNativeMap ? new Map() : Object.create(null)
       }
@@ -758,9 +758,9 @@ module.exports = /******/ (() => {
       /**
        * Static method for creating ArraySet instances from an existing array.
        */
-      ArraySet.fromArray = function ArraySet_fromArray (
+      ArraySet.fromArray = function ArraySet_fromArray(
         aArray,
-        aAllowDuplicates,
+        aAllowDuplicates
       ) {
         var set = new ArraySet()
         for (var i = 0, len = aArray.length; i < len; i++) {
@@ -775,7 +775,7 @@ module.exports = /******/ (() => {
        *
        * @returns Number
        */
-      ArraySet.prototype.size = function ArraySet_size () {
+      ArraySet.prototype.size = function ArraySet_size() {
         return hasNativeMap
           ? this._set.size
           : Object.getOwnPropertyNames(this._set).length
@@ -786,7 +786,7 @@ module.exports = /******/ (() => {
        *
        * @param String aStr
        */
-      ArraySet.prototype.add = function ArraySet_add (aStr, aAllowDuplicates) {
+      ArraySet.prototype.add = function ArraySet_add(aStr, aAllowDuplicates) {
         var sStr = hasNativeMap ? aStr : util.toSetString(aStr)
         var isDuplicate = hasNativeMap
           ? this.has(aStr)
@@ -809,7 +809,7 @@ module.exports = /******/ (() => {
        *
        * @param String aStr
        */
-      ArraySet.prototype.has = function ArraySet_has (aStr) {
+      ArraySet.prototype.has = function ArraySet_has(aStr) {
         if (hasNativeMap) {
           return this._set.has(aStr)
         } else {
@@ -823,7 +823,7 @@ module.exports = /******/ (() => {
        *
        * @param String aStr
        */
-      ArraySet.prototype.indexOf = function ArraySet_indexOf (aStr) {
+      ArraySet.prototype.indexOf = function ArraySet_indexOf(aStr) {
         if (hasNativeMap) {
           var idx = this._set.get(aStr)
           if (idx >= 0) {
@@ -844,7 +844,7 @@ module.exports = /******/ (() => {
        *
        * @param Number aIdx
        */
-      ArraySet.prototype.at = function ArraySet_at (aIdx) {
+      ArraySet.prototype.at = function ArraySet_at(aIdx) {
         if (aIdx >= 0 && aIdx < this._array.length) {
           return this._array[aIdx]
         }
@@ -856,7 +856,7 @@ module.exports = /******/ (() => {
        * indicated by indexOf). Note that this is a copy of the internal array used
        * for storing the members so that no one can mess with internal state.
        */
-      ArraySet.prototype.toArray = function ArraySet_toArray () {
+      ArraySet.prototype.toArray = function ArraySet_toArray() {
         return this._array.slice()
       }
 
@@ -868,7 +868,7 @@ module.exports = /******/ (() => {
     /***/ 215: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       /* -*- Mode: js; js-indent-level: 2; -*- */
       /*
@@ -938,7 +938,7 @@ module.exports = /******/ (() => {
        *   1 becomes 2 (10 binary), -1 becomes 3 (11 binary)
        *   2 becomes 4 (100 binary), -2 becomes 5 (101 binary)
        */
-      function toVLQSigned (aValue) {
+      function toVLQSigned(aValue) {
         return aValue < 0 ? (-aValue << 1) + 1 : (aValue << 1) + 0
       }
 
@@ -948,7 +948,7 @@ module.exports = /******/ (() => {
        *   2 (10 binary) becomes 1, 3 (11 binary) becomes -1
        *   4 (100 binary) becomes 2, 5 (101 binary) becomes -2
        */
-      function fromVLQSigned (aValue) {
+      function fromVLQSigned(aValue) {
         var isNegative = (aValue & 1) === 1
         var shifted = aValue >> 1
         return isNegative ? -shifted : shifted
@@ -957,7 +957,7 @@ module.exports = /******/ (() => {
       /**
        * Returns the base 64 VLQ encoded value.
        */
-      exports.encode = function base64VLQ_encode (aValue) {
+      exports.encode = function base64VLQ_encode(aValue) {
         var encoded = ''
         var digit
 
@@ -981,7 +981,7 @@ module.exports = /******/ (() => {
        * Decodes the next base 64 VLQ value from the given string and returns the
        * value and the rest of the string via the out parameter.
        */
-      exports.decode = function base64VLQ_decode (aStr, aIndex, aOutParam) {
+      exports.decode = function base64VLQ_decode(aStr, aIndex, aOutParam) {
         var strLen = aStr.length
         var result = 0
         var shift = 0
@@ -1019,7 +1019,7 @@ module.exports = /******/ (() => {
        */
 
       var intToCharMap = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/'.split(
-        '',
+        ''
       )
 
       /**
@@ -1108,13 +1108,13 @@ module.exports = /******/ (() => {
        *     closest element that is smaller than or greater than the one we are
        *     searching for, respectively, if the exact element cannot be found.
        */
-      function recursiveSearch (
+      function recursiveSearch(
         aLow,
         aHigh,
         aNeedle,
         aHaystack,
         aCompare,
-        aBias,
+        aBias
       ) {
         // This function terminates when one of the following is true:
         //
@@ -1140,7 +1140,7 @@ module.exports = /******/ (() => {
               aNeedle,
               aHaystack,
               aCompare,
-              aBias,
+              aBias
             )
           }
 
@@ -1161,7 +1161,7 @@ module.exports = /******/ (() => {
               aNeedle,
               aHaystack,
               aCompare,
-              aBias,
+              aBias
             )
           }
 
@@ -1192,7 +1192,7 @@ module.exports = /******/ (() => {
        *     searching for, respectively, if the exact element cannot be found.
        *     Defaults to 'binarySearch.GREATEST_LOWER_BOUND'.
        */
-      exports.search = function search (aNeedle, aHaystack, aCompare, aBias) {
+      exports.search = function search(aNeedle, aHaystack, aCompare, aBias) {
         if (aHaystack.length === 0) {
           return -1
         }
@@ -1203,7 +1203,7 @@ module.exports = /******/ (() => {
           aNeedle,
           aHaystack,
           aCompare,
-          aBias || exports.GREATEST_LOWER_BOUND,
+          aBias || exports.GREATEST_LOWER_BOUND
         )
         if (index < 0) {
           return -1
@@ -1228,7 +1228,7 @@ module.exports = /******/ (() => {
     /***/ 740: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       /* -*- Mode: js; js-indent-level: 2; -*- */
       /*
@@ -1243,7 +1243,7 @@ module.exports = /******/ (() => {
        * Determine whether mappingB is after mappingA with respect to generated
        * position.
        */
-      function generatedPositionAfter (mappingA, mappingB) {
+      function generatedPositionAfter(mappingA, mappingB) {
         // Optimized for most common case
         var lineA = mappingA.generatedLine
         var lineB = mappingB.generatedLine
@@ -1261,7 +1261,7 @@ module.exports = /******/ (() => {
        * performance conscious manner. It trades a neglibable overhead in general
        * case for a large speedup in case of mappings being added in order.
        */
-      function MappingList () {
+      function MappingList() {
         this._array = []
         this._sorted = true
         // Serves as infimum
@@ -1274,9 +1274,9 @@ module.exports = /******/ (() => {
        *
        * NOTE: The order of the mappings is NOT guaranteed.
        */
-      MappingList.prototype.unsortedForEach = function MappingList_forEach (
+      MappingList.prototype.unsortedForEach = function MappingList_forEach(
         aCallback,
-        aThisArg,
+        aThisArg
       ) {
         this._array.forEach(aCallback, aThisArg)
       }
@@ -1286,7 +1286,7 @@ module.exports = /******/ (() => {
        *
        * @param Object aMapping
        */
-      MappingList.prototype.add = function MappingList_add (aMapping) {
+      MappingList.prototype.add = function MappingList_add(aMapping) {
         if (generatedPositionAfter(this._last, aMapping)) {
           this._last = aMapping
           this._array.push(aMapping)
@@ -1305,7 +1305,7 @@ module.exports = /******/ (() => {
        * an immutable borrow. If you want to take ownership, you must make your own
        * copy.
        */
-      MappingList.prototype.toArray = function MappingList_toArray () {
+      MappingList.prototype.toArray = function MappingList_toArray() {
         if (!this._sorted) {
           this._array.sort(util.compareByGeneratedPositionsInflated)
           this._sorted = true
@@ -1346,7 +1346,7 @@ module.exports = /******/ (() => {
        * @param {Number} y
        *        The index of the second item.
        */
-      function swap (ary, x, y) {
+      function swap(ary, x, y) {
         var temp = ary[x]
         ary[x] = ary[y]
         ary[y] = temp
@@ -1360,7 +1360,7 @@ module.exports = /******/ (() => {
        * @param {Number} high
        *        The upper bound on the range.
        */
-      function randomIntInRange (low, high) {
+      function randomIntInRange(low, high) {
         return Math.round(low + Math.random() * (high - low))
       }
 
@@ -1376,7 +1376,7 @@ module.exports = /******/ (() => {
        * @param {Number} r
        *        End index of the array
        */
-      function doQuickSort (ary, comparator, p, r) {
+      function doQuickSort(ary, comparator, p, r) {
         // If our lower bound is less than our upper bound, we (1) partition the
         // array into two pieces and (2) recurse on each half. If it is not, this is
         // the empty array and our base case.
@@ -1440,7 +1440,7 @@ module.exports = /******/ (() => {
     /***/ 327: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       var __webpack_unused_export__
       /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -1456,7 +1456,7 @@ module.exports = /******/ (() => {
       var base64VLQ = __webpack_require__(215)
       var quickSort = __webpack_require__(226) /* .quickSort */.U
 
-      function SourceMapConsumer (aSourceMap, aSourceMapURL) {
+      function SourceMapConsumer(aSourceMap, aSourceMapURL) {
         var sourceMap = aSourceMap
         if (typeof aSourceMap === 'string') {
           sourceMap = util.parseSourceMapInput(aSourceMap)
@@ -1516,7 +1516,7 @@ module.exports = /******/ (() => {
           }
 
           return this.__generatedMappings
-        },
+        }
       })
 
       SourceMapConsumer.prototype.__originalMappings = null
@@ -1529,12 +1529,12 @@ module.exports = /******/ (() => {
           }
 
           return this.__originalMappings
-        },
+        }
       })
 
-      SourceMapConsumer.prototype._charIsMappingSeparator = function SourceMapConsumer_charIsMappingSeparator (
+      SourceMapConsumer.prototype._charIsMappingSeparator = function SourceMapConsumer_charIsMappingSeparator(
         aStr,
-        index,
+        index
       ) {
         var c = aStr.charAt(index)
         return c === ';' || c === ','
@@ -1545,9 +1545,9 @@ module.exports = /******/ (() => {
        * query (the ordered arrays in the `this.__generatedMappings` and
        * `this.__originalMappings` properties).
        */
-      SourceMapConsumer.prototype._parseMappings = function SourceMapConsumer_parseMappings (
+      SourceMapConsumer.prototype._parseMappings = function SourceMapConsumer_parseMappings(
         aStr,
-        aSourceRoot,
+        aSourceRoot
       ) {
         throw new Error('Subclasses must implement _parseMappings')
       }
@@ -1574,10 +1574,10 @@ module.exports = /******/ (() => {
        *        order or the original's source/line/column order, respectively. Defaults to
        *        `SourceMapConsumer.GENERATED_ORDER`.
        */
-      SourceMapConsumer.prototype.eachMapping = function SourceMapConsumer_eachMapping (
+      SourceMapConsumer.prototype.eachMapping = function SourceMapConsumer_eachMapping(
         aCallback,
         aContext,
-        aOrder,
+        aOrder
       ) {
         var context = aContext || null
         var order = aOrder || SourceMapConsumer.GENERATED_ORDER
@@ -1602,7 +1602,7 @@ module.exports = /******/ (() => {
             source = util.computeSourceURL(
               sourceRoot,
               source,
-              this._sourceMapURL,
+              this._sourceMapURL
             )
             return {
               source: source,
@@ -1610,7 +1610,7 @@ module.exports = /******/ (() => {
               generatedColumn: mapping.generatedColumn,
               originalLine: mapping.originalLine,
               originalColumn: mapping.originalColumn,
-              name: mapping.name === null ? null : this._names.at(mapping.name),
+              name: mapping.name === null ? null : this._names.at(mapping.name)
             }
           }, this)
           .forEach(aCallback, context)
@@ -1638,8 +1638,8 @@ module.exports = /******/ (() => {
        *   - column: The column number in the generated source, or null.
        *    The column number is 0-based.
        */
-      SourceMapConsumer.prototype.allGeneratedPositionsFor = function SourceMapConsumer_allGeneratedPositionsFor (
-        aArgs,
+      SourceMapConsumer.prototype.allGeneratedPositionsFor = function SourceMapConsumer_allGeneratedPositionsFor(
+        aArgs
       ) {
         var line = util.getArg(aArgs, 'line')
 
@@ -1650,7 +1650,7 @@ module.exports = /******/ (() => {
         var needle = {
           source: util.getArg(aArgs, 'source'),
           originalLine: line,
-          originalColumn: util.getArg(aArgs, 'column', 0),
+          originalColumn: util.getArg(aArgs, 'column', 0)
         }
 
         needle.source = this._findSourceIndex(needle.source)
@@ -1666,7 +1666,7 @@ module.exports = /******/ (() => {
           'originalLine',
           'originalColumn',
           util.compareByOriginalPositions,
-          binarySearch.LEAST_UPPER_BOUND,
+          binarySearch.LEAST_UPPER_BOUND
         )
         if (index >= 0) {
           var mapping = this._originalMappings[index]
@@ -1682,7 +1682,7 @@ module.exports = /******/ (() => {
               mappings.push({
                 line: util.getArg(mapping, 'generatedLine', null),
                 column: util.getArg(mapping, 'generatedColumn', null),
-                lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null),
+                lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
               })
 
               mapping = this._originalMappings[++index]
@@ -1702,7 +1702,7 @@ module.exports = /******/ (() => {
               mappings.push({
                 line: util.getArg(mapping, 'generatedLine', null),
                 column: util.getArg(mapping, 'generatedColumn', null),
-                lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null),
+                lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
               })
 
               mapping = this._originalMappings[++index]
@@ -1749,7 +1749,7 @@ module.exports = /******/ (() => {
        *
        * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit?pli=1#
        */
-      function BasicSourceMapConsumer (aSourceMap, aSourceMapURL) {
+      function BasicSourceMapConsumer(aSourceMap, aSourceMapURL) {
         var sourceMap = aSourceMap
         if (typeof aSourceMap === 'string') {
           sourceMap = util.parseSourceMapInput(aSourceMap)
@@ -1812,7 +1812,7 @@ module.exports = /******/ (() => {
       }
 
       BasicSourceMapConsumer.prototype = Object.create(
-        SourceMapConsumer.prototype,
+        SourceMapConsumer.prototype
       )
       BasicSourceMapConsumer.prototype.consumer = SourceMapConsumer
 
@@ -1851,24 +1851,24 @@ module.exports = /******/ (() => {
        *        The URL at which the source map can be found (optional)
        * @returns BasicSourceMapConsumer
        */
-      BasicSourceMapConsumer.fromSourceMap = function SourceMapConsumer_fromSourceMap (
+      BasicSourceMapConsumer.fromSourceMap = function SourceMapConsumer_fromSourceMap(
         aSourceMap,
-        aSourceMapURL,
+        aSourceMapURL
       ) {
         var smc = Object.create(BasicSourceMapConsumer.prototype)
 
         var names = (smc._names = ArraySet.fromArray(
           aSourceMap._names.toArray(),
-          true,
+          true
         ))
         var sources = (smc._sources = ArraySet.fromArray(
           aSourceMap._sources.toArray(),
-          true,
+          true
         ))
         smc.sourceRoot = aSourceMap._sourceRoot
         smc.sourcesContent = aSourceMap._generateSourcesContent(
           smc._sources.toArray(),
-          smc.sourceRoot,
+          smc.sourceRoot
         )
         smc.file = aSourceMap._file
         smc._sourceMapURL = aSourceMapURL
@@ -1922,13 +1922,13 @@ module.exports = /******/ (() => {
       Object.defineProperty(BasicSourceMapConsumer.prototype, 'sources', {
         get: function () {
           return this._absoluteSources.slice()
-        },
+        }
       })
 
       /**
        * Provide the JIT with a nice shape / hidden class.
        */
-      function Mapping () {
+      function Mapping() {
         this.generatedLine = 0
         this.generatedColumn = 0
         this.source = null
@@ -1942,9 +1942,9 @@ module.exports = /******/ (() => {
        * query (the ordered arrays in the `this.__generatedMappings` and
        * `this.__originalMappings` properties).
        */
-      BasicSourceMapConsumer.prototype._parseMappings = function SourceMapConsumer_parseMappings (
+      BasicSourceMapConsumer.prototype._parseMappings = function SourceMapConsumer_parseMappings(
         aStr,
-        aSourceRoot,
+        aSourceRoot
       ) {
         var generatedLine = 1
         var previousGeneratedColumn = 0
@@ -2050,13 +2050,13 @@ module.exports = /******/ (() => {
        * Find the mapping that best matches the hypothetical "needle" mapping that
        * we are searching for in the given "haystack" of mappings.
        */
-      BasicSourceMapConsumer.prototype._findMapping = function SourceMapConsumer_findMapping (
+      BasicSourceMapConsumer.prototype._findMapping = function SourceMapConsumer_findMapping(
         aNeedle,
         aMappings,
         aLineName,
         aColumnName,
         aComparator,
-        aBias,
+        aBias
       ) {
         // To return the position we are searching for, we must first find the
         // mapping for the given position and then return the opposite position it
@@ -2065,14 +2065,13 @@ module.exports = /******/ (() => {
 
         if (aNeedle[aLineName] <= 0) {
           throw new TypeError(
-            'Line must be greater than or equal to 1, got ' +
-              aNeedle[aLineName],
+            'Line must be greater than or equal to 1, got ' + aNeedle[aLineName]
           )
         }
         if (aNeedle[aColumnName] < 0) {
           throw new TypeError(
             'Column must be greater than or equal to 0, got ' +
-              aNeedle[aColumnName],
+              aNeedle[aColumnName]
           )
         }
 
@@ -2083,7 +2082,7 @@ module.exports = /******/ (() => {
        * Compute the last column for each generated mapping. The last column is
        * inclusive.
        */
-      BasicSourceMapConsumer.prototype.computeColumnSpans = function SourceMapConsumer_computeColumnSpans () {
+      BasicSourceMapConsumer.prototype.computeColumnSpans = function SourceMapConsumer_computeColumnSpans() {
         for (var index = 0; index < this._generatedMappings.length; ++index) {
           var mapping = this._generatedMappings[index]
 
@@ -2129,12 +2128,12 @@ module.exports = /******/ (() => {
        *     column number is 0-based.
        *   - name: The original identifier, or null.
        */
-      BasicSourceMapConsumer.prototype.originalPositionFor = function SourceMapConsumer_originalPositionFor (
-        aArgs,
+      BasicSourceMapConsumer.prototype.originalPositionFor = function SourceMapConsumer_originalPositionFor(
+        aArgs
       ) {
         var needle = {
           generatedLine: util.getArg(aArgs, 'line'),
-          generatedColumn: util.getArg(aArgs, 'column'),
+          generatedColumn: util.getArg(aArgs, 'column')
         }
 
         var index = this._findMapping(
@@ -2143,7 +2142,7 @@ module.exports = /******/ (() => {
           'generatedLine',
           'generatedColumn',
           util.compareByGeneratedPositionsDeflated,
-          util.getArg(aArgs, 'bias', SourceMapConsumer.GREATEST_LOWER_BOUND),
+          util.getArg(aArgs, 'bias', SourceMapConsumer.GREATEST_LOWER_BOUND)
         )
 
         if (index >= 0) {
@@ -2156,7 +2155,7 @@ module.exports = /******/ (() => {
               source = util.computeSourceURL(
                 this.sourceRoot,
                 source,
-                this._sourceMapURL,
+                this._sourceMapURL
               )
             }
             var name = util.getArg(mapping, 'name', null)
@@ -2167,7 +2166,7 @@ module.exports = /******/ (() => {
               source: source,
               line: util.getArg(mapping, 'originalLine', null),
               column: util.getArg(mapping, 'originalColumn', null),
-              name: name,
+              name: name
             }
           }
         }
@@ -2176,7 +2175,7 @@ module.exports = /******/ (() => {
           source: null,
           line: null,
           column: null,
-          name: null,
+          name: null
         }
       }
 
@@ -2184,7 +2183,7 @@ module.exports = /******/ (() => {
        * Return true if we have the source content for every source in the source
        * map, false otherwise.
        */
-      BasicSourceMapConsumer.prototype.hasContentsOfAllSources = function BasicSourceMapConsumer_hasContentsOfAllSources () {
+      BasicSourceMapConsumer.prototype.hasContentsOfAllSources = function BasicSourceMapConsumer_hasContentsOfAllSources() {
         if (!this.sourcesContent) {
           return false
         }
@@ -2201,9 +2200,9 @@ module.exports = /******/ (() => {
        * original source file. Returns null if no original source content is
        * available.
        */
-      BasicSourceMapConsumer.prototype.sourceContentFor = function SourceMapConsumer_sourceContentFor (
+      BasicSourceMapConsumer.prototype.sourceContentFor = function SourceMapConsumer_sourceContentFor(
         aSource,
-        nullOnMissing,
+        nullOnMissing
       ) {
         if (!this.sourcesContent) {
           return null
@@ -2274,8 +2273,8 @@ module.exports = /******/ (() => {
        *   - column: The column number in the generated source, or null.
        *     The column number is 0-based.
        */
-      BasicSourceMapConsumer.prototype.generatedPositionFor = function SourceMapConsumer_generatedPositionFor (
-        aArgs,
+      BasicSourceMapConsumer.prototype.generatedPositionFor = function SourceMapConsumer_generatedPositionFor(
+        aArgs
       ) {
         var source = util.getArg(aArgs, 'source')
         source = this._findSourceIndex(source)
@@ -2283,14 +2282,14 @@ module.exports = /******/ (() => {
           return {
             line: null,
             column: null,
-            lastColumn: null,
+            lastColumn: null
           }
         }
 
         var needle = {
           source: source,
           originalLine: util.getArg(aArgs, 'line'),
-          originalColumn: util.getArg(aArgs, 'column'),
+          originalColumn: util.getArg(aArgs, 'column')
         }
 
         var index = this._findMapping(
@@ -2299,7 +2298,7 @@ module.exports = /******/ (() => {
           'originalLine',
           'originalColumn',
           util.compareByOriginalPositions,
-          util.getArg(aArgs, 'bias', SourceMapConsumer.GREATEST_LOWER_BOUND),
+          util.getArg(aArgs, 'bias', SourceMapConsumer.GREATEST_LOWER_BOUND)
         )
 
         if (index >= 0) {
@@ -2309,7 +2308,7 @@ module.exports = /******/ (() => {
             return {
               line: util.getArg(mapping, 'generatedLine', null),
               column: util.getArg(mapping, 'generatedColumn', null),
-              lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null),
+              lastColumn: util.getArg(mapping, 'lastGeneratedColumn', null)
             }
           }
         }
@@ -2317,7 +2316,7 @@ module.exports = /******/ (() => {
         return {
           line: null,
           column: null,
-          lastColumn: null,
+          lastColumn: null
         }
       }
 
@@ -2372,7 +2371,7 @@ module.exports = /******/ (() => {
        *
        * [0]: https://docs.google.com/document/d/1U1RGAehQwRypUTovF1KRlpiOFze0b-_2gc6fAH0KY0k/edit#heading=h.535es3xeprgt
        */
-      function IndexedSourceMapConsumer (aSourceMap, aSourceMapURL) {
+      function IndexedSourceMapConsumer(aSourceMap, aSourceMapURL) {
         var sourceMap = aSourceMap
         if (typeof aSourceMap === 'string') {
           sourceMap = util.parseSourceMapInput(aSourceMap)
@@ -2390,14 +2389,14 @@ module.exports = /******/ (() => {
 
         var lastOffset = {
           line: -1,
-          column: 0,
+          column: 0
         }
         this._sections = sections.map(function (s) {
           if (s.url) {
             // The url field will require support for asynchronicity.
             // See https://github.com/mozilla/source-map/issues/16
             throw new Error(
-              'Support for url field in sections not implemented.',
+              'Support for url field in sections not implemented.'
             )
           }
           var offset = util.getArg(s, 'offset')
@@ -2409,7 +2408,7 @@ module.exports = /******/ (() => {
             (offsetLine === lastOffset.line && offsetColumn < lastOffset.column)
           ) {
             throw new Error(
-              'Section offsets must be ordered and non-overlapping.',
+              'Section offsets must be ordered and non-overlapping.'
             )
           }
           lastOffset = offset
@@ -2419,18 +2418,18 @@ module.exports = /******/ (() => {
               // The offset fields are 0-based, but we use 1-based indices when
               // encoding/decoding from VLQ.
               generatedLine: offsetLine + 1,
-              generatedColumn: offsetColumn + 1,
+              generatedColumn: offsetColumn + 1
             },
             consumer: new SourceMapConsumer(
               util.getArg(s, 'map'),
-              aSourceMapURL,
-            ),
+              aSourceMapURL
+            )
           }
         })
       }
 
       IndexedSourceMapConsumer.prototype = Object.create(
-        SourceMapConsumer.prototype,
+        SourceMapConsumer.prototype
       )
       IndexedSourceMapConsumer.prototype.constructor = SourceMapConsumer
 
@@ -2455,7 +2454,7 @@ module.exports = /******/ (() => {
             }
           }
           return sources
-        },
+        }
       })
 
       /**
@@ -2477,12 +2476,12 @@ module.exports = /******/ (() => {
        *     column number is 0-based.
        *   - name: The original identifier, or null.
        */
-      IndexedSourceMapConsumer.prototype.originalPositionFor = function IndexedSourceMapConsumer_originalPositionFor (
-        aArgs,
+      IndexedSourceMapConsumer.prototype.originalPositionFor = function IndexedSourceMapConsumer_originalPositionFor(
+        aArgs
       ) {
         var needle = {
           generatedLine: util.getArg(aArgs, 'line'),
-          generatedColumn: util.getArg(aArgs, 'column'),
+          generatedColumn: util.getArg(aArgs, 'column')
         }
 
         // Find the section containing the generated position we're trying to map
@@ -2500,7 +2499,7 @@ module.exports = /******/ (() => {
             return (
               needle.generatedColumn - section.generatedOffset.generatedColumn
             )
-          },
+          }
         )
         var section = this._sections[sectionIndex]
 
@@ -2509,7 +2508,7 @@ module.exports = /******/ (() => {
             source: null,
             line: null,
             column: null,
-            name: null,
+            name: null
           }
         }
 
@@ -2521,7 +2520,7 @@ module.exports = /******/ (() => {
             (section.generatedOffset.generatedLine === needle.generatedLine
               ? section.generatedOffset.generatedColumn - 1
               : 0),
-          bias: aArgs.bias,
+          bias: aArgs.bias
         })
       }
 
@@ -2529,7 +2528,7 @@ module.exports = /******/ (() => {
        * Return true if we have the source content for every source in the source
        * map, false otherwise.
        */
-      IndexedSourceMapConsumer.prototype.hasContentsOfAllSources = function IndexedSourceMapConsumer_hasContentsOfAllSources () {
+      IndexedSourceMapConsumer.prototype.hasContentsOfAllSources = function IndexedSourceMapConsumer_hasContentsOfAllSources() {
         return this._sections.every(function (s) {
           return s.consumer.hasContentsOfAllSources()
         })
@@ -2540,9 +2539,9 @@ module.exports = /******/ (() => {
        * original source file. Returns null if no original source content is
        * available.
        */
-      IndexedSourceMapConsumer.prototype.sourceContentFor = function IndexedSourceMapConsumer_sourceContentFor (
+      IndexedSourceMapConsumer.prototype.sourceContentFor = function IndexedSourceMapConsumer_sourceContentFor(
         aSource,
-        nullOnMissing,
+        nullOnMissing
       ) {
         for (var i = 0; i < this._sections.length; i++) {
           var section = this._sections[i]
@@ -2577,8 +2576,8 @@ module.exports = /******/ (() => {
        *   - column: The column number in the generated source, or null.
        *     The column number is 0-based.
        */
-      IndexedSourceMapConsumer.prototype.generatedPositionFor = function IndexedSourceMapConsumer_generatedPositionFor (
-        aArgs,
+      IndexedSourceMapConsumer.prototype.generatedPositionFor = function IndexedSourceMapConsumer_generatedPositionFor(
+        aArgs
       ) {
         for (var i = 0; i < this._sections.length; i++) {
           var section = this._sections[i]
@@ -2602,7 +2601,7 @@ module.exports = /******/ (() => {
                 (section.generatedOffset.generatedLine ===
                 generatedPosition.line
                   ? section.generatedOffset.generatedColumn - 1
-                  : 0),
+                  : 0)
             }
             return ret
           }
@@ -2610,7 +2609,7 @@ module.exports = /******/ (() => {
 
         return {
           line: null,
-          column: null,
+          column: null
         }
       }
 
@@ -2619,9 +2618,9 @@ module.exports = /******/ (() => {
        * query (the ordered arrays in the `this.__generatedMappings` and
        * `this.__originalMappings` properties).
        */
-      IndexedSourceMapConsumer.prototype._parseMappings = function IndexedSourceMapConsumer_parseMappings (
+      IndexedSourceMapConsumer.prototype._parseMappings = function IndexedSourceMapConsumer_parseMappings(
         aStr,
-        aSourceRoot,
+        aSourceRoot
       ) {
         this.__generatedMappings = []
         this.__originalMappings = []
@@ -2635,7 +2634,7 @@ module.exports = /******/ (() => {
             source = util.computeSourceURL(
               section.consumer.sourceRoot,
               source,
-              this._sourceMapURL,
+              this._sourceMapURL
             )
             this._sources.add(source)
             source = this._sources.indexOf(source)
@@ -2663,7 +2662,7 @@ module.exports = /******/ (() => {
                   : 0),
               originalLine: mapping.originalLine,
               originalColumn: mapping.originalColumn,
-              name: name,
+              name: name
             }
 
             this.__generatedMappings.push(adjustedMapping)
@@ -2675,7 +2674,7 @@ module.exports = /******/ (() => {
 
         quickSort(
           this.__generatedMappings,
-          util.compareByGeneratedPositionsDeflated,
+          util.compareByGeneratedPositionsDeflated
         )
         quickSort(this.__originalMappings, util.compareByOriginalPositions)
       }
@@ -2688,7 +2687,7 @@ module.exports = /******/ (() => {
     /***/ 341: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       /* -*- Mode: js; js-indent-level: 2; -*- */
       /*
@@ -2710,7 +2709,7 @@ module.exports = /******/ (() => {
        *   - file: The filename of the generated source.
        *   - sourceRoot: A root for all relative URLs in this source map.
        */
-      function SourceMapGenerator (aArgs) {
+      function SourceMapGenerator(aArgs) {
         if (!aArgs) {
           aArgs = {}
         }
@@ -2730,20 +2729,20 @@ module.exports = /******/ (() => {
        *
        * @param aSourceMapConsumer The SourceMap.
        */
-      SourceMapGenerator.fromSourceMap = function SourceMapGenerator_fromSourceMap (
-        aSourceMapConsumer,
+      SourceMapGenerator.fromSourceMap = function SourceMapGenerator_fromSourceMap(
+        aSourceMapConsumer
       ) {
         var sourceRoot = aSourceMapConsumer.sourceRoot
         var generator = new SourceMapGenerator({
           file: aSourceMapConsumer.file,
-          sourceRoot: sourceRoot,
+          sourceRoot: sourceRoot
         })
         aSourceMapConsumer.eachMapping(function (mapping) {
           var newMapping = {
             generated: {
               line: mapping.generatedLine,
-              column: mapping.generatedColumn,
-            },
+              column: mapping.generatedColumn
+            }
           }
 
           if (mapping.source != null) {
@@ -2754,7 +2753,7 @@ module.exports = /******/ (() => {
 
             newMapping.original = {
               line: mapping.originalLine,
-              column: mapping.originalColumn,
+              column: mapping.originalColumn
             }
 
             if (mapping.name != null) {
@@ -2792,8 +2791,8 @@ module.exports = /******/ (() => {
        *   - source: The original source file (relative to the sourceRoot).
        *   - name: An optional original token name for this mapping.
        */
-      SourceMapGenerator.prototype.addMapping = function SourceMapGenerator_addMapping (
-        aArgs,
+      SourceMapGenerator.prototype.addMapping = function SourceMapGenerator_addMapping(
+        aArgs
       ) {
         var generated = util.getArg(aArgs, 'generated')
         var original = util.getArg(aArgs, 'original', null)
@@ -2824,16 +2823,16 @@ module.exports = /******/ (() => {
           originalLine: original != null && original.line,
           originalColumn: original != null && original.column,
           source: source,
-          name: name,
+          name: name
         })
       }
 
       /**
        * Set the source content for a source file.
        */
-      SourceMapGenerator.prototype.setSourceContent = function SourceMapGenerator_setSourceContent (
+      SourceMapGenerator.prototype.setSourceContent = function SourceMapGenerator_setSourceContent(
         aSourceFile,
-        aSourceContent,
+        aSourceContent
       ) {
         var source = aSourceFile
         if (this._sourceRoot != null) {
@@ -2873,10 +2872,10 @@ module.exports = /******/ (() => {
        *        paths. If so, those relative source paths need to be rewritten
        *        relative to the SourceMapGenerator.
        */
-      SourceMapGenerator.prototype.applySourceMap = function SourceMapGenerator_applySourceMap (
+      SourceMapGenerator.prototype.applySourceMap = function SourceMapGenerator_applySourceMap(
         aSourceMapConsumer,
         aSourceFile,
-        aSourceMapPath,
+        aSourceMapPath
       ) {
         var sourceFile = aSourceFile
         // If aSourceFile is omitted, we will use the file property of the SourceMap
@@ -2884,7 +2883,7 @@ module.exports = /******/ (() => {
           if (aSourceMapConsumer.file == null) {
             throw new Error(
               'SourceMapGenerator.prototype.applySourceMap requires either an explicit source file, ' +
-                'or the source map\'s "file" property. Both were omitted.',
+                'or the source map\'s "file" property. Both were omitted.'
             )
           }
           sourceFile = aSourceMapConsumer.file
@@ -2905,7 +2904,7 @@ module.exports = /******/ (() => {
             // Check if it can be mapped by the source map, then update the mapping.
             var original = aSourceMapConsumer.originalPositionFor({
               line: mapping.originalLine,
-              column: mapping.originalColumn,
+              column: mapping.originalColumn
             })
             if (original.source != null) {
               // Copy mapping
@@ -2963,11 +2962,11 @@ module.exports = /******/ (() => {
        * To maintain consistency, we validate that any new mapping being added falls
        * in to one of these categories.
        */
-      SourceMapGenerator.prototype._validateMapping = function SourceMapGenerator_validateMapping (
+      SourceMapGenerator.prototype._validateMapping = function SourceMapGenerator_validateMapping(
         aGenerated,
         aOriginal,
         aSource,
-        aName,
+        aName
       ) {
         // When aOriginal is truthy but has empty values for .line and .column,
         // it is most likely a programmer error. In this case we throw a very
@@ -2981,7 +2980,7 @@ module.exports = /******/ (() => {
           throw new Error(
             'original.line and original.column are not numbers -- you probably meant to omit ' +
               'the original mapping entirely and only map the generated position. If so, pass ' +
-              'null for the original mapping instead of an object with empty or null values.',
+              'null for the original mapping instead of an object with empty or null values.'
           )
         }
 
@@ -3019,8 +3018,8 @@ module.exports = /******/ (() => {
                 generated: aGenerated,
                 source: aSource,
                 original: aOriginal,
-                name: aName,
-              }),
+                name: aName
+              })
           )
         }
       }
@@ -3029,7 +3028,7 @@ module.exports = /******/ (() => {
        * Serialize the accumulated mappings in to the stream of base 64 VLQs
        * specified by the source map format.
        */
-      SourceMapGenerator.prototype._serializeMappings = function SourceMapGenerator_serializeMappings () {
+      SourceMapGenerator.prototype._serializeMappings = function SourceMapGenerator_serializeMappings() {
         var previousGeneratedColumn = 0
         var previousGeneratedLine = 1
         var previousOriginalColumn = 0
@@ -3058,7 +3057,7 @@ module.exports = /******/ (() => {
               if (
                 !util.compareByGeneratedPositionsInflated(
                   mapping,
-                  mappings[i - 1],
+                  mappings[i - 1]
                 )
               ) {
                 continue
@@ -3068,7 +3067,7 @@ module.exports = /******/ (() => {
           }
 
           next += base64VLQ.encode(
-            mapping.generatedColumn - previousGeneratedColumn,
+            mapping.generatedColumn - previousGeneratedColumn
           )
           previousGeneratedColumn = mapping.generatedColumn
 
@@ -3079,12 +3078,12 @@ module.exports = /******/ (() => {
 
             // lines are stored 0-based in SourceMap spec version 3
             next += base64VLQ.encode(
-              mapping.originalLine - 1 - previousOriginalLine,
+              mapping.originalLine - 1 - previousOriginalLine
             )
             previousOriginalLine = mapping.originalLine - 1
 
             next += base64VLQ.encode(
-              mapping.originalColumn - previousOriginalColumn,
+              mapping.originalColumn - previousOriginalColumn
             )
             previousOriginalColumn = mapping.originalColumn
 
@@ -3101,9 +3100,9 @@ module.exports = /******/ (() => {
         return result
       }
 
-      SourceMapGenerator.prototype._generateSourcesContent = function SourceMapGenerator_generateSourcesContent (
+      SourceMapGenerator.prototype._generateSourcesContent = function SourceMapGenerator_generateSourcesContent(
         aSources,
-        aSourceRoot,
+        aSourceRoot
       ) {
         return aSources.map(function (source) {
           if (!this._sourcesContents) {
@@ -3115,7 +3114,7 @@ module.exports = /******/ (() => {
           var key = util.toSetString(source)
           return Object.prototype.hasOwnProperty.call(
             this._sourcesContents,
-            key,
+            key
           )
             ? this._sourcesContents[key]
             : null
@@ -3125,12 +3124,12 @@ module.exports = /******/ (() => {
       /**
        * Externalize the source map.
        */
-      SourceMapGenerator.prototype.toJSON = function SourceMapGenerator_toJSON () {
+      SourceMapGenerator.prototype.toJSON = function SourceMapGenerator_toJSON() {
         var map = {
           version: this._version,
           sources: this._sources.toArray(),
           names: this._names.toArray(),
-          mappings: this._serializeMappings(),
+          mappings: this._serializeMappings()
         }
         if (this._file != null) {
           map.file = this._file
@@ -3141,7 +3140,7 @@ module.exports = /******/ (() => {
         if (this._sourcesContents) {
           map.sourcesContent = this._generateSourcesContent(
             map.sources,
-            map.sourceRoot,
+            map.sourceRoot
           )
         }
 
@@ -3151,7 +3150,7 @@ module.exports = /******/ (() => {
       /**
        * Render the source map being generated to a string.
        */
-      SourceMapGenerator.prototype.toString = function SourceMapGenerator_toString () {
+      SourceMapGenerator.prototype.toString = function SourceMapGenerator_toString() {
         return JSON.stringify(this.toJSON())
       }
 
@@ -3163,7 +3162,7 @@ module.exports = /******/ (() => {
     /***/ 990: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       var __webpack_unused_export__
       /* -*- Mode: js; js-indent-level: 2; -*- */
@@ -3174,7 +3173,7 @@ module.exports = /******/ (() => {
        */
 
       var SourceMapGenerator = __webpack_require__(
-        341,
+        341
       ) /* .SourceMapGenerator */.h
       var util = __webpack_require__(983)
 
@@ -3202,7 +3201,7 @@ module.exports = /******/ (() => {
        *        generated JS, or other SourceNodes.
        * @param aName The original identifier.
        */
-      function SourceNode (aLine, aColumn, aSource, aChunks, aName) {
+      function SourceNode(aLine, aColumn, aSource, aChunks, aName) {
         this.children = []
         this.sourceContents = {}
         this.line = aLine == null ? null : aLine
@@ -3221,10 +3220,10 @@ module.exports = /******/ (() => {
        * @param aRelativePath Optional. The path that relative sources in the
        *        SourceMapConsumer should be relative to.
        */
-      SourceNode.fromStringWithSourceMap = function SourceNode_fromStringWithSourceMap (
+      SourceNode.fromStringWithSourceMap = function SourceNode_fromStringWithSourceMap(
         aGeneratedCode,
         aSourceMapConsumer,
-        aRelativePath,
+        aRelativePath
       ) {
         // The SourceNode we want to fill with the generated code
         // and the SourceMap
@@ -3242,7 +3241,7 @@ module.exports = /******/ (() => {
           var newLine = getNextLine() || ''
           return lineContents + newLine
 
-          function getNextLine () {
+          function getNextLine() {
             return remainingLinesIndex < remainingLines.length
               ? remainingLines[remainingLinesIndex++]
               : undefined
@@ -3275,10 +3274,10 @@ module.exports = /******/ (() => {
               var nextLine = remainingLines[remainingLinesIndex] || ''
               var code = nextLine.substr(
                 0,
-                mapping.generatedColumn - lastGeneratedColumn,
+                mapping.generatedColumn - lastGeneratedColumn
               )
               remainingLines[remainingLinesIndex] = nextLine.substr(
-                mapping.generatedColumn - lastGeneratedColumn,
+                mapping.generatedColumn - lastGeneratedColumn
               )
               lastGeneratedColumn = mapping.generatedColumn
               addMappingWithCode(lastMapping, code)
@@ -3298,7 +3297,7 @@ module.exports = /******/ (() => {
             var nextLine = remainingLines[remainingLinesIndex] || ''
             node.add(nextLine.substr(0, mapping.generatedColumn))
             remainingLines[remainingLinesIndex] = nextLine.substr(
-              mapping.generatedColumn,
+              mapping.generatedColumn
             )
             lastGeneratedColumn = mapping.generatedColumn
           }
@@ -3327,7 +3326,7 @@ module.exports = /******/ (() => {
 
         return node
 
-        function addMappingWithCode (mapping, code) {
+        function addMappingWithCode(mapping, code) {
           if (mapping === null || mapping.source === undefined) {
             node.add(code)
           } else {
@@ -3340,8 +3339,8 @@ module.exports = /******/ (() => {
                 mapping.originalColumn,
                 source,
                 code,
-                mapping.name,
-              ),
+                mapping.name
+              )
             )
           }
         }
@@ -3353,7 +3352,7 @@ module.exports = /******/ (() => {
        * @param aChunk A string snippet of generated JS code, another instance of
        *        SourceNode, or an array where each member is one of those things.
        */
-      SourceNode.prototype.add = function SourceNode_add (aChunk) {
+      SourceNode.prototype.add = function SourceNode_add(aChunk) {
         if (Array.isArray(aChunk)) {
           aChunk.forEach(function (chunk) {
             this.add(chunk)
@@ -3365,7 +3364,7 @@ module.exports = /******/ (() => {
         } else {
           throw new TypeError(
             'Expected a SourceNode, string, or an array of SourceNodes and strings. Got ' +
-              aChunk,
+              aChunk
           )
         }
         return this
@@ -3377,7 +3376,7 @@ module.exports = /******/ (() => {
        * @param aChunk A string snippet of generated JS code, another instance of
        *        SourceNode, or an array where each member is one of those things.
        */
-      SourceNode.prototype.prepend = function SourceNode_prepend (aChunk) {
+      SourceNode.prototype.prepend = function SourceNode_prepend(aChunk) {
         if (Array.isArray(aChunk)) {
           for (var i = aChunk.length - 1; i >= 0; i--) {
             this.prepend(aChunk[i])
@@ -3387,7 +3386,7 @@ module.exports = /******/ (() => {
         } else {
           throw new TypeError(
             'Expected a SourceNode, string, or an array of SourceNodes and strings. Got ' +
-              aChunk,
+              aChunk
           )
         }
         return this
@@ -3400,7 +3399,7 @@ module.exports = /******/ (() => {
        *
        * @param aFn The traversal function.
        */
-      SourceNode.prototype.walk = function SourceNode_walk (aFn) {
+      SourceNode.prototype.walk = function SourceNode_walk(aFn) {
         var chunk
         for (var i = 0, len = this.children.length; i < len; i++) {
           chunk = this.children[i]
@@ -3412,7 +3411,7 @@ module.exports = /******/ (() => {
                 source: this.source,
                 line: this.line,
                 column: this.column,
-                name: this.name,
+                name: this.name
               })
             }
           }
@@ -3425,7 +3424,7 @@ module.exports = /******/ (() => {
        *
        * @param aSep The separator.
        */
-      SourceNode.prototype.join = function SourceNode_join (aSep) {
+      SourceNode.prototype.join = function SourceNode_join(aSep) {
         var newChildren
         var i
         var len = this.children.length
@@ -3448,9 +3447,9 @@ module.exports = /******/ (() => {
        * @param aPattern The pattern to replace.
        * @param aReplacement The thing to replace the pattern with.
        */
-      SourceNode.prototype.replaceRight = function SourceNode_replaceRight (
+      SourceNode.prototype.replaceRight = function SourceNode_replaceRight(
         aPattern,
-        aReplacement,
+        aReplacement
       ) {
         var lastChild = this.children[this.children.length - 1]
         if (lastChild[isSourceNode]) {
@@ -3458,7 +3457,7 @@ module.exports = /******/ (() => {
         } else if (typeof lastChild === 'string') {
           this.children[this.children.length - 1] = lastChild.replace(
             aPattern,
-            aReplacement,
+            aReplacement
           )
         } else {
           this.children.push(''.replace(aPattern, aReplacement))
@@ -3473,9 +3472,9 @@ module.exports = /******/ (() => {
        * @param aSourceFile The filename of the source file
        * @param aSourceContent The content of the source file
        */
-      SourceNode.prototype.setSourceContent = function SourceNode_setSourceContent (
+      SourceNode.prototype.setSourceContent = function SourceNode_setSourceContent(
         aSourceFile,
-        aSourceContent,
+        aSourceContent
       ) {
         this.sourceContents[util.toSetString(aSourceFile)] = aSourceContent
       }
@@ -3486,8 +3485,8 @@ module.exports = /******/ (() => {
        *
        * @param aFn The traversal function.
        */
-      SourceNode.prototype.walkSourceContents = function SourceNode_walkSourceContents (
-        aFn,
+      SourceNode.prototype.walkSourceContents = function SourceNode_walkSourceContents(
+        aFn
       ) {
         for (var i = 0, len = this.children.length; i < len; i++) {
           if (this.children[i][isSourceNode]) {
@@ -3505,7 +3504,7 @@ module.exports = /******/ (() => {
        * Return the string representation of this source node. Walks over the tree
        * and concatenates all the various snippets together to one string.
        */
-      SourceNode.prototype.toString = function SourceNode_toString () {
+      SourceNode.prototype.toString = function SourceNode_toString() {
         var str = ''
         this.walk(function (chunk) {
           str += chunk
@@ -3517,13 +3516,13 @@ module.exports = /******/ (() => {
        * Returns the string representation of this source node along with a source
        * map.
        */
-      SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap (
-        aArgs,
+      SourceNode.prototype.toStringWithSourceMap = function SourceNode_toStringWithSourceMap(
+        aArgs
       ) {
         var generated = {
           code: '',
           line: 1,
-          column: 0,
+          column: 0
         }
         var map = new SourceMapGenerator(aArgs)
         var sourceMappingActive = false
@@ -3548,13 +3547,13 @@ module.exports = /******/ (() => {
                 source: original.source,
                 original: {
                   line: original.line,
-                  column: original.column,
+                  column: original.column
                 },
                 generated: {
                   line: generated.line,
-                  column: generated.column,
+                  column: generated.column
                 },
-                name: original.name,
+                name: original.name
               })
             }
             lastOriginalSource = original.source
@@ -3566,8 +3565,8 @@ module.exports = /******/ (() => {
             map.addMapping({
               generated: {
                 line: generated.line,
-                column: generated.column,
-              },
+                column: generated.column
+              }
             })
             lastOriginalSource = null
             sourceMappingActive = false
@@ -3585,13 +3584,13 @@ module.exports = /******/ (() => {
                   source: original.source,
                   original: {
                     line: original.line,
-                    column: original.column,
+                    column: original.column
                   },
                   generated: {
                     line: generated.line,
-                    column: generated.column,
+                    column: generated.column
                   },
-                  name: original.name,
+                  name: original.name
                 })
               }
             } else {
@@ -3629,7 +3628,7 @@ module.exports = /******/ (() => {
        * from the object. If this is not specified and the property is missing, an
        * error will be thrown.
        */
-      function getArg (aArgs, aName, aDefaultValue) {
+      function getArg(aArgs, aName, aDefaultValue) {
         if (aName in aArgs) {
           return aArgs[aName]
         } else if (arguments.length === 3) {
@@ -3643,7 +3642,7 @@ module.exports = /******/ (() => {
       var urlRegexp = /^(?:([\w+\-.]+):)?\/\/(?:(\w+:\w+)@)?([\w.-]*)(?::(\d+))?(.*)$/
       var dataUrlRegexp = /^data:.+\,.+$/
 
-      function urlParse (aUrl) {
+      function urlParse(aUrl) {
         var match = aUrl.match(urlRegexp)
         if (!match) {
           return null
@@ -3653,12 +3652,12 @@ module.exports = /******/ (() => {
           auth: match[2],
           host: match[3],
           port: match[4],
-          path: match[5],
+          path: match[5]
         }
       }
       exports.urlParse = urlParse
 
-      function urlGenerate (aParsedUrl) {
+      function urlGenerate(aParsedUrl) {
         var url = ''
         if (aParsedUrl.scheme) {
           url += aParsedUrl.scheme + ':'
@@ -3691,7 +3690,7 @@ module.exports = /******/ (() => {
        *
        * @param aPath The path or url to normalize.
        */
-      function normalize (aPath) {
+      function normalize(aPath) {
         var path = aPath
         var url = urlParse(aPath)
         if (url) {
@@ -3752,7 +3751,7 @@ module.exports = /******/ (() => {
        *   - Otherwise the two paths are joined with a slash.
        * - Joining for example 'http://' and 'www.example.com' is also supported.
        */
-      function join (aRoot, aPath) {
+      function join(aRoot, aPath) {
         if (aRoot === '') {
           aRoot = '.'
         }
@@ -3806,7 +3805,7 @@ module.exports = /******/ (() => {
        * @param aRoot The root path or URL.
        * @param aPath The path or URL to be made relative to aRoot.
        */
-      function relative (aRoot, aPath) {
+      function relative(aRoot, aPath) {
         if (aRoot === '') {
           aRoot = '.'
         }
@@ -3845,7 +3844,7 @@ module.exports = /******/ (() => {
         return !('__proto__' in obj)
       })()
 
-      function identity (s) {
+      function identity(s) {
         return s
       }
 
@@ -3858,7 +3857,7 @@ module.exports = /******/ (() => {
        *
        * @param String aStr
        */
-      function toSetString (aStr) {
+      function toSetString(aStr) {
         if (isProtoString(aStr)) {
           return '$' + aStr
         }
@@ -3867,7 +3866,7 @@ module.exports = /******/ (() => {
       }
       exports.toSetString = supportsNullProto ? identity : toSetString
 
-      function fromSetString (aStr) {
+      function fromSetString(aStr) {
         if (isProtoString(aStr)) {
           return aStr.slice(1)
         }
@@ -3876,7 +3875,7 @@ module.exports = /******/ (() => {
       }
       exports.fromSetString = supportsNullProto ? identity : fromSetString
 
-      function isProtoString (s) {
+      function isProtoString(s) {
         if (!s) {
           return false
         }
@@ -3918,10 +3917,10 @@ module.exports = /******/ (() => {
        * line and column the same. Useful when searching for a mapping with a
        * stubbed out mapping.
        */
-      function compareByOriginalPositions (
+      function compareByOriginalPositions(
         mappingA,
         mappingB,
-        onlyCompareOriginal,
+        onlyCompareOriginal
       ) {
         var cmp = strcmp(mappingA.source, mappingB.source)
         if (cmp !== 0) {
@@ -3961,10 +3960,10 @@ module.exports = /******/ (() => {
        * source/name/original line and column the same. Useful when searching for a
        * mapping with a stubbed out mapping.
        */
-      function compareByGeneratedPositionsDeflated (
+      function compareByGeneratedPositionsDeflated(
         mappingA,
         mappingB,
-        onlyCompareGenerated,
+        onlyCompareGenerated
       ) {
         var cmp = mappingA.generatedLine - mappingB.generatedLine
         if (cmp !== 0) {
@@ -3995,7 +3994,7 @@ module.exports = /******/ (() => {
       }
       exports.compareByGeneratedPositionsDeflated = compareByGeneratedPositionsDeflated
 
-      function strcmp (aStr1, aStr2) {
+      function strcmp(aStr1, aStr2) {
         if (aStr1 === aStr2) {
           return 0
         }
@@ -4019,7 +4018,7 @@ module.exports = /******/ (() => {
        * Comparator between two mappings with inflated source and name strings where
        * the generated positions are compared.
        */
-      function compareByGeneratedPositionsInflated (mappingA, mappingB) {
+      function compareByGeneratedPositionsInflated(mappingA, mappingB) {
         var cmp = mappingA.generatedLine - mappingB.generatedLine
         if (cmp !== 0) {
           return cmp
@@ -4054,7 +4053,7 @@ module.exports = /******/ (() => {
        * in the source maps specification), and then parse the string as
        * JSON.
        */
-      function parseSourceMapInput (str) {
+      function parseSourceMapInput(str) {
         return JSON.parse(str.replace(/^\)]}'[^\n]*\n/, ''))
       }
       exports.parseSourceMapInput = parseSourceMapInput
@@ -4063,7 +4062,7 @@ module.exports = /******/ (() => {
        * Compute the URL of a source given the the source root, the source's
        * URL, and the source map's URL.
        */
-      function computeSourceURL (sourceRoot, sourceURL, sourceMapURL) {
+      function computeSourceURL(sourceRoot, sourceURL, sourceMapURL) {
         sourceURL = sourceURL || ''
 
         if (sourceRoot) {
@@ -4121,7 +4120,7 @@ module.exports = /******/ (() => {
     /***/ 596: /***/ (
       __unused_webpack_module,
       exports,
-      __webpack_require__,
+      __webpack_require__
     ) => {
       /*
        * Copyright 2009-2011 Mozilla Foundation and contributors
@@ -4135,34 +4134,33 @@ module.exports = /******/ (() => {
       /***/
     },
 
-    /***/ 747: /***/ (module) => {
+    /***/ 747: /***/ module => {
       'use strict'
       module.exports = require('fs')
 
       /***/
     },
 
-    /***/ 282: /***/ (module) => {
+    /***/ 282: /***/ module => {
       'use strict'
       module.exports = require('module')
 
       /***/
     },
 
-    /***/ 622: /***/ (module) => {
+    /***/ 622: /***/ module => {
       'use strict'
       module.exports = require('path')
 
       /***/
-    },
+    }
 
     /******/
   } // The module cache
   /************************************************************************/
   /******/ /******/ var __webpack_module_cache__ = {} // The require function
   /******/
-
-  /******/ /******/ function __webpack_require__ (moduleId) {
+  /******/ /******/ function __webpack_require__(moduleId) {
     /******/ // Check if module is in cache
     /******/ if (__webpack_module_cache__[moduleId]) {
       /******/ return __webpack_module_cache__[moduleId].exports
@@ -4171,17 +4169,16 @@ module.exports = /******/ (() => {
     /******/ /******/ var module = (__webpack_module_cache__[moduleId] = {
       /******/ // no module.id needed
       /******/ // no module.loaded needed
-      /******/ exports: {},
+      /******/ exports: {}
       /******/
     }) // Execute the module function
     /******/
-
     /******/ /******/ var threw = true
     /******/ try {
       /******/ __webpack_modules__[moduleId](
         module,
         module.exports,
-        __webpack_require__,
+        __webpack_require__
       )
       /******/ threw = false
       /******/
@@ -4190,15 +4187,12 @@ module.exports = /******/ (() => {
       /******/
     } // Return the exports of the module
     /******/
-
     /******/ /******/ return module.exports
     /******/
   } /* webpack/runtime/compat */
   /******/
-
   /************************************************************************/
   /******/ /******/
-
   /******/ __webpack_require__.ab =
     __dirname +
     '/' /************************************************************************/ // module exports must be returned from runtime so entry inlining is disabled // startup // Load entry module and return exports

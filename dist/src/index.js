@@ -8,7 +8,7 @@ var __createBinding =
           enumerable: true,
           get: function () {
             return m[k]
-          },
+          }
         })
       }
     : function (o, m, k, k2) {
@@ -39,7 +39,7 @@ var __importStar =
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
-    function adopt (value) {
+    function adopt(value) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
@@ -47,21 +47,21 @@ var __awaiter =
           })
     }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled (value) {
+      function fulfilled(value) {
         try {
           step(generator.next(value))
         } catch (e) {
           reject(e)
         }
       }
-      function rejected (value) {
+      function rejected(value) {
         try {
           step(generator['throw'](value))
         } catch (e) {
           reject(e)
         }
       }
-      function step (result) {
+      function step(result) {
         result.done
           ? resolve(result.value)
           : adopt(result.value).then(fulfilled, rejected)
@@ -84,13 +84,13 @@ const parseContext_1 = require('./parseContext')
 const syncLabels_1 = __importDefault(require('./syncLabels'))
 const context = github.context
 ;(() =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     try {
       // Get inputs
       const token = core.getInput('github-token', { required: true })
       const configPath = path_1.default.join(
         process.env.GITHUB_WORKSPACE,
-        core.getInput('config'),
+        core.getInput('config')
       )
       const repo = context.repo
       const client = new github.GitHub(token)
@@ -99,7 +99,7 @@ const context = github.context
         throw new Error(`config not found at "${configPath}"`)
       }
       const config = JSON.parse(
-        fs_1.default.readFileSync(configPath).toString(),
+        fs_1.default.readFileSync(configPath).toString()
       )
       core.debug(`Config: ${JSON.stringify(config)}`)
       let curContext
@@ -111,7 +111,7 @@ const context = github.context
         core.debug(`PR context: ${JSON.stringify(ctx)}`)
         curContext = {
           type: 'pr',
-          context: ctx,
+          context: ctx
         }
       } else if (context.payload.issue) {
         const ctx = parseContext_1.parseIssueContext(context)
@@ -121,7 +121,7 @@ const context = github.context
         core.debug(`issue context: ${JSON.stringify(ctx)}`)
         curContext = {
           type: 'issue',
-          context: ctx,
+          context: ctx
         }
       } else {
         return
@@ -138,7 +138,7 @@ const context = github.context
           config: config.pr,
           labelIdToName,
           prContext: curContext.context,
-          repo,
+          repo
         })
       } else if (curContext.type === 'issue') {
         yield applyLabels_1.applyIssueLabels({
@@ -146,7 +146,7 @@ const context = github.context
           config: config.issue,
           issueContext: curContext.context,
           labelIdToName,
-          repo,
+          repo
         })
       }
     } catch (err) {

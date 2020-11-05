@@ -1,6 +1,6 @@
 import creatorMatches, { ConditionCreatorMatches } from './creatorMatches'
 import descriptionMatches, {
-  ConditionDescriptionMatches,
+  ConditionDescriptionMatches
 } from './descriptionMatches'
 import isLocked, { ConditionIsLocked } from './isLocked'
 import isOpen, { ConditionIsOpen } from './isOpen'
@@ -18,7 +18,7 @@ export const handlers = [
   descriptionMatches,
   isLocked,
   isOpen,
-  titleMatches,
+  titleMatches
 ]
 
 export { IssueProps, PRProps } from '../parseContext'

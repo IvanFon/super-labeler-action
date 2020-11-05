@@ -4,7 +4,6 @@ about: Suggest an idea for this project
 title: ''
 labels: enhancement, proposal
 assignees: ''
-
 ---
 
 **Is your feature request related to a problem? Please describe.**
@@ -17,7 +16,7 @@ If you're proposing a new condition, please include an example of the JSON confi
 
 ```json
 {
-  name: "example",
+  "name": "example",
   "foo": "bar"
 }
 ```

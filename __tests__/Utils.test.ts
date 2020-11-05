@@ -4,8 +4,8 @@ const settings = {
     test: {
       name: 'test',
       color: 'CFD3D7',
-      description: 'This issue / pull request has been abandon',
-    },
+      description: 'This issue / pull request has been abandon'
+    }
   },
   issue: {
     bug: {
@@ -13,14 +13,14 @@ const settings = {
       conditions: [
         {
           type: 'titleMatches',
-          pattern: '/^bug(\\(.*\\))?:/i',
+          pattern: '/^bug(\\(.*\\))?:/i'
         },
         {
           type: 'descriptionMatches',
-          pattern: '/(created|new|opened|made)( an| a)? bug/i',
-        },
-      ],
-    },
+          pattern: '/(created|new|opened|made)( an| a)? bug/i'
+        }
+      ]
+    }
   },
   pr: {
     bug: {
@@ -28,21 +28,21 @@ const settings = {
       conditions: [
         {
           type: 'titleMatches',
-          pattern: '/^bug(\\(.*\\))?:/i',
+          pattern: '/^bug(\\(.*\\))?:/i'
         },
         {
           type: 'descriptionMatches',
-          pattern: '/(created|new|opened|made)( an| a)? bug/i',
-        },
-      ],
-    },
-  },
+          pattern: '/(created|new|opened|made)( an| a)? bug/i'
+        }
+      ]
+    }
+  }
 }
 test('test colour format', async () => {
   await expect(utils.formatColor(settings.labels.test.color)).toBe('CFD3D7')
 })
 test('test colour format', async () => {
   await expect(utils.formatColor(`#${settings.labels.test.color}`)).toBe(
-    'CFD3D7',
+    'CFD3D7'
   )
 })

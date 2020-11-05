@@ -10,7 +10,7 @@ import {
   IssueContext,
   parseIssueContext,
   parsePRContext,
-  PRContext,
+  PRContext
 } from './parseContext'
 import { syncLabels } from './syncLabels'
 
@@ -20,17 +20,17 @@ export class SuperLabeler {
   client: GitHub
   opts: Options
 
-  constructor (client: any, options: any) {
+  constructor(client: any, options: any) {
     this.client = client
     this.opts = options
   }
 
-  _log (message: string) {
+  _log(message: string) {
     if (!this.opts.showLogs) return
     console.log(message)
   }
 
-  async run () {
+  async run() {
     try {
       const configPath = this.opts.configPath
       const dryRun = this.opts.dryRun
@@ -55,7 +55,7 @@ export class SuperLabeler {
 
         curContext = {
           type: 'pr',
-          context: ctx,
+          context: ctx
         }
       } else if (context.payload.issue) {
         const ctx = parseIssueContext(context)
@@ -66,7 +66,7 @@ export class SuperLabeler {
 
         curContext = {
           type: 'issue',
-          context: ctx,
+          context: ctx
         }
       } else {
         return
@@ -76,7 +76,7 @@ export class SuperLabeler {
         client: this.client,
         repo,
         config: config.labels,
-        dryRun,
+        dryRun
       }).catch((err: { message: string | Error }) => {
         core.debug('Error thrown while handling syncLabels tasks')
         core.error(err.message)
@@ -89,7 +89,7 @@ export class SuperLabeler {
           acc[cur[0]] = cur[1].name
           return acc
         },
-        {},
+        {}
       )
 
       if (curContext.type === 'pr') {
@@ -99,8 +99,8 @@ export class SuperLabeler {
           labelIdToName,
           prContext: curContext.context,
           repo,
-          dryRun,
-        }).catch((err) => {
+          dryRun
+        }).catch(err => {
           core.debug('Error thrown while handling PRLabel tasks')
           core.error(err.message)
           core.setFailed(err.message)
@@ -112,7 +112,7 @@ export class SuperLabeler {
           issueContext: curContext.context,
           labelIdToName,
           repo,
-          dryRun,
+          dryRun
         }).catch((err: { message: string | Error }) => {
           core.debug('Error thrown while handling issueLabel tasks')
           core.error(err.message)

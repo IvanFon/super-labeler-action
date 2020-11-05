@@ -8,7 +8,7 @@ var __createBinding =
           enumerable: true,
           get: function () {
             return m[k]
-          },
+          }
         })
       }
     : function (o, m, k, k2) {

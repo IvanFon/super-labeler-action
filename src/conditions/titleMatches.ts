@@ -10,7 +10,7 @@ export interface ConditionTitleMatches {
 
 const titleMatches = (
   condition: ConditionTitleMatches,
-  issue: IssueProps | PRProps,
+  issue: IssueProps | PRProps
 ) => {
   const pattern = processRegExpPattern(condition.pattern)
   return pattern.test(issue.title)

@@ -8,7 +8,7 @@ var __createBinding =
           enumerable: true,
           get: function () {
             return m[k]
-          },
+          }
         })
       }
     : function (o, m, k, k2) {
@@ -39,7 +39,7 @@ exports.handlers = [
   descriptionMatches_1.default,
   isLocked_1.default,
   isOpen_1.default,
-  titleMatches_1.default,
+  titleMatches_1.default
 ]
 __exportStar(require('./issue'), exports)
 __exportStar(require('./pr'), exports)

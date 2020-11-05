@@ -8,7 +8,7 @@ var __createBinding =
           enumerable: true,
           get: function () {
             return m[k]
-          },
+          }
         })
       }
     : function (o, m, k, k2) {
@@ -39,7 +39,7 @@ var __importStar =
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
-    function adopt (value) {
+    function adopt(value) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
@@ -47,21 +47,21 @@ var __awaiter =
           })
     }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled (value) {
+      function fulfilled(value) {
         try {
           step(generator.next(value))
         } catch (e) {
           reject(e)
         }
       }
-      function rejected (value) {
+      function rejected(value) {
         try {
           step(generator['throw'](value))
         } catch (e) {
           reject(e)
         }
       }
-      function step (result) {
+      function step(result) {
         result.done
           ? resolve(result.value)
           : adopt(result.value).then(fulfilled, rejected)
@@ -93,20 +93,20 @@ const addRemoveLabel = ({
   matches,
   num,
   repo,
-  requires,
+  requires
 }) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     const labelName = labelIdToName[label]
-    const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0
+    const hasLabel = curLabels.filter(l => l.name === labelName).length > 0
     if (matches >= requires && !hasLabel) {
       core.debug(
-        `${matches} >= ${requires} matches, adding label "${label}"...`,
+        `${matches} >= ${requires} matches, adding label "${label}"...`
       )
       yield api_1.addLabel({ client, repo, num, label: labelName })
     }
     if (matches < requires && hasLabel) {
       core.debug(
-        `${matches} < ${requires} matches, removing label "${label}"...`,
+        `${matches} < ${requires} matches, removing label "${label}"...`
       )
       yield api_1.removeLabel({ client, repo, num, label: labelName })
     }
@@ -116,13 +116,13 @@ exports.applyIssueLabels = ({
   config,
   issueContext,
   labelIdToName,
-  repo,
+  repo
 }) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     const { labels: curLabels, issueProps, num } = issueContext
     for (const [label, opts] of Object.entries(config)) {
       core.debug(`Label: ${label}`)
-      const matches = forConditions(opts.conditions, (condition) => {
+      const matches = forConditions(opts.conditions, condition => {
         const handler = conditions_1.getIssueConditionHandler(condition)
         return (
           (handler === null || handler === void 0
@@ -138,16 +138,16 @@ exports.applyIssueLabels = ({
         matches,
         num,
         repo,
-        requires: opts.requires,
+        requires: opts.requires
       })
     }
   })
 exports.applyPRLabels = ({ client, config, labelIdToName, prContext, repo }) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     const { labels: curLabels, prProps, num } = prContext
     for (const [label, opts] of Object.entries(config)) {
       core.debug(`Label: ${label}`)
-      const matches = forConditions(opts.conditions, (condition) => {
+      const matches = forConditions(opts.conditions, condition => {
         const handler = conditions_1.getPRConditionHandler(condition)
         return (
           (handler === null || handler === void 0
@@ -163,7 +163,7 @@ exports.applyPRLabels = ({ client, config, labelIdToName, prContext, repo }) =>
         matches,
         num,
         repo,
-        requires: opts.requires,
+        requires: opts.requires
       })
     }
   })

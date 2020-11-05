@@ -9,7 +9,7 @@ export const syncLabels = async ({
   client,
   config,
   repo,
-  dryRun,
+  dryRun
 }: {
   client: GitHub
   config: Config['labels']
@@ -27,10 +27,10 @@ export const syncLabels = async ({
   for (const _configLabel of Object.values(config)) {
     const configLabel = {
       ..._configLabel,
-      color: _configLabel.color,
+      color: _configLabel.color
     }
 
-    const curLabel = curLabels.filter((l) => l.name === configLabel.name)
+    const curLabel = curLabels.filter(l => l.name === configLabel.name)
     if (curLabel.length > 0) {
       const label = curLabel[0]
       if (
@@ -39,8 +39,8 @@ export const syncLabels = async ({
       ) {
         core.debug(
           `Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(
-            label,
-          )})`,
+            label
+          )})`
         )
         try {
           await labelAPI.update({ client, repo, label: configLabel, dryRun })

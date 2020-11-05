@@ -1,13 +1,13 @@
 import { IssueApiProps } from '.'
 
 class File {
-  async list ({ client, IDNumber, repo }: IssueApiProps) {
+  async list({ client, IDNumber, repo }: IssueApiProps) {
     const files = await client.pulls.listFiles({
       ...repo,
       pull_number: IDNumber,
-      per_page: 100,
+      per_page: 100
     })
-    return files.data.map((file) => file.filename)
+    return files.data.map(file => file.filename)
   }
 }
 

@@ -10,7 +10,7 @@ export interface ConditionCreatorMatches {
 
 const creatorMatches = (
   condition: ConditionCreatorMatches,
-  issue: IssueProps | PRProps,
+  issue: IssueProps | PRProps
 ) => {
   const pattern = processRegExpPattern(condition.pattern)
   return pattern.test(issue.creator)

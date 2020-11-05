@@ -15,7 +15,7 @@ const addRemoveLabel = async ({
   IDNumber,
   repo,
   shouldHaveLabel,
-  dryRun,
+  dryRun
 }: {
   client: GitHub
   curLabels: Labels
@@ -26,7 +26,7 @@ const addRemoveLabel = async ({
   shouldHaveLabel: boolean
   dryRun: boolean
 }) => {
-  const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0
+  const hasLabel = curLabels.filter(l => l.name === labelName).length > 0
   if (shouldHaveLabel && !hasLabel) {
     core.debug(`Adding label "${labelID}"...`)
     await labelAPI.add({ client, repo, IDNumber, label: labelName, dryRun })
@@ -43,7 +43,7 @@ export const applyIssueLabels = async ({
   issueContext,
   labelIdToName,
   repo,
-  dryRun,
+  dryRun
 }: {
   client: GitHub
   config: Config['issue']
@@ -59,7 +59,7 @@ export const applyIssueLabels = async ({
     const shouldHaveLabel = evaluator(
       ConditionSetType.issue,
       conditionsConfig,
-      issueProps,
+      issueProps
     )
 
     await addRemoveLabel({
@@ -70,7 +70,7 @@ export const applyIssueLabels = async ({
       IDNumber,
       repo,
       shouldHaveLabel,
-      dryRun,
+      dryRun
     })
   }
 }
@@ -81,7 +81,7 @@ export const applyPRLabels = async ({
   labelIdToName,
   prContext,
   repo,
-  dryRun,
+  dryRun
 }: {
   client: GitHub
   config: Config['pr']
@@ -97,7 +97,7 @@ export const applyPRLabels = async ({
     const shouldHaveLabel = evaluator(
       ConditionSetType.issue,
       conditionsConfig,
-      prProps,
+      prProps
     )
 
     await addRemoveLabel({
@@ -108,7 +108,7 @@ export const applyPRLabels = async ({
       IDNumber,
       repo,
       shouldHaveLabel,
-      dryRun,
+      dryRun
     })
   }
 }

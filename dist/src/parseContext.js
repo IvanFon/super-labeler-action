@@ -2,7 +2,7 @@
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
-    function adopt (value) {
+    function adopt(value) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
@@ -10,21 +10,21 @@ var __awaiter =
           })
     }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled (value) {
+      function fulfilled(value) {
         try {
           step(generator.next(value))
         } catch (e) {
           reject(e)
         }
       }
-      function rejected (value) {
+      function rejected(value) {
         try {
           step(generator['throw'](value))
         } catch (e) {
           reject(e)
         }
       }
-      function step (result) {
+      function step(result) {
         result.done
           ? resolve(result.value)
           : adopt(result.value).then(fulfilled, rejected)
@@ -36,7 +36,7 @@ Object.defineProperty(exports, '__esModule', { value: true })
 exports.parseIssueContext = exports.parsePRContext = void 0
 const api_1 = require('./api')
 exports.parsePRContext = (context, client, repo) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     const pr = context.payload.pull_request
     if (!pr) {
       return
@@ -55,11 +55,11 @@ exports.parsePRContext = (context, client, repo) =>
         isDraft: pr.draft,
         locked: pr.locked,
         state: pr.state,
-        title: pr.title,
-      },
+        title: pr.title
+      }
     }
   })
-exports.parseIssueContext = (context) => {
+exports.parseIssueContext = context => {
   const issue = context.payload.issue
   if (!issue) {
     return
@@ -73,19 +73,19 @@ exports.parseIssueContext = (context) => {
       description: issue.body || '',
       locked: issue.locked,
       state: issue.state,
-      title: issue.title,
-    },
+      title: issue.title
+    }
   }
 }
-const parseLabels = (labels) => {
+const parseLabels = labels => {
   if (!Array.isArray(labels)) {
     return []
   }
   return labels.filter(
-    (label) =>
+    label =>
       typeof label === 'object' &&
       'name' in label &&
       'description' in label &&
-      'color' in label,
+      'color' in label
   )
 }

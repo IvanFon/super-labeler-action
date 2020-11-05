@@ -43,7 +43,7 @@ export interface IssueContext extends GeneralContext {
 export const parsePRContext = async (
   context: Context,
   client: GitHub,
-  repo: Repo,
+  repo: Repo
 ): Promise<PRContext | undefined> => {
   const pr = context.payload.pull_request
   if (!pr) {
@@ -65,13 +65,13 @@ export const parsePRContext = async (
       isDraft: pr.draft,
       locked: pr.locked,
       state: pr.state,
-      title: pr.title,
-    },
+      title: pr.title
+    }
   }
 }
 
 export const parseIssueContext = (
-  context: Context,
+  context: Context
 ): IssueContext | undefined => {
   const issue = context.payload.issue
   if (!issue) {
@@ -88,8 +88,8 @@ export const parseIssueContext = (
       description: issue.body || '',
       locked: issue.locked,
       state: issue.state,
-      title: issue.title,
-    },
+      title: issue.title
+    }
   }
 }
 
@@ -99,10 +99,10 @@ const parseLabels = (labels: any): Labels => {
   }
 
   return labels.filter(
-    (label) =>
+    label =>
       typeof label === 'object' &&
       'name' in label &&
       'description' in label &&
-      'color' in label,
+      'color' in label
   )
 }

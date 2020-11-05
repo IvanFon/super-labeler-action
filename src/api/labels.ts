@@ -3,12 +3,12 @@ import { Label, Labels } from '../parseContext'
 import { formatColor } from '../utils'
 
 class labels {
-  async add ({
+  async add({
     client,
     repo,
     IDNumber,
     label,
-    dryRun,
+    dryRun
   }: IssueApiProps & {
     label: string
     dryRun: boolean
@@ -17,51 +17,51 @@ class labels {
       await client.issues.addLabels({
         ...repo,
         issue_number: IDNumber,
-        labels: [label],
+        labels: [label]
       })
   }
 
-  async create ({
+  async create({
     client,
     repo,
     label,
-    dryRun,
+    dryRun
   }: ApiProps & { label: Label; dryRun: boolean }) {
     const color = formatColor(label.color)
     if (!dryRun) await client.issues.createLabel({ ...repo, ...label, color })
   }
 
-  async deleteLabel ({
+  async deleteLabel({
     client,
     repo,
     name,
-    dryRun,
+    dryRun
   }: ApiProps & { name: string; dryRun: boolean }) {
     if (!dryRun)
       await client.issues.deleteLabel({
         ...repo,
-        name,
+        name
       })
   }
 
-  async get ({ client, repo }: ApiProps): Promise<Labels> {
+  async get({ client, repo }: ApiProps): Promise<Labels> {
     const options = await client.issues.listLabelsForRepo.endpoint.merge({
-      ...repo,
+      ...repo
     })
     const labels = await client.paginate(options)
-    return labels.map((label) => ({
+    return labels.map(label => ({
       name: label.name,
       description: label.description,
-      color: label.color,
+      color: label.color
     }))
   }
 
-  async remove ({
+  async remove({
     client,
     repo,
     IDNumber,
     label,
-    dryRun,
+    dryRun
   }: IssueApiProps & {
     label: string
     dryRun: boolean
@@ -70,15 +70,15 @@ class labels {
       await client.issues.removeLabel({
         ...repo,
         issue_number: IDNumber,
-        name: label,
+        name: label
       })
   }
 
-  async update ({
+  async update({
     client,
     repo,
     label,
-    dryRun,
+    dryRun
   }: ApiProps & { label: Label; dryRun: boolean }) {
     const color = formatColor(label.color)
     if (!dryRun)
@@ -86,7 +86,7 @@ class labels {
         ...repo,
         current_name: label.name,
         description: label.description,
-        color,
+        color
       })
   }
 }

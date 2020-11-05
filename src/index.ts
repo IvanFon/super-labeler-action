@@ -10,12 +10,12 @@ const showLogs = SHOW_LOGS === 'true'
 const configFile = core.getInput('config')
 const configPath = path.join(GITHUB_WORKSPACE, configFile)
 const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN', {
-  required: true,
+  required: true
 })
 const options = {
   configPath,
   showLogs,
-  dryRun,
+  dryRun
 }
 const action = new SuperLabeler(new github.GitHub(GITHUB_TOKEN), options)
 action.run()

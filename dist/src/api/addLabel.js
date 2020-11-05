@@ -2,7 +2,7 @@
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
-    function adopt (value) {
+    function adopt(value) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
@@ -10,21 +10,21 @@ var __awaiter =
           })
     }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled (value) {
+      function fulfilled(value) {
         try {
           step(generator.next(value))
         } catch (e) {
           reject(e)
         }
       }
-      function rejected (value) {
+      function rejected(value) {
         try {
           step(generator['throw'](value))
         } catch (e) {
           reject(e)
         }
       }
-      function step (result) {
+      function step(result) {
         result.done
           ? resolve(result.value)
           : adopt(result.value).then(fulfilled, rejected)
@@ -35,11 +35,11 @@ var __awaiter =
 Object.defineProperty(exports, '__esModule', { value: true })
 exports.addLabel = void 0
 exports.addLabel = ({ client, repo, num, label }) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     return yield client.issues.addLabels(
       Object.assign(Object.assign({}, repo), {
         issue_number: num,
-        labels: [label],
-      }),
+        labels: [label]
+      })
     )
   })

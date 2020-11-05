@@ -5,7 +5,7 @@ const TYPE = 'isOpen'
 
 enum States {
   Open = 'OPEN',
-  Closed = 'CLOSED',
+  Closed = 'CLOSED'
 }
 
 export interface ConditionIsOpen {

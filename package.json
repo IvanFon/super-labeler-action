@@ -14,8 +14,8 @@
   "scripts": {
     "all": "npm run build && npm run format && npm run test",
     "build": "tsc && npm run package",
-    "format": "prettier-standard **/*",
-    "format-check": "prettier-standard --check **/*",
+    "format": "prettier --config .prettier.json --write .",
+    "format-check": "prettier --config .prettier.json --check .",
     "package": "ncc build --source-map",
     "test": "jest --json --outputFile=result.json --testLocationInResults",
     "dev:pr": "EVENT_PATH=__tests__/event.pr.json yarn dev:run",
@@ -40,7 +40,7 @@
     "@types/minimatch": "^3.0.3",
     "@vercel/ncc": "^0.24.0",
     "jest": "^26.3.0",
-    "prettier-standard": "^16.4.1",
+    "prettier": "^2.1.2",
     "ts-jest": "^26.1.4",
     "typescript": "^3.9.7"
   }

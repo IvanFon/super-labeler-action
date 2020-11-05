@@ -8,7 +8,7 @@ var __createBinding =
           enumerable: true,
           get: function () {
             return m[k]
-          },
+          }
         })
       }
     : function (o, m, k, k2) {
@@ -39,7 +39,7 @@ var __importStar =
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
-    function adopt (value) {
+    function adopt(value) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
@@ -47,21 +47,21 @@ var __awaiter =
           })
     }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled (value) {
+      function fulfilled(value) {
         try {
           step(generator.next(value))
         } catch (e) {
           reject(e)
         }
       }
-      function rejected (value) {
+      function rejected(value) {
         try {
           step(generator['throw'](value))
         } catch (e) {
           reject(e)
         }
       }
-      function step (result) {
+      function step(result) {
         result.done
           ? resolve(result.value)
           : adopt(result.value).then(fulfilled, rejected)
@@ -74,14 +74,14 @@ const core = __importStar(require('@actions/core'))
 const api_1 = require('./api')
 const utils_1 = require('./utils')
 const syncLabels = ({ client, config, repo }) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     const curLabels = yield api_1.getLabels({ client, repo })
     core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
     for (const _configLabel of Object.values(config)) {
       const configLabel = Object.assign(Object.assign({}, _configLabel), {
-        color: _configLabel.colour,
+        color: _configLabel.colour
       })
-      const curLabel = curLabels.filter((l) => l.name === configLabel.name)
+      const curLabel = curLabels.filter(l => l.name === configLabel.name)
       if (curLabel.length > 0) {
         const label = curLabel[0]
         if (
@@ -90,8 +90,8 @@ const syncLabels = ({ client, config, repo }) =>
         ) {
           core.debug(
             `Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(
-              label,
-            )})`,
+              label
+            )})`
           )
           yield api_1.updateLabel({ client, repo, label: configLabel })
         }

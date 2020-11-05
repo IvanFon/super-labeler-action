@@ -5,19 +5,19 @@ import {
   IssueCondition,
   PRCondition,
   getIssueConditionHandler,
-  getPRConditionHandler,
+  getPRConditionHandler
 } from './index'
 
 import { PRProps, IssueProps } from '../parseContext'
 
 export enum ConditionSetType {
   issue = 'issue',
-  pr = 'pr',
+  pr = 'pr'
 }
 
 const forConditions = <T extends IssueCondition | PRCondition>(
   conditions: T[],
-  callback: (condition: T) => boolean,
+  callback: (condition: T) => boolean
 ) => {
   let matches = 0
   for (const condition of conditions) {
@@ -30,14 +30,14 @@ const forConditions = <T extends IssueCondition | PRCondition>(
   return matches
 }
 
-export default function evaluator (
+export default function evaluator(
   conditionSetType: ConditionSetType,
   config: PRConditionConfig | IssueConditionConfig,
-  props: PRProps | IssueProps,
+  props: PRProps | IssueProps
 ) {
   const { conditions, requires } = config
 
-  const matches = forConditions(conditions, (condition) => {
+  const matches = forConditions(conditions, condition => {
     const handler =
       conditionSetType === ConditionSetType.issue
         ? getIssueConditionHandler(condition as IssueCondition)

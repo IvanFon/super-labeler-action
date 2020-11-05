@@ -2,7 +2,7 @@
 var __awaiter =
   (this && this.__awaiter) ||
   function (thisArg, _arguments, P, generator) {
-    function adopt (value) {
+    function adopt(value) {
       return value instanceof P
         ? value
         : new P(function (resolve) {
@@ -10,21 +10,21 @@ var __awaiter =
           })
     }
     return new (P || (P = Promise))(function (resolve, reject) {
-      function fulfilled (value) {
+      function fulfilled(value) {
         try {
           step(generator.next(value))
         } catch (e) {
           reject(e)
         }
       }
-      function rejected (value) {
+      function rejected(value) {
         try {
           step(generator['throw'](value))
         } catch (e) {
           reject(e)
         }
       }
-      function step (result) {
+      function step(result) {
         result.done
           ? resolve(result.value)
           : adopt(result.value).then(fulfilled, rejected)
@@ -35,12 +35,12 @@ var __awaiter =
 Object.defineProperty(exports, '__esModule', { value: true })
 exports.listFiles = void 0
 exports.listFiles = ({ client, num, repo }) =>
-  __awaiter(void 0, void 0, void 0, function * () {
+  __awaiter(void 0, void 0, void 0, function* () {
     const files = yield client.pulls.listFiles(
       Object.assign(Object.assign({}, repo), {
         pull_number: num,
-        per_page: 100,
-      }),
+        per_page: 100
+      })
     )
-    return files.data.map((file) => file.filename)
+    return files.data.map(file => file.filename)
   })
