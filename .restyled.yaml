@@ -12,7 +12,7 @@ changed_paths:
 remote_files: [] # Files to download before restyling.
 
 ## Pull Requests
-auto: true
+auto: false
 commit_template: |
   Restyled by ${restyler.name}
 pull_requests: true
@@ -31,4 +31,6 @@ labels:
 #   - restyled-ignore
 restylers_version: stable
 restylers:
-  - '*'
+  - prettier:
+      arguments:
+        - --config .prettier.json
