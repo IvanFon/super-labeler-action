@@ -2,7 +2,7 @@ import * as core from '@actions/core'
 import { GitHub } from '@actions/github'
 
 import { Config } from './types'
-import { addLabel, removeLabel, Repo } from './api'
+import { label, Repo } from './api'
 import evaluator, { ConditionSetType } from './conditions/evaluator'
 
 import { IssueContext, PRContext, Labels } from './parseContext'
@@ -29,11 +29,11 @@ const addRemoveLabel = async ({
   const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0
   if (shouldHaveLabel && !hasLabel) {
     core.debug(`Adding label "${labelID}"...`)
-    await addLabel({ client, repo, IDNumber, label: labelName, dryRun })
+    await label.add({ client, repo, IDNumber, label: labelName, dryRun })
   }
   if (!shouldHaveLabel && hasLabel) {
     core.debug(`Removing label "${labelID}"...`)
-    await removeLabel({ client, repo, IDNumber, label: labelName, dryRun })
+    await label.remove({ client, repo, IDNumber, label: labelName, dryRun })
   }
 }
 

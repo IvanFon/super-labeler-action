@@ -5,7 +5,7 @@ import { Config } from './types'
 import { createLabel, getLabels, Repo, updateLabel } from './api'
 import { formatColor } from './utils'
 
-const syncLabels = async ({
+export const syncLabels = async ({
   client,
   config,
   repo,
@@ -58,5 +58,3 @@ const syncLabels = async ({
     }
   }
 }
-
-export default syncLabels
