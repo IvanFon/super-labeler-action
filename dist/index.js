@@ -27156,6 +27156,10 @@ class ActionSuperLabeler {
                     repo,
                     config: config.labels,
                     dryRun,
+                }).catch((err) => {
+                    core.debug('Error thrown while handling syncLabels tasks');
+                    core.error(err.message);
+                    core.setFailed(err.message);
                 });
                 const labelIdToName = Object.entries(config.labels).reduce((acc, cur) => {
                     acc[cur[0]] = cur[1].name;
@@ -27169,6 +27173,10 @@ class ActionSuperLabeler {
                         prContext: curContext.context,
                         repo,
                         dryRun,
+                    }).catch((err) => {
+                        core.debug('Error thrown while handling PRLabel tasks');
+                        core.error(err.message);
+                        core.setFailed(err.message);
                     });
                 }
                 else if (curContext.type === 'issue') {
@@ -27179,6 +27187,10 @@ class ActionSuperLabeler {
                         labelIdToName,
                         repo,
                         dryRun,
+                    }).catch((err) => {
+                        core.debug('Error thrown while handling issueLabel tasks');
+                        core.error(err.message);
+                        core.setFailed(err.message);
                     });
                 }
             }
