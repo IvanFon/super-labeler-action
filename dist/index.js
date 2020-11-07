@@ -28632,7 +28632,7 @@ module.exports = /******/ (() => {
       const core = __importStar(__webpack_require__(2186))
       const github = __importStar(__webpack_require__(5438))
       const path_1 = __importDefault(__webpack_require__(5622))
-      const superLabeler = __webpack_require__(1812)
+      const superLabeler_1 = __importDefault(__webpack_require__(1812))
       const {
         GITHUB_WORKSPACE = '',
         SHOW_LOGS,
@@ -28650,7 +28650,10 @@ module.exports = /******/ (() => {
         showLogs,
         dryRun
       }
-      const action = new superLabeler(new github.GitHub(GITHUB_TOKEN), options)
+      const action = new superLabeler_1.default(
+        new github.GitHub(GITHUB_TOKEN),
+        options
+      )
       action.run()
 
       /***/
