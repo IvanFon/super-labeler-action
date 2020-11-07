@@ -1,11 +1,9 @@
 import fs from 'fs'
-
 import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { GitHub } from '@actions/github'
-import { labelAPI, Repo } from './api'
 import { Config, Options, PRContext, IssueContext } from './types'
-import { utils, labelHandler, contextHandler } from './utils'
+import { labelHandler, contextHandler } from './utils'
 
 const context = github.context
 
