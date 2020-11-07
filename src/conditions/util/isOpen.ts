@@ -1,5 +1,5 @@
-import { IssueProps, PRProps } from '.'
-import { normalize } from '../utils'
+import { IssueProps, PRProps } from '../'
+import { utils } from '../../utils'
 
 const TYPE = 'isOpen'
 
@@ -15,8 +15,8 @@ export interface ConditionIsOpen {
 
 const isOpen = (condition: ConditionIsOpen, issue: IssueProps | PRProps) => {
   return (
-    normalize(issue.state) ===
-    normalize(condition.value ? States.Open : States.Closed)
+    utils.normalize(issue.state) ===
+    utils.normalize(condition.value ? States.Open : States.Closed)
   )
 }
 

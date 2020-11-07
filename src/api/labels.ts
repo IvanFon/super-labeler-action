@@ -1,6 +1,6 @@
 import { IssueApiProps, ApiProps } from '.'
-import { Label, Labels } from '../parseContext'
-import { formatColor } from '../utils'
+import { Label, Labels } from '../types'
+import { utils } from '../utils'
 
 class labels {
   async add({
@@ -27,7 +27,7 @@ class labels {
     label,
     dryRun
   }: ApiProps & { label: Label; dryRun: boolean }) {
-    const color = formatColor(label.color)
+    const color = utils.formatColor(label.color)
     if (!dryRun) await client.issues.createLabel({ ...repo, ...label, color })
   }
 
@@ -80,7 +80,7 @@ class labels {
     label,
     dryRun
   }: ApiProps & { label: Label; dryRun: boolean }) {
-    const color = formatColor(label.color)
+    const color = utils.formatColor(label.color)
     if (!dryRun)
       await client.issues.updateLabel({
         ...repo,

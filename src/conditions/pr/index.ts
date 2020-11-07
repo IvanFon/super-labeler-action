@@ -16,4 +16,4 @@ export const getPRConditionHandler = (condition: PRCondition) => {
   return handler?.[1]
 }
 
-export { PRProps } from '../../parseContext'
+export { PRProps } from '../'

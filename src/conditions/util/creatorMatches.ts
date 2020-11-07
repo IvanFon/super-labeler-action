@@ -1,5 +1,5 @@
-import { IssueProps, PRProps } from '.'
-import { processRegExpPattern } from '../utils'
+import { IssueProps, PRProps } from '../'
+import { utils } from '../../utils'
 
 const TYPE = 'creatorMatches'
 
@@ -8,11 +8,11 @@ export interface ConditionCreatorMatches {
   pattern: string
 }
 
-const creatorMatches = (
+export const creatorMatches = (
   condition: ConditionCreatorMatches,
   issue: IssueProps | PRProps
 ) => {
-  const pattern = processRegExpPattern(condition.pattern)
+  const pattern = utils.processRegExpPattern(condition.pattern)
   return pattern.test(issue.creator)
 }
 

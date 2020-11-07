@@ -8,7 +8,7 @@ import {
   getPRConditionHandler
 } from './index'
 
-import { PRProps, IssueProps } from '../parseContext'
+import { PRProps, IssueProps } from '.'
 
 export enum ConditionSetType {
   issue = 'issue',

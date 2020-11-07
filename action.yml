@@ -1,6 +1,6 @@
 name: 'Everything Labeler'
 description: 'A superpowered issue and pull request labeler for Github Actions.'
-author: ['IvanFon', 'videndum', 'jbinda', 'jayu']
+author: 'Videndum'
 inputs:
   GITHUB_TOKEN:
     description: 'The GITHUB_TOKEN secret'

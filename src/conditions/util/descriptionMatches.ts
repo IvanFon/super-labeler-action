@@ -1,5 +1,5 @@
-import { IssueProps, PRProps } from '.'
-import { processRegExpPattern } from '../utils'
+import { IssueProps, PRProps } from '../'
+import { utils } from '../../utils'
 
 const TYPE = 'descriptionMatches'
 
@@ -12,7 +12,7 @@ const descriptionMatches = (
   condition: ConditionDescriptionMatches,
   issue: IssueProps | PRProps
 ) => {
-  const pattern = processRegExpPattern(condition.pattern)
+  const pattern = utils.processRegExpPattern(condition.pattern)
   return pattern.test(issue.description)
 }
 

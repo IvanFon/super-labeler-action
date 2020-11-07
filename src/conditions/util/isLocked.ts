@@ -1,4 +1,4 @@
-import { IssueProps, PRProps } from '.'
+import { IssueProps, PRProps } from '../'
 
 const TYPE = 'isLocked'
 

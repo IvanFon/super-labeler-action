@@ -1,10 +1,10 @@
-import creatorMatches, { ConditionCreatorMatches } from './creatorMatches'
+import creatorMatches, { ConditionCreatorMatches } from './util/creatorMatches'
 import descriptionMatches, {
   ConditionDescriptionMatches
-} from './descriptionMatches'
-import isLocked, { ConditionIsLocked } from './isLocked'
-import isOpen, { ConditionIsOpen } from './isOpen'
-import titleMatches, { ConditionTitleMatches } from './titleMatches'
+} from './util/descriptionMatches'
+import isLocked, { ConditionIsLocked } from './util/isLocked'
+import isOpen, { ConditionIsOpen } from './util/isOpen'
+import titleMatches, { ConditionTitleMatches } from './util/titleMatches'
 
 export type Condition =
   | ConditionCreatorMatches
@@ -21,7 +21,7 @@ export const handlers = [
   titleMatches
 ]
 
-export { IssueProps, PRProps } from '../parseContext'
+export { IssueProps, PRProps } from '../types'
 
 export * from './issue'
 export * from './pr'

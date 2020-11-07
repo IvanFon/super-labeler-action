@@ -1,4 +1,4 @@
-import * as utils from '../src/utils'
+import { utils } from '../src/utils'
 const settings = {
   labels: {
     test: {

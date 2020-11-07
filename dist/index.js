@@ -28176,7 +28176,7 @@ module.exports = /******/ (() => {
         }
         create({ client, repo, label, dryRun }) {
           return __awaiter(this, void 0, void 0, function* () {
-            const color = utils_1.formatColor(label.color)
+            const color = utils_1.utils.formatColor(label.color)
             if (!dryRun)
               yield client.issues.createLabel(
                 Object.assign(Object.assign(Object.assign({}, repo), label), {
@@ -28219,7 +28219,7 @@ module.exports = /******/ (() => {
         }
         update({ client, repo, label, dryRun }) {
           return __awaiter(this, void 0, void 0, function* () {
-            const color = utils_1.formatColor(label.color)
+            const color = utils_1.utils.formatColor(label.color)
             if (!dryRun)
               yield client.issues.updateLabel(
                 Object.assign(Object.assign({}, repo), {
@@ -28232,227 +28232,6 @@ module.exports = /******/ (() => {
         }
       }
       exports.labelAPI = new labels()
-
-      /***/
-    },
-
-    /***/ 4625: /***/ function (
-      __unused_webpack_module,
-      exports,
-      __webpack_require__
-    ) {
-      'use strict'
-
-      var __createBinding =
-        (this && this.__createBinding) ||
-        (Object.create
-          ? function (o, m, k, k2) {
-              if (k2 === undefined) k2 = k
-              Object.defineProperty(o, k2, {
-                enumerable: true,
-                get: function () {
-                  return m[k]
-                }
-              })
-            }
-          : function (o, m, k, k2) {
-              if (k2 === undefined) k2 = k
-              o[k2] = m[k]
-            })
-      var __setModuleDefault =
-        (this && this.__setModuleDefault) ||
-        (Object.create
-          ? function (o, v) {
-              Object.defineProperty(o, 'default', {
-                enumerable: true,
-                value: v
-              })
-            }
-          : function (o, v) {
-              o['default'] = v
-            })
-      var __importStar =
-        (this && this.__importStar) ||
-        function (mod) {
-          if (mod && mod.__esModule) return mod
-          var result = {}
-          if (mod != null)
-            for (var k in mod)
-              if (k !== 'default' && Object.hasOwnProperty.call(mod, k))
-                __createBinding(result, mod, k)
-          __setModuleDefault(result, mod)
-          return result
-        }
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt(value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected(value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step(result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next()
-            )
-          })
-        }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.applyPRLabels = exports.applyIssueLabels = void 0
-      const core = __importStar(__webpack_require__(2186))
-      const api_1 = __webpack_require__(9343)
-      const evaluator_1 = __importStar(__webpack_require__(5481))
-      const addRemoveLabel = ({
-        client,
-        curLabels,
-        labelID,
-        labelName,
-        IDNumber,
-        repo,
-        shouldHaveLabel,
-        dryRun
-      }) =>
-        __awaiter(void 0, void 0, void 0, function* () {
-          const hasLabel =
-            curLabels.filter(l => l.name === labelName).length > 0
-          if (shouldHaveLabel && !hasLabel) {
-            core.debug(`Adding label "${labelID}"...`)
-            yield api_1.labelAPI.add({
-              client,
-              repo,
-              IDNumber,
-              label: labelName,
-              dryRun
-            })
-          }
-          if (!shouldHaveLabel && hasLabel) {
-            core.debug(`Removing label "${labelID}"...`)
-            yield api_1.labelAPI.remove({
-              client,
-              repo,
-              IDNumber,
-              label: labelName,
-              dryRun
-            })
-          }
-        })
-      exports.applyIssueLabels = ({
-        client,
-        config,
-        issueContext,
-        labelIdToName,
-        repo,
-        dryRun
-      }) =>
-        __awaiter(void 0, void 0, void 0, function* () {
-          const { labels: curLabels, issueProps, IDNumber } = issueContext
-          for (const [labelID, conditionsConfig] of Object.entries(config)) {
-            core.debug(`Label: ${labelID}`)
-            const shouldHaveLabel = evaluator_1.default(
-              evaluator_1.ConditionSetType.issue,
-              conditionsConfig,
-              issueProps
-            )
-            yield addRemoveLabel({
-              client,
-              curLabels,
-              labelID,
-              labelName: labelIdToName[labelID],
-              IDNumber,
-              repo,
-              shouldHaveLabel,
-              dryRun
-            })
-          }
-        })
-      exports.applyPRLabels = ({
-        client,
-        config,
-        labelIdToName,
-        prContext,
-        repo,
-        dryRun
-      }) =>
-        __awaiter(void 0, void 0, void 0, function* () {
-          const { labels: curLabels, prProps, IDNumber } = prContext
-          for (const [labelID, conditionsConfig] of Object.entries(config)) {
-            core.debug(`Label: ${labelID}`)
-            const shouldHaveLabel = evaluator_1.default(
-              evaluator_1.ConditionSetType.issue,
-              conditionsConfig,
-              prProps
-            )
-            yield addRemoveLabel({
-              client,
-              curLabels,
-              labelID,
-              labelName: labelIdToName[labelID],
-              IDNumber,
-              repo,
-              shouldHaveLabel,
-              dryRun
-            })
-          }
-        })
-
-      /***/
-    },
-
-    /***/ 361: /***/ (
-      __unused_webpack_module,
-      exports,
-      __webpack_require__
-    ) => {
-      'use strict'
-
-      Object.defineProperty(exports, '__esModule', { value: true })
-      const utils_1 = __webpack_require__(1314)
-      const TYPE = 'creatorMatches'
-      const creatorMatches = (condition, issue) => {
-        const pattern = utils_1.processRegExpPattern(condition.pattern)
-        return pattern.test(issue.creator)
-      }
-      exports.default = [TYPE, creatorMatches]
-
-      /***/
-    },
-
-    /***/ 7154: /***/ (
-      __unused_webpack_module,
-      exports,
-      __webpack_require__
-    ) => {
-      'use strict'
-
-      Object.defineProperty(exports, '__esModule', { value: true })
-      const utils_1 = __webpack_require__(1314)
-      const TYPE = 'descriptionMatches'
-      const descriptionMatches = (condition, issue) => {
-        const pattern = utils_1.processRegExpPattern(condition.pattern)
-        return pattern.test(issue.description)
-      }
-      exports.default = [TYPE, descriptionMatches]
 
       /***/
     },
@@ -28584,11 +28363,11 @@ module.exports = /******/ (() => {
         }
       Object.defineProperty(exports, '__esModule', { value: true })
       exports.handlers = void 0
-      const creatorMatches_1 = __importDefault(__webpack_require__(361))
-      const descriptionMatches_1 = __importDefault(__webpack_require__(7154))
-      const isLocked_1 = __importDefault(__webpack_require__(1736))
-      const isOpen_1 = __importDefault(__webpack_require__(879))
-      const titleMatches_1 = __importDefault(__webpack_require__(7637))
+      const creatorMatches_1 = __importDefault(__webpack_require__(2765))
+      const descriptionMatches_1 = __importDefault(__webpack_require__(2353))
+      const isLocked_1 = __importDefault(__webpack_require__(7821))
+      const isOpen_1 = __importDefault(__webpack_require__(4043))
+      const titleMatches_1 = __importDefault(__webpack_require__(7869))
       exports.handlers = [
         creatorMatches_1.default,
         descriptionMatches_1.default,
@@ -28598,43 +28377,6 @@ module.exports = /******/ (() => {
       ]
       __exportStar(__webpack_require__(5953), exports)
       __exportStar(__webpack_require__(4597), exports)
-
-      /***/
-    },
-
-    /***/ 1736: /***/ (__unused_webpack_module, exports) => {
-      'use strict'
-
-      Object.defineProperty(exports, '__esModule', { value: true })
-      const TYPE = 'isLocked'
-      const isLocked = (condition, issue) => issue.locked === condition.value
-      exports.default = [TYPE, isLocked]
-
-      /***/
-    },
-
-    /***/ 879: /***/ (
-      __unused_webpack_module,
-      exports,
-      __webpack_require__
-    ) => {
-      'use strict'
-
-      Object.defineProperty(exports, '__esModule', { value: true })
-      const utils_1 = __webpack_require__(1314)
-      const TYPE = 'isOpen'
-      var States
-      ;(function (States) {
-        States['Open'] = 'OPEN'
-        States['Closed'] = 'CLOSED'
-      })(States || (States = {}))
-      const isOpen = (condition, issue) => {
-        return (
-          utils_1.normalize(issue.state) ===
-          utils_1.normalize(condition.value ? States.Open : States.Closed)
-        )
-      }
-      exports.default = [TYPE, isOpen]
 
       /***/
     },
@@ -28669,7 +28411,7 @@ module.exports = /******/ (() => {
       const utils_1 = __webpack_require__(1314)
       const TYPE = 'branchMatches'
       const branchMatches = (condition, pr) => {
-        const pattern = utils_1.processRegExpPattern(condition.pattern)
+        const pattern = utils_1.utils.processRegExpPattern(condition.pattern)
         return pattern.test(pr.branch)
       }
       exports.default = [TYPE, branchMatches]
@@ -28739,7 +28481,83 @@ module.exports = /******/ (() => {
       /***/
     },
 
-    /***/ 7637: /***/ (
+    /***/ 2765: /***/ (
+      __unused_webpack_module,
+      exports,
+      __webpack_require__
+    ) => {
+      'use strict'
+
+      Object.defineProperty(exports, '__esModule', { value: true })
+      exports.creatorMatches = void 0
+      const utils_1 = __webpack_require__(1314)
+      const TYPE = 'creatorMatches'
+      exports.creatorMatches = (condition, issue) => {
+        const pattern = utils_1.utils.processRegExpPattern(condition.pattern)
+        return pattern.test(issue.creator)
+      }
+      exports.default = [TYPE, exports.creatorMatches]
+
+      /***/
+    },
+
+    /***/ 2353: /***/ (
+      __unused_webpack_module,
+      exports,
+      __webpack_require__
+    ) => {
+      'use strict'
+
+      Object.defineProperty(exports, '__esModule', { value: true })
+      const utils_1 = __webpack_require__(1314)
+      const TYPE = 'descriptionMatches'
+      const descriptionMatches = (condition, issue) => {
+        const pattern = utils_1.utils.processRegExpPattern(condition.pattern)
+        return pattern.test(issue.description)
+      }
+      exports.default = [TYPE, descriptionMatches]
+
+      /***/
+    },
+
+    /***/ 7821: /***/ (__unused_webpack_module, exports) => {
+      'use strict'
+
+      Object.defineProperty(exports, '__esModule', { value: true })
+      const TYPE = 'isLocked'
+      const isLocked = (condition, issue) => issue.locked === condition.value
+      exports.default = [TYPE, isLocked]
+
+      /***/
+    },
+
+    /***/ 4043: /***/ (
+      __unused_webpack_module,
+      exports,
+      __webpack_require__
+    ) => {
+      'use strict'
+
+      Object.defineProperty(exports, '__esModule', { value: true })
+      const utils_1 = __webpack_require__(1314)
+      const TYPE = 'isOpen'
+      var States
+      ;(function (States) {
+        States['Open'] = 'OPEN'
+        States['Closed'] = 'CLOSED'
+      })(States || (States = {}))
+      const isOpen = (condition, issue) => {
+        return (
+          utils_1.utils.normalize(issue.state) ===
+          utils_1.utils.normalize(condition.value ? States.Open : States.Closed)
+        )
+      }
+      exports.default = [TYPE, isOpen]
+
+      /***/
+    },
+
+    /***/ 7869: /***/ (
       __unused_webpack_module,
       exports,
       __webpack_require__
@@ -28750,7 +28568,7 @@ module.exports = /******/ (() => {
       const utils_1 = __webpack_require__(1314)
       const TYPE = 'titleMatches'
       const titleMatches = (condition, issue) => {
-        const pattern = utils_1.processRegExpPattern(condition.pattern)
+        const pattern = utils_1.utils.processRegExpPattern(condition.pattern)
         return pattern.test(issue.title)
       }
       exports.default = [TYPE, titleMatches]
@@ -28838,110 +28656,11 @@ module.exports = /******/ (() => {
       /***/
     },
 
-    /***/ 1189: /***/ function (
+    /***/ 1812: /***/ function (
       __unused_webpack_module,
       exports,
       __webpack_require__
     ) {
-      'use strict'
-
-      var __awaiter =
-        (this && this.__awaiter) ||
-        function (thisArg, _arguments, P, generator) {
-          function adopt(value) {
-            return value instanceof P
-              ? value
-              : new P(function (resolve) {
-                  resolve(value)
-                })
-          }
-          return new (P || (P = Promise))(function (resolve, reject) {
-            function fulfilled(value) {
-              try {
-                step(generator.next(value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function rejected(value) {
-              try {
-                step(generator['throw'](value))
-              } catch (e) {
-                reject(e)
-              }
-            }
-            function step(result) {
-              result.done
-                ? resolve(result.value)
-                : adopt(result.value).then(fulfilled, rejected)
-            }
-            step(
-              (generator = generator.apply(thisArg, _arguments || [])).next()
-            )
-          })
-        }
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.parseIssueContext = exports.parsePRContext = void 0
-      const api_1 = __webpack_require__(9343)
-      exports.parsePRContext = (context, client, repo) =>
-        __awaiter(void 0, void 0, void 0, function* () {
-          const pr = context.payload.pull_request
-          if (!pr) {
-            return
-          }
-          const IDNumber = pr.number
-          const labels = parseLabels(pr.labels)
-          const files = yield api_1.file.list({ client, repo, IDNumber })
-          return {
-            labels,
-            IDNumber,
-            prProps: {
-              branch: pr.head.ref,
-              creator: pr.user.login,
-              description: pr.body || '',
-              files,
-              isDraft: pr.draft,
-              locked: pr.locked,
-              state: pr.state,
-              title: pr.title
-            }
-          }
-        })
-      exports.parseIssueContext = context => {
-        const issue = context.payload.issue
-        if (!issue) {
-          return
-        }
-        const labels = parseLabels(issue.labels)
-        return {
-          labels,
-          IDNumber: issue.number,
-          issueProps: {
-            creator: issue.user.login,
-            description: issue.body || '',
-            locked: issue.locked,
-            state: issue.state,
-            title: issue.title
-          }
-        }
-      }
-      const parseLabels = labels => {
-        if (!Array.isArray(labels)) {
-          return []
-        }
-        return labels.filter(
-          label =>
-            typeof label === 'object' &&
-            'name' in label &&
-            'description' in label &&
-            'color' in label
-        )
-      }
-
-      /***/
-    },
-
-    /***/ 1812: /***/ function (module, exports, __webpack_require__) {
       'use strict'
 
       var __createBinding =
@@ -29028,9 +28747,7 @@ module.exports = /******/ (() => {
       const fs_1 = __importDefault(__webpack_require__(5747))
       const core = __importStar(__webpack_require__(2186))
       const github = __importStar(__webpack_require__(5438))
-      const applyLabels_1 = __webpack_require__(4625)
-      const parseContext_1 = __webpack_require__(1189)
-      const syncLabels_1 = __webpack_require__(1617)
+      const utils_1 = __webpack_require__(1314)
       const context = github.context
       class SuperLabeler {
         constructor(client, options) {
@@ -29056,7 +28773,7 @@ module.exports = /******/ (() => {
               core.debug(`Config: ${JSON.stringify(config)}`)
               let curContext
               if (context.payload.pull_request) {
-                const ctx = yield parseContext_1.parsePRContext(
+                const ctx = yield utils_1.contextHandler.parsePR(
                   context,
                   this.client,
                   repo
@@ -29070,7 +28787,7 @@ module.exports = /******/ (() => {
                   context: ctx
                 }
               } else if (context.payload.issue) {
-                const ctx = parseContext_1.parseIssueContext(context)
+                const ctx = utils_1.contextHandler.parseIssue(context)
                 if (!ctx) {
                   throw new Error('issue not found on context')
                 }
@@ -29082,7 +28799,7 @@ module.exports = /******/ (() => {
               } else {
                 return
               }
-              yield syncLabels_1
+              yield utils_1.labelHandler
                 .syncLabels({
                   client: this.client,
                   repo,
@@ -29102,8 +28819,8 @@ module.exports = /******/ (() => {
                 {}
               )
               if (curContext.type === 'pr') {
-                yield applyLabels_1
-                  .applyPRLabels({
+                yield utils_1.labelHandler
+                  .applyPR({
                     client: this.client,
                     config: config.pr,
                     labelIdToName,
@@ -29117,8 +28834,8 @@ module.exports = /******/ (() => {
                     core.setFailed(err.message)
                   })
               } else if (curContext.type === 'issue') {
-                yield applyLabels_1
-                  .applyIssueLabels({
+                yield utils_1.labelHandler
+                  .applyIssue({
                     client: this.client,
                     config: config.issue,
                     issueContext: curContext.context,
@@ -29139,12 +28856,12 @@ module.exports = /******/ (() => {
           })
         }
       }
-      module.exports = SuperLabeler
+      exports.default = SuperLabeler
 
       /***/
     },
 
-    /***/ 1617: /***/ function (
+    /***/ 1314: /***/ function (
       __unused_webpack_module,
       exports,
       __webpack_require__
@@ -29227,78 +28944,237 @@ module.exports = /******/ (() => {
           })
         }
       Object.defineProperty(exports, '__esModule', { value: true })
-      exports.syncLabels = void 0
+      exports.labelHandler = exports.contextHandler = exports.utils = void 0
       const core = __importStar(__webpack_require__(2186))
+      const evaluator_1 = __importStar(__webpack_require__(5481))
       const api_1 = __webpack_require__(9343)
-      const utils_1 = __webpack_require__(1314)
-      exports.syncLabels = ({ client, config, repo, dryRun }) =>
-        __awaiter(void 0, void 0, void 0, function* () {
-          const curLabels = yield api_1.labelAPI.get({ client, repo })
-          core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
-          for (const _configLabel of Object.values(config)) {
-            const configLabel = Object.assign(Object.assign({}, _configLabel), {
-              color: _configLabel.color
-            })
-            const curLabel = curLabels.filter(l => l.name === configLabel.name)
-            if (curLabel.length > 0) {
-              const label = curLabel[0]
-              if (
-                label.description !== configLabel.description ||
-                label.color !== utils_1.formatColor(configLabel.color)
-              ) {
-                core.debug(
-                  `Recreate ${JSON.stringify(
-                    configLabel
-                  )} (prev: ${JSON.stringify(label)})`
-                )
-                try {
-                  yield api_1.labelAPI.update({
-                    client,
-                    repo,
-                    label: configLabel,
-                    dryRun
-                  })
-                } catch (e) {
-                  core.error(`Label update error: ${e.message}`)
+      class Utils {
+        constructor() {
+          this.formatColor = color => {
+            if (color.charAt(0) === '#') {
+              return color.substr(1)
+            } else {
+              return color
+            }
+          }
+          this.processRegExpPattern = pattern => {
+            const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/)
+            const [, source, flags] = matchDelimiters || []
+            return new RegExp(source || pattern, flags)
+          }
+          this.normalize = text => (text || '').toUpperCase()
+        }
+      }
+      class ContextHandler {
+        constructor() {
+          this.parsePR = (context, client, repo) =>
+            __awaiter(this, void 0, void 0, function* () {
+              const pr = context.payload.pull_request
+              if (!pr) {
+                return
+              }
+              const IDNumber = pr.number
+              const labels = this.parseLabels(pr.labels)
+              const files = yield api_1.file.list({ client, repo, IDNumber })
+              return {
+                labels,
+                IDNumber,
+                prProps: {
+                  branch: pr.head.ref,
+                  creator: pr.user.login,
+                  description: pr.body || '',
+                  files,
+                  isDraft: pr.draft,
+                  locked: pr.locked,
+                  state: pr.state,
+                  title: pr.title
                 }
               }
-            } else {
-              core.debug(`Create ${JSON.stringify(configLabel)}`)
-              try {
-                yield api_1.labelAPI.create({
-                  client,
-                  repo,
-                  label: configLabel,
-                  dryRun
-                })
-              } catch (e) {
-                core.debug(`Label Creation failed: ${e.message}`)
+            })
+          this.parseIssue = context => {
+            const issue = context.payload.issue
+            if (!issue) {
+              return
+            }
+            const labels = this.parseLabels(issue.labels)
+            return {
+              labels,
+              IDNumber: issue.number,
+              issueProps: {
+                creator: issue.user.login,
+                description: issue.body || '',
+                locked: issue.locked,
+                state: issue.state,
+                title: issue.title
               }
             }
           }
-        })
-
-      /***/
-    },
-
-    /***/ 1314: /***/ (__unused_webpack_module, exports) => {
-      'use strict'
-
-      Object.defineProperty(exports, '__esModule', { value: true })
-      exports.normalize = exports.processRegExpPattern = exports.formatColor = void 0
-      exports.formatColor = color => {
-        if (color.charAt(0) === '#') {
-          return color.substr(1)
-        } else {
-          return color
+          this.parseLabels = labels => {
+            if (!Array.isArray(labels)) {
+              return []
+            }
+            return labels.filter(
+              label =>
+                typeof label === 'object' &&
+                'name' in label &&
+                'description' in label &&
+                'color' in label
+            )
+          }
         }
       }
-      exports.processRegExpPattern = pattern => {
-        const matchDelimiters = pattern.match(/^\/(.*)\/(.*)$/)
-        const [, source, flags] = matchDelimiters || []
-        return new RegExp(source || pattern, flags)
+      class LabelHandler {
+        constructor() {
+          this.addRemoveLabel = ({
+            client,
+            curLabels,
+            labelID,
+            labelName,
+            IDNumber,
+            repo,
+            shouldHaveLabel,
+            dryRun
+          }) =>
+            __awaiter(this, void 0, void 0, function* () {
+              const hasLabel =
+                curLabels.filter(l => l.name === labelName).length > 0
+              if (shouldHaveLabel && !hasLabel) {
+                core.debug(`Adding label "${labelID}"...`)
+                yield api_1.labelAPI.add({
+                  client,
+                  repo,
+                  IDNumber,
+                  label: labelName,
+                  dryRun
+                })
+              }
+              if (!shouldHaveLabel && hasLabel) {
+                core.debug(`Removing label "${labelID}"...`)
+                yield api_1.labelAPI.remove({
+                  client,
+                  repo,
+                  IDNumber,
+                  label: labelName,
+                  dryRun
+                })
+              }
+            })
+          this.applyIssue = ({
+            client,
+            config,
+            issueContext,
+            labelIdToName,
+            repo,
+            dryRun
+          }) =>
+            __awaiter(this, void 0, void 0, function* () {
+              const { labels: curLabels, issueProps, IDNumber } = issueContext
+              for (const [labelID, conditionsConfig] of Object.entries(
+                config
+              )) {
+                core.debug(`Label: ${labelID}`)
+                const shouldHaveLabel = evaluator_1.default(
+                  evaluator_1.ConditionSetType.issue,
+                  conditionsConfig,
+                  issueProps
+                )
+                yield this.addRemoveLabel({
+                  client,
+                  curLabels,
+                  labelID,
+                  labelName: labelIdToName[labelID],
+                  IDNumber,
+                  repo,
+                  shouldHaveLabel,
+                  dryRun
+                })
+              }
+            })
+          this.applyPR = ({
+            client,
+            config,
+            labelIdToName,
+            prContext,
+            repo,
+            dryRun
+          }) =>
+            __awaiter(this, void 0, void 0, function* () {
+              const { labels: curLabels, prProps, IDNumber } = prContext
+              for (const [labelID, conditionsConfig] of Object.entries(
+                config
+              )) {
+                core.debug(`Label: ${labelID}`)
+                const shouldHaveLabel = evaluator_1.default(
+                  evaluator_1.ConditionSetType.issue,
+                  conditionsConfig,
+                  prProps
+                )
+                yield this.addRemoveLabel({
+                  client,
+                  curLabels,
+                  labelID,
+                  labelName: labelIdToName[labelID],
+                  IDNumber,
+                  repo,
+                  shouldHaveLabel,
+                  dryRun
+                })
+              }
+            })
+          this.syncLabels = ({ client, config, repo, dryRun }) =>
+            __awaiter(this, void 0, void 0, function* () {
+              const curLabels = yield api_1.labelAPI.get({ client, repo })
+              core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
+              for (const _configLabel of Object.values(config)) {
+                const configLabel = Object.assign(
+                  Object.assign({}, _configLabel),
+                  { color: _configLabel.color }
+                )
+                const curLabel = curLabels.filter(
+                  l => l.name === configLabel.name
+                )
+                if (curLabel.length > 0) {
+                  const label = curLabel[0]
+                  if (
+                    label.description !== configLabel.description ||
+                    label.color !== exports.utils.formatColor(configLabel.color)
+                  ) {
+                    core.debug(
+                      `Recreate ${JSON.stringify(
+                        configLabel
+                      )} (prev: ${JSON.stringify(label)})`
+                    )
+                    try {
+                      yield api_1.labelAPI.update({
+                        client,
+                        repo,
+                        label: configLabel,
+                        dryRun
+                      })
+                    } catch (e) {
+                      core.error(`Label update error: ${e.message}`)
+                    }
+                  }
+                } else {
+                  core.debug(`Create ${JSON.stringify(configLabel)}`)
+                  try {
+                    yield api_1.labelAPI.create({
+                      client,
+                      repo,
+                      label: configLabel,
+                      dryRun
+                    })
+                  } catch (e) {
+                    core.debug(`Label Creation failed: ${e.message}`)
+                  }
+                }
+              }
+            })
+        }
       }
-      exports.normalize = text => (text || '').toUpperCase()
+      exports.utils = new Utils()
+      exports.contextHandler = new ContextHandler()
+      exports.labelHandler = new LabelHandler()
 
       /***/
     },

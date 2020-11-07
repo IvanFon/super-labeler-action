@@ -1,5 +1,12 @@
+/**
+ * Runs the Action
+ * @author IvanFon, TGTGamer, jbinda
+ * @since 1.0.0
+ */
+
 import * as core from '@actions/core'
 import * as github from '@actions/github'
+import { Options } from './types'
 import path from 'path'
 
 const superLabeler = require('./superLabeler')
@@ -12,7 +19,7 @@ const configPath = path.join(GITHUB_WORKSPACE, configFile)
 const GITHUB_TOKEN = core.getInput('GITHUB_TOKEN', {
   required: true
 })
-const options = {
+const options: Options = {
   configPath,
   showLogs,
   dryRun
