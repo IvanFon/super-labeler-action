@@ -8,8 +8,8 @@ import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { Options } from './types'
 import path from 'path'
+import superLabeler from './superLabeler'
 
-const superLabeler = require('./superLabeler')
 const { GITHUB_WORKSPACE = '', SHOW_LOGS, GH_ACTION_LOCAL_TEST } = process.env
 const dryRun = !!GH_ACTION_LOCAL_TEST
 const showLogs = SHOW_LOGS === 'true'
