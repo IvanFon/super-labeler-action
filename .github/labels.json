@@ -465,7 +465,7 @@
       ]
     },
     "optimisation": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -490,7 +490,7 @@
       ]
     },
     "style": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -511,7 +511,7 @@
       ]
     },
     "refactor": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -536,7 +536,7 @@
       ]
     },
     "revert": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -557,7 +557,7 @@
       ]
     },
     "deprecated": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -582,7 +582,7 @@
       ]
     },
     "removal": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -655,7 +655,7 @@
       ]
     },
     "closed": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "isLocked",
@@ -926,7 +926,7 @@
       ]
     },
     "optimisation": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -947,7 +947,7 @@
       ]
     },
     "style": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -964,7 +964,7 @@
       ]
     },
     "refactor": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -985,7 +985,7 @@
       ]
     },
     "revert": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -1002,7 +1002,7 @@
       ]
     },
     "deprecated": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -1023,7 +1023,7 @@
       ]
     },
     "removal": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "titleMatches",
@@ -1083,7 +1083,7 @@
       ]
     },
     "closed": {
-      "requires": 2,
+      "requires": 1,
       "conditions": [
         {
           "type": "isLocked",
