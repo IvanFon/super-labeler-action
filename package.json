@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "A superpowered issue and pull request labeler for Github Actions.",
   "main": "src/index.ts",
-  "repository": "git@github.com:IvanFon/super-labeler-action.git",
-  "author": "Ivan Fonseca <ivanfon@riseup.net>",
+  "repository": "git@github.com:videndum/super-labeler-action.git",
+  "author": "Jonathan Stevens <jonathan@videndum.studio>",
   "license": "GPL-3.0",
   "directories": {
     "lib": "./lib",
@@ -18,19 +18,13 @@
     "format-check": "prettier --config .prettier.json --check .",
     "package": "ncc build --source-map",
     "test": "jest --json --outputFile=result.json --testLocationInResults",
-    "dev:pr": "EVENT_PATH=__tests__/event.pr.json yarn dev:run",
-    "dev:issue": "EVENT_PATH=__tests__/event.issue.json yarn dev:run",
-    "dev:run": "source .env && GITHUB_EVENT_PATH=${EVENT_PATH} node dist/index.js",
+    "dev:run": "source .env node dist/index.js",
     "dev:init": "node bin/copyLocalRun.js"
-  },
-  "prettier": {
-    "arrowParens": "always",
-    "singleQuote": true,
-    "trailingComma": "all"
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^2.1.1",
+    "@videndum/utilities": "^1.0.0-alpha.2",
     "minimatch": "^3.0.4",
     "minimist": "^1.2.5"
   },

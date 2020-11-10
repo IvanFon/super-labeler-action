@@ -2,6 +2,7 @@ import * as core from '@actions/core'
 
 import { IssueConditionConfig, PRConditionConfig } from '../types'
 import {
+  log,
   IssueCondition,
   PRCondition,
   getIssueConditionHandler,
@@ -21,12 +22,12 @@ const forConditions = <T extends IssueCondition | PRCondition>(
 ) => {
   let matches = 0
   for (const condition of conditions) {
-    core.debug(`Condition: ${JSON.stringify(condition)}`)
+    log(`Condition: ${JSON.stringify(condition)}`, 1)
     if (callback(condition)) {
       matches++
     }
   }
-  core.debug(`Matches: ${matches}`)
+  log(`Matches: ${matches}`, 1)
   return matches
 }
 

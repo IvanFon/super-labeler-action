@@ -4,6 +4,7 @@ import { Context } from '@actions/github/lib/context'
 import evaluator, { ConditionSetType } from './conditions/evaluator'
 import { Config, PRContext, IssueContext, Labels } from './types'
 import { labelAPI, file, Repo } from './api'
+import { log } from './'
 
 class Utils {
   /**
@@ -43,18 +44,18 @@ class Utils {
 }
 
 class ContextHandler {
-  parsePR = async (
+  async parsePR(
     context: Context,
     client: GitHub,
     repo: Repo
-  ): Promise<PRContext | undefined> => {
+  ): Promise<PRContext | undefined> {
     const pr = context.payload.pull_request
     if (!pr) {
       return
     }
 
     const IDNumber = pr.number
-    const labels = this.parseLabels(pr.labels)
+    const labels = await this.parseLabels(pr.labels)
     const files = await file.list({ client, repo, IDNumber })
 
     return {
@@ -73,13 +74,13 @@ class ContextHandler {
     }
   }
 
-  parseIssue = (context: Context): IssueContext | undefined => {
+  async parseIssue(context: Context): Promise<IssueContext | undefined> {
     const issue = context.payload.issue
     if (!issue) {
       return
     }
 
-    const labels = this.parseLabels(issue.labels)
+    const labels = await this.parseLabels(issue.labels)
 
     return {
       labels,
@@ -94,12 +95,12 @@ class ContextHandler {
     }
   }
 
-  parseLabels = (labels: any): Labels => {
+  async parseLabels(labels: any): Promise<Labels> {
     if (!Array.isArray(labels)) {
       return []
     }
 
-    return labels.filter(
+    return await labels.filter(
       label =>
         typeof label === 'object' &&
         'name' in label &&
@@ -110,7 +111,7 @@ class ContextHandler {
 }
 
 class LabelHandler {
-  addRemoveLabel = async ({
+  async addRemoveLabel({
     client,
     curLabels,
     labelID,
@@ -128,14 +129,15 @@ class LabelHandler {
     repo: Repo
     shouldHaveLabel: boolean
     dryRun: boolean
-  }) => {
-    const hasLabel = curLabels.filter(l => l.name === labelName).length > 0
+  }) {
+    const hasLabel =
+      (await curLabels.filter(l => l.name === labelName).length) > 0
     if (shouldHaveLabel && !hasLabel) {
-      core.debug(`Adding label "${labelID}"...`)
+      log(`Adding label "${labelID}"...`, 1)
       await labelAPI.add({ client, repo, IDNumber, label: labelName, dryRun })
     }
     if (!shouldHaveLabel && hasLabel) {
-      core.debug(`Removing label "${labelID}"...`)
+      log(`Removing label "${labelID}"...`, 1)
       await labelAPI.remove({
         client,
         repo,
@@ -146,7 +148,7 @@ class LabelHandler {
     }
   }
 
-  applyIssue = async ({
+  async applyIssue({
     client,
     config,
     issueContext,
@@ -160,10 +162,10 @@ class LabelHandler {
     labelIdToName: { [key: string]: string }
     repo: Repo
     dryRun: boolean
-  }) => {
+  }) {
     const { labels: curLabels, issueProps, IDNumber } = issueContext
     for (const [labelID, conditionsConfig] of Object.entries(config)) {
-      core.debug(`Label: ${labelID}`)
+      log(`Label: ${labelID}`, 1)
 
       const shouldHaveLabel = evaluator(
         ConditionSetType.issue,
@@ -184,7 +186,7 @@ class LabelHandler {
     }
   }
 
-  applyPR = async ({
+  async applyPR({
     client,
     config,
     labelIdToName,
@@ -198,10 +200,10 @@ class LabelHandler {
     prContext: PRContext
     repo: Repo
     dryRun: boolean
-  }) => {
+  }) {
     const { labels: curLabels, prProps, IDNumber } = prContext
     for (const [labelID, conditionsConfig] of Object.entries(config)) {
-      core.debug(`Label: ${labelID}`)
+      log(`Label: ${labelID}`, 1)
 
       const shouldHaveLabel = evaluator(
         ConditionSetType.issue,
@@ -226,7 +228,7 @@ class LabelHandler {
    * @author IvanFon, TGTGamer, jbinda
    * @since 1.0.0
    */
-  syncLabels = async ({
+  async syncLabels({
     client,
     config,
     repo,
@@ -236,14 +238,14 @@ class LabelHandler {
     config: Config['labels']
     repo: Repo
     dryRun: boolean
-  }) => {
+  }) {
     /**
      * Syncronises the repo labels
      * !todo Add delete labels
      * @since 2.0.0
      */
     const curLabels = await labelAPI.get({ client, repo })
-    core.debug(`curLabels: ${JSON.stringify(curLabels)}`)
+    log(`curLabels: ${JSON.stringify(curLabels)}`, 1)
     for (const _configLabel of Object.values(config)) {
       const configLabel = {
         ..._configLabel,
@@ -259,18 +261,20 @@ class LabelHandler {
       if (curLabel.length > 0) {
         const label = curLabel[0]
         if (
-          label.description !== configLabel.description ||
+          (label.description !== null &&
+            label.description !== configLabel.description) ||
           label.color !== utils.formatColor(configLabel.color)
         ) {
-          core.debug(
+          log(
             `Recreate ${JSON.stringify(configLabel)} (prev: ${JSON.stringify(
               label
-            )})`
+            )})`,
+            1
           )
           try {
             await labelAPI.update({ client, repo, label: configLabel, dryRun })
           } catch (e) {
-            core.error(`Label update error: ${e.message}`)
+            log(`Label update error: ${e.message}`, 5)
           }
         }
 
@@ -280,11 +284,11 @@ class LabelHandler {
          * @since 1.0.0
          */
       } else {
-        core.debug(`Create ${JSON.stringify(configLabel)}`)
+        log(`Create ${JSON.stringify(configLabel)}`, 1)
         try {
           await labelAPI.create({ client, repo, label: configLabel, dryRun })
         } catch (e) {
-          core.debug(`Label Creation failed: ${e.message}`)
+          log(`Label Creation failed: ${e.message}`, 1)
         }
       }
     }

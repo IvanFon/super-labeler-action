@@ -4,6 +4,7 @@ import * as github from '@actions/github'
 import { GitHub } from '@actions/github'
 import { Config, Options, PRContext, IssueContext } from './types'
 import { labelHandler, contextHandler } from './utils'
+import { log } from './'
 
 const context = github.context
 
@@ -23,13 +24,9 @@ export default class SuperLabeler {
    * @since 1.0.0
    */
   constructor(client: GitHub, options: Options) {
+    log(`Superlabeller Constructed: ${options}`, 1)
     this.client = client
     this.opts = options
-  }
-
-  _log(message: string) {
-    if (!this.opts.showLogs) return
-    console.log(message)
   }
 
   /**
@@ -51,8 +48,10 @@ export default class SuperLabeler {
       if (!fs.existsSync(configPath)) {
         throw new Error(`config not found at "${configPath}"`)
       }
-      const config: Config = JSON.parse(fs.readFileSync(configPath).toString())
-      core.debug(`Config: ${JSON.stringify(config)}`)
+      const config: Config = await JSON.parse(
+        fs.readFileSync(configPath).toString()
+      )
+      log(`Config: ${JSON.stringify(config)}`, 1)
 
       /**
        * Handle the context
@@ -68,24 +67,28 @@ export default class SuperLabeler {
         if (!ctx) {
           throw new Error('pull request not found on context')
         }
-        core.debug(`PR context: ${JSON.stringify(ctx)}`)
+        log(`PR context: ${JSON.stringify(ctx)}`, 1)
         curContext = {
           type: 'pr',
           context: ctx
         }
       } else if (context.payload.issue) {
-        const ctx = contextHandler.parseIssue(context)
+        const ctx = await contextHandler.parseIssue(context)
         if (!ctx) {
           throw new Error('issue not found on context')
         }
-        core.debug(`issue context: ${JSON.stringify(ctx)}`)
+        log(`issue context: ${JSON.stringify(ctx)}`, 1)
 
         curContext = {
           type: 'issue',
           context: ctx
         }
       } else {
-        return
+        log(
+          `There is no context to parse: ${JSON.stringify(context.payload)}`,
+          7
+        )
+        throw new Error('There is no context')
       }
 
       /**
@@ -101,13 +104,11 @@ export default class SuperLabeler {
           dryRun
         })
         .catch((err: { message: string | Error }) => {
-          core.debug('Error thrown while handling syncLabels tasks')
-          core.error(err.message)
-          core.setFailed(err.message)
+          log(`Error thrown while handling syncLabels tasks: ${err.message}`, 5)
         })
 
       // Mapping of label ids to Github names
-      const labelIdToName = Object.entries(config.labels).reduce(
+      const labelIdToName = await Object.entries(config.labels).reduce(
         (acc: { [key: string]: string }, cur) => {
           acc[cur[0]] = cur[1].name
           return acc
@@ -131,9 +132,7 @@ export default class SuperLabeler {
             dryRun
           })
           .catch((err: { message: string | Error }) => {
-            core.debug('Error thrown while handling PRLabel tasks')
-            core.error(err.message)
-            core.setFailed(err.message)
+            log(`Error thrown while handling PRLabel tasks: ${err.message}`, 5)
           })
       } else if (curContext.type === 'issue') {
         await labelHandler
@@ -146,14 +145,14 @@ export default class SuperLabeler {
             dryRun
           })
           .catch((err: { message: string | Error }) => {
-            core.debug('Error thrown while handling issueLabel tasks')
-            core.error(err.message)
-            core.setFailed(err.message)
+            log(
+              `Error thrown while handling issueLabel tasks: ${err.message}`,
+              5
+            )
           })
       }
     } catch (err) {
-      core.error(err.message)
-      core.setFailed(err.message)
+      log(err.message, 5)
     }
   }
 }

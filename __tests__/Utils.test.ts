@@ -46,3 +46,8 @@ test('test colour format', async () => {
     'CFD3D7'
   )
 })
+// test('Run entire script', async () => {
+//   await expect(utils.formatColor(`#${settings.labels.test.color}`)).toBe(
+//     'CFD3D7'
+//   )
+// })

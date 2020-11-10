@@ -22,6 +22,7 @@ export const handlers = [
 ]
 
 export { IssueProps, PRProps } from '../types'
+export { log } from '../'
 
 export * from './issue'
 export * from './pr'
