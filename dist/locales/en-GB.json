@@ -1,0 +1,38 @@
+{
+  "core": {
+    "debug": "",
+    "developer": "",
+    "init": "",
+    "version_dev": ""
+  },
+  "errors": {
+    "fileDirectory": {
+      "caught": "",
+      "file": "",
+      "solved": "",
+      "thrown": ""
+    },
+    "unspecific": {
+      "default": "",
+      "localize": ""
+    }
+  },
+  "logging": {
+    "alert": "",
+    "critical": "",
+    "debug": "",
+    "default": "",
+    "emergency": "",
+    "error": "",
+    "info": "",
+    "level": "",
+    "notice": "",
+    "sentry": {
+      "config": "",
+      "config_dev": "",
+      "default": "",
+      "initialised": ""
+    },
+    "warn": ""
+  }
+}

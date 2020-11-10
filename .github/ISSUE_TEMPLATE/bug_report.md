@@ -4,7 +4,6 @@ about: Report a bug with Super Labeler
 title: ''
 labels: bug
 assignees: ''
-
 ---
 
 **Describe the bug**
@@ -12,6 +11,7 @@ A clear and concise description of what the bug is.
 
 **To Reproduce**
 Steps to reproduce the behavior:
+
 1. Go to '...'
 2. Click on '....'
 3. Scroll down to '....'
@@ -32,6 +32,7 @@ Add your `labels.json` config and Github Actions workflow:
 ```yaml
 insert workflow here
 ```
+
 **Github Actions Output**
 Please [set the `ACTIONS_RUNNER_DEBUG` secret to `true` to enable debug logging](https://help.github.com/en/actions/configuring-and-managing-workflows/managing-a-workflow-run#enabling-debug-logging), rerun the labeler workflow, and paste the output below:
 
