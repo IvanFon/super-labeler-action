@@ -34,4 +34,4 @@ jobs:
         id: labeller
         uses: ./
         with:
-          GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
