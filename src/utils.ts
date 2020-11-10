@@ -246,9 +246,10 @@ class LabelHandler {
     const curLabels = await labelAPI.get({ client, repo })
     log(`curLabels: ${JSON.stringify(curLabels)}`, 1)
     for (const configLabel of Object.values(config)) {
-      
-      const curLabel = await curLabels.filter(l => l.name.toLowerCase() === configLabel.name.toLowerCase())
-      
+      const curLabel = await curLabels.filter(
+        l => l.name.toLowerCase() === configLabel.name.toLowerCase()
+      )
+
       /**
        * Update label
        * @author IvanFon, TGTGamer, jbinda
@@ -273,11 +274,11 @@ class LabelHandler {
           }
         }
 
-      /**
-       * Create label
-       * @author IvanFon, TGTGamer, jbinda
-       * @since 1.0.0
-       */
+        /**
+         * Create label
+         * @author IvanFon, TGTGamer, jbinda
+         * @since 1.0.0
+         */
       } else {
         log(`Create ${JSON.stringify(configLabel)}`, 1)
         try {
