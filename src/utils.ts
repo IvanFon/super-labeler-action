@@ -131,7 +131,7 @@ class LabelHandler {
   }) {
     const hasLabel =
       (await curLabels.filter(l => l.name === labelName).length) > 0
-    if (shouldHaveLabel && !hasLabel) {
+    if (shouldHaveLabel && hasLabel) {
       log(`Adding label "${labelID}"...`, 1)
       await labelAPI.add({ client, repo, IDNumber, label: labelName, dryRun })
     }
