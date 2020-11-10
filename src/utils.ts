@@ -100,7 +100,7 @@ class ContextHandler {
       return []
     }
 
-    return await labels.filter(
+    return labels.filter(
       label =>
         typeof label === 'object' &&
         'name' in label &&
