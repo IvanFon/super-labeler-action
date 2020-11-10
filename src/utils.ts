@@ -261,9 +261,11 @@ class LabelHandler {
           label.description !== configLabel.description ||
           label.color !== utils.formatColor(configLabel.color)
         ) {
-
           log(`ConfigLabel description is: ${configLabel.description}`, 1)
-          if (configLabel.description == null || configLabel.description == "null") {
+          if (
+            configLabel.description == null ||
+            configLabel.description == 'null'
+          ) {
             log(`label description is: ${label.description}`, 1)
             if (label.description == undefined) return
           }
