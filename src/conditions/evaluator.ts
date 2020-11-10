@@ -25,7 +25,6 @@ const forConditions = <T extends IssueCondition | PRCondition>(
       matches++
     }
   }
-  log(`Matches: ${matches}`, 1)
   return matches
 }
 
@@ -43,5 +42,6 @@ export default function evaluator(
         : getPRConditionHandler(condition as PRCondition)
     return handler?.(condition as any, props as any) || false
   })
+  log(`Matches: ${matches}/${requires}`, 1)
   return matches >= requires
 }
