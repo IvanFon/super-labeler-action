@@ -1,4 +1,3 @@
-import * as core from '@actions/core'
 import { GitHub } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
 import evaluator, { ConditionSetType } from './conditions/evaluator'

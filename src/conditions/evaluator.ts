@@ -1,5 +1,3 @@
-import * as core from '@actions/core'
-
 import { IssueConditionConfig, PRConditionConfig } from '../types'
 import {
   log,

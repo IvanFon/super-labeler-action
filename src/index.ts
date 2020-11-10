@@ -9,7 +9,7 @@ import * as github from '@actions/github'
 import { Options } from './types'
 import path from 'path'
 import superLabeler from './superLabeler'
-import { Log, loggingData } from '@videndum/utilities'
+import { Log } from '@videndum/utilities'
 
 const { GITHUB_WORKSPACE = '', SHOW_LOGS, GH_ACTION_LOCAL_TEST } = process.env
 const dryRun = !!GH_ACTION_LOCAL_TEST

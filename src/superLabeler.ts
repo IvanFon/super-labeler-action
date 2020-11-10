@@ -1,5 +1,4 @@
 import fs from 'fs'
-import * as core from '@actions/core'
 import * as github from '@actions/github'
 import { GitHub } from '@actions/github'
 import { Config, Options, PRContext, IssueContext } from './types'
