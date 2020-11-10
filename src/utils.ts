@@ -245,13 +245,10 @@ class LabelHandler {
      */
     const curLabels = await labelAPI.get({ client, repo })
     log(`curLabels: ${JSON.stringify(curLabels)}`, 1)
-    for (const _configLabel of Object.values(config)) {
-      const configLabel = {
-        ..._configLabel,
-        color: _configLabel.color
-      }
-      const curLabel = curLabels.filter(l => l.name === configLabel.name)
-
+    for (const configLabel of Object.values(config)) {
+      
+      const curLabel = await curLabels.filter(l => l.name.toLowerCase() === configLabel.name.toLowerCase())
+      
       /**
        * Update label
        * @author IvanFon, TGTGamer, jbinda
@@ -260,8 +257,7 @@ class LabelHandler {
       if (curLabel.length > 0) {
         const label = curLabel[0]
         if (
-          (label.description !== null &&
-            label.description !== configLabel.description) ||
+          label.description !== configLabel.description ||
           label.color !== utils.formatColor(configLabel.color)
         ) {
           log(
@@ -277,17 +273,17 @@ class LabelHandler {
           }
         }
 
-        /**
-         * Create label
-         * @author IvanFon, TGTGamer, jbinda
-         * @since 1.0.0
-         */
+      /**
+       * Create label
+       * @author IvanFon, TGTGamer, jbinda
+       * @since 1.0.0
+       */
       } else {
         log(`Create ${JSON.stringify(configLabel)}`, 1)
         try {
           await labelAPI.create({ client, repo, label: configLabel, dryRun })
         } catch (e) {
-          log(`Label Creation failed: ${e.message}`, 1)
+          log(`Label Creation failed: ${e.message}`, 5)
         }
       }
     }
