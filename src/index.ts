@@ -14,7 +14,7 @@ import { Log } from '@videndum/utilities'
 const { GITHUB_WORKSPACE = '', SHOW_LOGS, GH_ACTION_LOCAL_TEST } = process.env
 const dryRun = !!GH_ACTION_LOCAL_TEST
 const showLogs = SHOW_LOGS === 'true'
-const L = new Log({ console: { enabled: true } })
+const L = new Log({ console: { enabled: false } })
 export function log(loggingData: string, type: number) {
   L.log({ raw: loggingData }, type)
   if (type == 1) core.debug(loggingData)
