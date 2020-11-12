@@ -20,7 +20,7 @@ const forConditions = <T extends IssueCondition | PRCondition>(
 ) => {
   let matches = 0
   for (const condition of conditions) {
-    log(`Condition: ${JSON.stringify(condition)}`, 1)
+    log(`Condition: ${JSON.stringify(condition)} == ${callback(condition)}`, 1)
     if (callback(condition)) {
       matches++
     }
@@ -36,11 +36,13 @@ export default function evaluator(
   const { conditions, requires } = config
 
   const matches = forConditions(conditions, condition => {
+    // ERROR IS HERE
     const handler =
-      conditionSetType === ConditionSetType.issue
+      conditionSetType == ConditionSetType.issue
         ? getIssueConditionHandler(condition as IssueCondition)
         : getPRConditionHandler(condition as PRCondition)
-    return handler?.(condition as any, props as any) || false
+    log(`The handler is ${handler?.name}`, 1)
+    return handler?.(condition as any, props as any) as boolean
   })
   log(`Matches: ${matches}/${requires}`, 1)
   return matches >= requires

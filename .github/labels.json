@@ -1157,6 +1157,65 @@
           "pattern": "/^.*\\(console\\):/i"
         }
       ]
+    },
+    "xs": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "changesSize",
+          "min": 0,
+          "max": 10
+        }
+      ]
+    },
+    "s": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "changesSize",
+          "min": 10,
+          "max": 30
+        }
+      ]
+    },
+    "m": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "changesSize",
+          "min": 40,
+          "max": 100
+        }
+      ]
+    },
+    "l": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "changesSize",
+          "min": 100,
+          "max": 500
+        }
+      ]
+    },
+    "xl": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "changesSize",
+          "min": 500,
+          "max": 1000
+        }
+      ]
+    },
+    "xxl": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "changesSize",
+          "min": 1000
+        }
+      ]
     }
   }
 }
