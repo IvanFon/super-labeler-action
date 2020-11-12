@@ -2,7 +2,7 @@ import { GitHub } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
 import evaluator, { ConditionSetType } from './conditions/evaluator'
 import { Config, PRContext, IssueContext, Labels } from './types'
-import { labelAPI, file, Repo } from './api'
+import { labelAPI, pullRequests, Repo } from './api'
 import { log } from '.'
 
 class Utils {
@@ -64,16 +64,22 @@ class ContextHandler {
       log(`Error thrown while parsing labels: ` + err, 5)
       throw err
     })
-    const files: string[] = await file
+    const files: string[] = await pullRequests
       .list({ client, repo, IDNumber })
       .catch(err => {
         log(`Error thrown while listing files: ` + err, 5)
         throw err
       })
-    const changes: number = await file
+    const changes: number = await pullRequests
       .changes(pr.additions, pr.deletions)
       .catch(err => {
         log(`Error thrown while handling changes: ` + err, 5)
+        throw err
+      })
+    const pendingReview: boolean = await pullRequests
+      .pendingReview({ client, repo, IDNumber }, pr.requested_reviewers.length)
+      .catch(err => {
+        log(`Error thrown while handling reviews: ` + err, 5)
         throw err
       })
 
@@ -86,6 +92,7 @@ class ContextHandler {
         description: pr.body || '',
         files,
         changes,
+        pendingReview,
         isDraft: pr.draft,
         locked: pr.locked,
         state: pr.state,

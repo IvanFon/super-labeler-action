@@ -1216,6 +1216,15 @@
           "min": 1000
         }
       ]
+    },
+    "devOpsReviewing": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "pendingReview",
+          "value": true
+        }
+      ]
     }
   }
 }

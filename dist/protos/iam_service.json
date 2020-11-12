@@ -278,7 +278,14 @@
             "HttpRule": {
               "oneofs": {
                 "pattern": {
-                  "oneof": ["get", "put", "post", "delete", "patch", "custom"]
+                  "oneof": [
+                    "get",
+                    "put",
+                    "post",
+                    "delete",
+                    "patch",
+                    "custom"
+                  ]
                 }
               },
               "fields": {
@@ -612,7 +619,12 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]]
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ]
             },
             "FieldDescriptorProto": {
               "fields": {
@@ -927,8 +939,18 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]],
-              "reserved": [[38, 38]],
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ],
+              "reserved": [
+                [
+                  38,
+                  38
+                ]
+              ],
               "nested": {
                 "OptimizeMode": {
                   "values": {
@@ -972,10 +994,21 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]],
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ],
               "reserved": [
-                [8, 8],
-                [9, 9]
+                [
+                  8,
+                  8
+                ],
+                [
+                  9,
+                  9
+                ]
               ]
             },
             "FieldOptions": {
@@ -1025,8 +1058,18 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]],
-              "reserved": [[4, 4]],
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ],
+              "reserved": [
+                [
+                  4,
+                  4
+                ]
+              ],
               "nested": {
                 "CType": {
                   "values": {
@@ -1052,7 +1095,12 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]]
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ]
             },
             "EnumOptions": {
               "fields": {
@@ -1073,8 +1121,18 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]],
-              "reserved": [[5, 5]]
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ],
+              "reserved": [
+                [
+                  5,
+                  5
+                ]
+              ]
             },
             "EnumValueOptions": {
               "fields": {
@@ -1091,7 +1149,12 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]]
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ]
             },
             "ServiceOptions": {
               "fields": {
@@ -1108,7 +1171,12 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]]
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ]
             },
             "MethodOptions": {
               "fields": {
@@ -1132,7 +1200,12 @@
                   "id": 999
                 }
               },
-              "extensions": [[1000, 536870911]],
+              "extensions": [
+                [
+                  1000,
+                  536870911
+                ]
+              ],
               "nested": {
                 "IdempotencyLevel": {
                   "values": {

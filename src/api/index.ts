@@ -14,5 +14,5 @@ export interface IssueApiProps extends ApiProps {
   IDNumber: number
 }
 
-export * from './files'
+export * from './pullRequests'
 export * from './labels'

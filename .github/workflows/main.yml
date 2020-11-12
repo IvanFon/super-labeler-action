@@ -5,26 +5,18 @@ on:
     types: [opened, edited, closed, reopened, ready_for_review, synchronize]
 
 jobs:
-  jest:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request' && (github.event.action == 'opened' || github.event.action == 'edited' && github.event.action == 'synchronize')
-    name: Check tests work first
-    steps:
-      - uses: actions/checkout@v2
-      - run: yarn && yarn test
-
-  check_for_tech_debt:
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request_review' || github.event_name == 'issue_comment' || (github.event_name == 'pull_request' && github.event.action == 'closed')
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create ticket step
-        id: createTicket
-        uses: TGTGamer/debt-collector@master
-        with:
-          title_prefix: '[DEBT]'
-          body_end: regex
-          token: ${{ secrets.GITHUB_TOKEN }}
+  # check_for_tech_debt:
+  #   runs-on: ubuntu-latest
+  #   if: github.event_name == 'pull_request_review' || github.event_name == 'issue_comment' || (github.event_name == 'pull_request' && github.event.action == 'closed')
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Create ticket step
+  #       id: createTicket
+  #       uses: TGTGamer/debt-collector@master
+  #       with:
+  #         title_prefix: '[DEBT]'
+  #         body_end: regex
+  #         token: ${{ secrets.GITHUB_TOKEN }}
 
   labeller_test:
     runs-on: ubuntu-latest
