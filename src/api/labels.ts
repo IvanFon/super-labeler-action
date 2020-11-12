@@ -1,7 +1,7 @@
 import { IssueApiProps, ApiProps } from '.'
 import { Label, Labels } from '../types'
 import { utils } from '../utils'
-
+export { log } from '..'
 class labels {
   async add({
     client,

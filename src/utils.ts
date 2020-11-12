@@ -1,7 +1,7 @@
 import { GitHub } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
 import evaluator, { ConditionSetType } from './conditions/evaluator'
-import { Config, PRContext, IssueContext, Labels } from './types'
+import { Config, PRContext, IssueContext, Labels, Reviews } from './types'
 import { labelAPI, pullRequests, Repo } from './api'
 import { log } from '.'
 
@@ -70,14 +70,37 @@ class ContextHandler {
         log(`Error thrown while listing files: ` + err, 5)
         throw err
       })
+
     const changes: number = await pullRequests
       .changes(pr.additions, pr.deletions)
       .catch(err => {
         log(`Error thrown while handling changes: ` + err, 5)
         throw err
       })
+
+    const reviews: Reviews = await pullRequests
+      .listReviews({ client, repo, IDNumber })
+      .catch(err => {
+        log(`Error thrown while handling reviews: ` + err, 5)
+        throw err
+      })
+
     const pendingReview: boolean = await pullRequests
-      .pendingReview({ client, repo, IDNumber }, pr.requested_reviewers.length)
+      .pendingReview(reviews.length, pr.requested_reviewers.length)
+      .catch(err => {
+        log(`Error thrown while handling reviews: ` + err, 5)
+        throw err
+      })
+
+    const requestedChanges: number = await pullRequests
+      .requestedChanges(reviews)
+      .catch(err => {
+        log(`Error thrown while handling reviews: ` + err, 5)
+        throw err
+      })
+
+    const approved: number = await pullRequests
+      .isApproved(reviews)
       .catch(err => {
         log(`Error thrown while handling reviews: ` + err, 5)
         throw err
@@ -90,13 +113,16 @@ class ContextHandler {
         branch: pr.head.ref,
         creator: pr.user.login,
         description: pr.body || '',
-        files,
-        changes,
-        pendingReview,
         isDraft: pr.draft,
         locked: pr.locked,
         state: pr.state,
-        title: pr.title
+        title: pr.title,
+        files,
+        changes,
+        reviews,
+        pendingReview,
+        requestedChanges,
+        approved
       }
     }
   }

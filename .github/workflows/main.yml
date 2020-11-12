@@ -2,7 +2,6 @@ on:
   issues:
     types: [opened, edited, closed, reopened]
   pull_request:
-    types: [opened, edited, closed, reopened, ready_for_review, synchronize]
 
 jobs:
   # check_for_tech_debt:

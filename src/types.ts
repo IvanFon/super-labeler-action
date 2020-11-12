@@ -40,7 +40,10 @@ export interface PRProps extends Props {
   branch: string
   isDraft: boolean
   files: string[]
+  reviews: Reviews
   pendingReview: boolean
+  requestedChanges: number
+  approved: number
   changes: number
 }
 
@@ -72,4 +75,20 @@ export interface Options {
   configJSON: Config
   showLogs: boolean
   dryRun: boolean
+}
+
+export type Reviews = Review[]
+
+export interface Review {
+  id?: number
+  node_id?: string
+  user?: any
+  body?: string
+  state?: 'APPROVED' | '' | string
+  html_url?: string
+  pull_request_url?: string
+  author_association?: string
+  _links?: {}
+  submitted_at?: string
+  commit_id?: string
 }

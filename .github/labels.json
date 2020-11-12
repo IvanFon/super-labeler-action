@@ -195,6 +195,11 @@
       "color": "172875",
       "description": "DevOPS awaiting review"
     },
+    "devOpsApproved": {
+      "name": "DevOps - Approved",
+      "color": "172875",
+      "description": "DevOPS Approved - awaiting staging"
+    },
     "devOpsStaging": {
       "name": "DevOps - Staging",
       "color": "172875",
@@ -220,7 +225,7 @@
       "color": "bfdadc",
       "description": "The contributor is developing this issue"
     },
-    "comOpsAwaiting Review": {
+    "comOpsAwaitingReview": {
       "name": "ComOps - Awaiting Review",
       "color": "bfdadc",
       "description": "The contributor is awaiting review"
@@ -1223,6 +1228,25 @@
         {
           "type": "pendingReview",
           "value": true
+        }
+      ]
+    },
+    "devOpsRejected": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "requestedChanges",
+          "value": true
+        }
+      ]
+    },
+    "devOpsApproved": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "isApproved",
+          "value": true,
+          "required": 1
         }
       ]
     }
