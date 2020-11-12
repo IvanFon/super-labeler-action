@@ -36,9 +36,15 @@ function start() {
       `Super Labeler is running in local dryrun mode. No labels will be applyed`,
       3
     )
+  const configInput = JSON.parse(core.getInput('configJSON') || '{}')
+  console.log(`Config Data: ` + JSON.stringify(configInput))
   const configJSON: Config =
-    core.getInput('configJSON') ||
-    (local == undefined ? undefined : require(local.configJSON))
+    configInput.SuperLabeler ||
+    (configInput.labels
+      ? configInput
+      : local == undefined
+      ? undefined
+      : require(local.configJSON))
   const configFile = core.getInput('config')
   log(`Config file ${configFile}`, 1)
   const configPath = path.join(GITHUB_WORKSPACE, configFile)
