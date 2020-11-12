@@ -9,6 +9,10 @@ class File {
     })
     return files.data.map(file => file.filename)
   }
+
+  async changes(Additions: number, deletions: number) {
+    return Additions + deletions
+  }
 }
 
 export const file = new File()

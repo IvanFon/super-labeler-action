@@ -70,6 +70,12 @@ class ContextHandler {
         log(`Error thrown while listing files: ` + err, 5)
         throw err
       })
+    const changes: number = await file
+      .changes(pr.additions, pr.deletions)
+      .catch(err => {
+        log(`Error thrown while handling changes: ` + err, 5)
+        throw err
+      })
 
     return {
       labels,
@@ -79,6 +85,7 @@ class ContextHandler {
         creator: pr.user.login,
         description: pr.body || '',
         files,
+        changes,
         isDraft: pr.draft,
         locked: pr.locked,
         state: pr.state,
