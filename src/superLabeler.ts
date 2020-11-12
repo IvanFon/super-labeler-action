@@ -5,7 +5,16 @@ import { Config, Options, PRContext, IssueContext } from './types'
 import { labelHandler, contextHandler } from './utils'
 import { log } from './'
 
-const context = github.context
+let local: any
+let context = github.context
+
+try {
+  local = require('../config.json')
+  process.env.GITHUB_REPOSITORY = local.GITHUB_REPOSITORY
+  process.env.GITHUB_REPOSITORY_OWNER = local.GITHUB_REPOSITORY_OWNER
+  if (!context.payload.issue && !context.payload.pull_request)
+    context = require(local.github_context)
+} catch {}
 
 /**
  * Super Labeler
@@ -35,22 +44,43 @@ export default class SuperLabeler {
    */
   async run() {
     try {
+      const configJSON = this.opts.configJSON
       const configPath = this.opts.configPath
       const dryRun = this.opts.dryRun
-      const repo = context.repo
+      const repo = context.repo || {}
+      if (dryRun) repo.repo = process.env.GITHUB_REPOSITORY || 'Unknown'
+      if (dryRun) repo.owner = process.env.GITHUB_REPOSITORY_OWNER || 'Unknown'
+
+      log(`Repo data: ${repo.owner}/${repo.repo}`, 1)
+
+      /**
+       * Capture and log context to debug for Local Running
+       * @author TGTGamer
+       * @since 1.0.0
+       */
+
+      log(
+        `Context for local running. See readme.md for information on how to setup local running: ${JSON.stringify(
+          context
+        )}`,
+        1
+      )
 
       /**
        * Get the configuration
        * @author IvanFon, TGTGamer, jbinda
        * @since 1.0.0
        */
-      if (!fs.existsSync(configPath)) {
-        throw new Error(`config not found at "${configPath}"`)
+      let config: Config
+      if (!configJSON) {
+        if (!fs.existsSync(configPath)) {
+          throw new Error(`config not found at "${configPath}"`)
+        }
+        config = await JSON.parse(fs.readFileSync(configPath).toString())
+        log(`Config: ${JSON.stringify(config)}`, 1)
+      } else {
+        config = configJSON
       }
-      const config: Config = await JSON.parse(
-        fs.readFileSync(configPath).toString()
-      )
-      log(`Config: ${JSON.stringify(config)}`, 1)
 
       /**
        * Handle the context
@@ -62,9 +92,14 @@ export default class SuperLabeler {
         | { type: 'issue'; context: IssueContext }
 
       if (context.payload.pull_request) {
-        const ctx = await contextHandler.parsePR(context, this.client, repo)
+        const ctx = await contextHandler
+          .parsePR(context, this.client, repo)
+          .catch(err => {
+            log(`Error thrown while parsing PR context: ` + err, 5)
+            throw err
+          })
         if (!ctx) {
-          throw new Error('pull request not found on context')
+          throw new Error('Pull Request not found on context')
         }
         log(`PR context: ${JSON.stringify(ctx)}`, 1)
         curContext = {
@@ -72,9 +107,12 @@ export default class SuperLabeler {
           context: ctx
         }
       } else if (context.payload.issue) {
-        const ctx = await contextHandler.parseIssue(context)
+        const ctx = await contextHandler.parseIssue(context).catch(err => {
+          log(`Error thrown while parsing issue context: ` + err, 5)
+          throw err
+        })
         if (!ctx) {
-          throw new Error('issue not found on context')
+          throw new Error('Issue not found on context')
         }
         log(`issue context: ${JSON.stringify(ctx)}`, 1)
 
@@ -85,7 +123,7 @@ export default class SuperLabeler {
       } else {
         log(
           `There is no context to parse: ${JSON.stringify(context.payload)}`,
-          7
+          3
         )
         throw new Error('There is no context')
       }
@@ -151,7 +189,7 @@ export default class SuperLabeler {
           })
       }
     } catch (err) {
-      log(err.message, 5)
+      log(`Error in supper labeler: ` + err.message, 5)
     }
   }
 }

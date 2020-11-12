@@ -1,4 +1,4 @@
-import { IssueCondition, PRCondition } from './conditions'
+import { IssueCondition, PRCondition } from './conditions/'
 
 export interface IssueConditionConfig {
   requires: number
@@ -67,6 +67,7 @@ export interface IssueContext extends GeneralContext {
 
 export interface Options {
   configPath: string
+  configJSON: Config
   showLogs: boolean
   dryRun: boolean
 }

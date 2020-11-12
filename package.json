@@ -12,14 +12,15 @@
     "test": "./__tests__"
   },
   "scripts": {
-    "all": "npm run build && npm run format && npm run test",
-    "build": "tsc && npm run package",
-    "format": "prettier --config .prettier.json --write .",
-    "format-check": "prettier --config .prettier.json --check .",
-    "package": "ncc build --source-map",
-    "test": "jest --json --outputFile=result.json --testLocationInResults",
-    "dev:run": "source .env node dist/index.js",
-    "dev:init": "node bin/copyLocalRun.js"
+    "run": "node lib/index.js",
+    "build": "tsc",
+    "test": "jest",
+    "dev:run": "tsc && node lib/index.js",
+    "dev:format": "prettier --config .prettier.json --write .",
+    "dev:format-check": "prettier --config .prettier.json --check .",
+    "dev:package": "tsc && ncc build --source-map",
+    "dev:test": "jest --json --outputFile=result.json --testLocationInResults",
+    "dev:all": "npm run dev:package && npm run dev:format && npm run dev:test"
   },
   "dependencies": {
     "@actions/core": "^1.2.6",

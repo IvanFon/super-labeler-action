@@ -4,10 +4,10 @@ import {
   IssueCondition,
   PRCondition,
   getIssueConditionHandler,
-  getPRConditionHandler
-} from './index'
-
-import { PRProps, IssueProps } from '.'
+  getPRConditionHandler,
+  PRProps,
+  IssueProps
+} from '.'
 
 export enum ConditionSetType {
   issue = 'issue',
