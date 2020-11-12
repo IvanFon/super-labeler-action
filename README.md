@@ -103,6 +103,8 @@ Be sure that Github Actions is enabled for in your repository's settings. Super 
       - [filesMatch](#filesmatch)
       - [isDraft](#isdraft)
       - [pendingReview](#pendingreview)
+      - [isApproved](#isapproved)
+      - [requestedChanges](#requestedchanges)
     - [Issue Conditions](#issue-conditions)
   - [Running Locally](#running-locally)
 
@@ -338,6 +340,33 @@ Example:
 ```json
 {
   "type": "pendingReview",
+  "value": true
+}
+```
+
+#### isApproved
+
+Checks if a pull request has requested a review.
+
+Example:
+
+```json
+{
+  "type": "isApproved",
+  "value": true,
+  "required": 1
+}
+```
+
+#### requestedChanges
+
+Checks if a pull request has requested a review.
+
+Example:
+
+```json
+{
+  "type": "requestedChanges",
   "value": true
 }
 ```
