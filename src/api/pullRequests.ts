@@ -25,7 +25,7 @@ class PullRequests {
   }
 
   async pendingReview(reviews: number, requested_reviews: number) {
-    return reviews <= requested_reviews
+    return reviews < requested_reviews
   }
 
   async requestedChanges(reviews: Reviews) {
