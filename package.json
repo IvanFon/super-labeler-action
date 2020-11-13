@@ -1,31 +1,42 @@
 {
   "name": "super-labeler-action",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A superpowered issue and pull request labeler for Github Actions.",
   "main": "src/index.ts",
-  "repository": "git@github.com:IvanFon/super-labeler-action.git",
-  "author": "Ivan Fonseca <ivanfon@riseup.net>",
+  "repository": "git@github.com:videndum/super-labeler-action.git",
+  "author": "Jonathan Stevens <jonathan@videndum.studio>",
   "license": "GPL-3.0",
-  "engines": {
-    "node": "12"
+  "directories": {
+    "lib": "./lib",
+    "doc": "./docs",
+    "test": "./__tests__"
   },
   "scripts": {
-    "build": "ncc build src/index.ts -o dist",
-    "format": "prettier --write src/**/*.ts"
-  },
-  "prettier": {
-    "arrowParens": "always",
-    "singleQuote": true,
-    "trailingComma": "all"
+    "run": "node lib/index.js",
+    "build": "tsc",
+    "test": "jest",
+    "dev:run": "tsc && node lib/index.js",
+    "dev:format": "prettier --config .prettier.json --write .",
+    "dev:format-check": "prettier --config .prettier.json --check .",
+    "dev:package": "tsc && ncc build --source-map",
+    "dev:test": "jest --json --outputFile=result.json --testLocationInResults",
+    "dev:all": "npm run dev:package && npm run dev:format && npm run dev:test"
   },
   "dependencies": {
-    "@actions/core": "^1.2.3",
+    "@actions/core": "^1.2.6",
     "@actions/github": "^2.1.1",
-    "minimatch": "^3.0.4"
+    "@videndum/utilities": "^1.0.0-alpha.2",
+    "minimatch": "^3.0.4",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
+    "@types/jest": "^26.0.10",
+    "@types/node": "^14.6.0",
     "@types/minimatch": "^3.0.3",
-    "@zeit/ncc": "^0.21.1",
-    "prettier": "^1.19.1"
+    "@vercel/ncc": "^0.24.0",
+    "jest": "^26.3.0",
+    "prettier": "^2.1.2",
+    "ts-jest": "^26.1.4",
+    "typescript": "^3.9.7"
   }
 }

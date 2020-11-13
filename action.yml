@@ -1,8 +1,8 @@
-name: 'Super Labeler'
+name: 'Everything Labeler'
 description: 'A superpowered issue and pull request labeler for Github Actions.'
-author: 'IvanFon'
+author: 'Videndum'
 inputs:
-  github-token:
+  GITHUB_TOKEN:
     description: 'The GITHUB_TOKEN secret'
     required: true
   config:

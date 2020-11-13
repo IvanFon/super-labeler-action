@@ -1,121 +1,67 @@
-import fs from 'fs';
-import path from 'path';
+/**
+ * Runs the Action
+ * @author IvanFon, TGTGamer, jbinda
+ * @since 1.0.0
+ */
 
-import * as core from '@actions/core';
-import * as github from '@actions/github';
+import * as core from '@actions/core'
+import * as github from '@actions/github'
+import { Options, Config } from './types'
+import path from 'path'
+import superLabeler from './superLabeler'
+import { Log } from '@videndum/utilities'
+let local: any = undefined
+let dryRun: boolean
+let showLogs: boolean = false
+try {
+  local = require('../config.json')
+  dryRun = local.GH_ACTION_LOCAL_TEST || false
+  showLogs = local.SHOW_LOGS || false
+} catch {}
 
-import { applyIssueLabels, applyPRLabels } from './applyLabels';
-import { IssueCondition, PRCondition } from './conditions';
-import {
-  IssueContext,
-  parseIssueContext,
-  parsePRContext,
-  PRContext,
-} from './parseContext';
-import syncLabels from './syncLabels';
+const { GITHUB_WORKSPACE = '' } = process.env
 
-export interface Config {
-  labels: {
-    [key: string]: {
-      name: string;
-      colour: string;
-      description: string;
-    };
-  };
-  issue: {
-    [key: string]: {
-      requires: number;
-      conditions: IssueCondition[];
-    };
-  };
-  pr: {
-    [key: string]: {
-      requires: number;
-      conditions: PRCondition[];
-    };
-  };
+const L = new Log({ sentry: { enabled: !showLogs, config: { dsn: '' } } })
+export function log(loggingData: string, type: number) {
+  L.log({ raw: loggingData }, type)
+  if (type == 1) core.debug(loggingData)
+  else if (type < 4) core.info(loggingData)
+  else if (type < 7) core.error(loggingData)
+  else core.setFailed(loggingData)
 }
 
-const context = github.context;
-
-(async () => {
-  try {
-    // Get inputs
-    const token = core.getInput('github-token', { required: true });
-    const configPath = path.join(
-      process.env.GITHUB_WORKSPACE as string,
-      core.getInput('config'),
-    );
-    const repo = context.repo;
-
-    const client = new github.GitHub(token);
-
-    // Load config
-    if (!fs.existsSync(configPath)) {
-      throw new Error(`config not found at "${configPath}"`);
-    }
-    const config: Config = JSON.parse(fs.readFileSync(configPath).toString());
-    core.debug(`Config: ${JSON.stringify(config)}`);
-
-    let curContext:
-      | { type: 'pr'; context: PRContext }
-      | { type: 'issue'; context: IssueContext };
-    if (context.payload.pull_request) {
-      const ctx = await parsePRContext(context, client, repo);
-      if (!ctx) {
-        throw new Error('pull request not found on context');
-      }
-      core.debug(`PR context: ${JSON.stringify(ctx)}`);
-
-      curContext = {
-        type: 'pr',
-        context: ctx,
-      };
-    } else if (context.payload.issue) {
-      const ctx = parseIssueContext(context);
-      if (!ctx) {
-        throw new Error('issue not found on context');
-      }
-      core.debug(`issue context: ${JSON.stringify(ctx)}`);
-
-      curContext = {
-        type: 'issue',
-        context: ctx,
-      };
-    } else {
-      return;
-    }
-
-    await syncLabels({ client, repo, config: config.labels });
-
-    // Mapping of label ids to Github names
-    const labelIdToName = Object.entries(config.labels).reduce(
-      (acc: { [key: string]: string }, cur) => {
-        acc[cur[0]] = cur[1].name;
-        return acc;
-      },
-      {},
-    );
-
-    if (curContext.type === 'pr') {
-      await applyPRLabels({
-        client,
-        config: config.pr,
-        labelIdToName,
-        prContext: curContext.context,
-        repo,
-      });
-    } else if (curContext.type === 'issue') {
-      await applyIssueLabels({
-        client,
-        config: config.issue,
-        issueContext: curContext.context,
-        labelIdToName,
-        repo,
-      });
-    }
-  } catch (err) {
-    core.error(err.message);
-    core.setFailed(err.message);
+function start() {
+  if (dryRun)
+    log(
+      `Super Labeler is running in local dryrun mode. No labels will be applyed`,
+      3
+    )
+  const configInput = JSON.parse(core.getInput('configJSON') || '{}')
+  const configJSON: Config =
+    configInput.SuperLabeler ||
+    (configInput.labels
+      ? configInput
+      : local == undefined
+      ? undefined
+      : require(local.configJSON))
+  const configFile = core.getInput('config')
+  log(`Config file ${configFile}`, 1)
+  const configPath = path.join(GITHUB_WORKSPACE, configFile)
+  log(`Config Path ${configPath}`, 1)
+  const GITHUB_TOKEN =
+    core.getInput('GITHUB_TOKEN') ||
+    (local == undefined ? undefined : local.GITHUB_TOKEN)
+  if (!GITHUB_TOKEN) {
+    return core.setFailed('No Token provided')
   }
-})();
+  log('Github Token Collected ', 1)
+  const options: Options = {
+    configPath,
+    showLogs,
+    configJSON,
+    dryRun
+  }
+  const action = new superLabeler(new github.GitHub(GITHUB_TOKEN), options)
+  action.run()
+}
+start()

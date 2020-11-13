@@ -1,0 +1,47 @@
+{
+  "core": {
+    "debug": "",
+    "developer": "Developed by ",
+    "init": "Smartcloudjs framework Launched",
+    "version_dev": "Running version development version {{version}}. Please be careful when running an unstable version"
+  },
+  "errors": {
+    "fileDirectory": {
+      "caught": "File Directory error caught: ",
+      "file": "Log file: ",
+      "solved": "File Directory created. Error can be safely ignored",
+      "thrown": "Error thrown when creating directory: "
+    },
+    "logging": "No valid data to log",
+    "unspecific": {
+      "localize": "Data for localisation unavailable: {{what}}",
+      "default": "Something went wrong."
+    }
+  },
+  "logging": {
+    "alert": "alert",
+    "critical": "critical",
+    "debug": "debug",
+    "default": "unknown",
+    "emergency": "emergency",
+    "error": "error",
+    "info": "info",
+    "level": "Log level: ",
+    "notice": "notice",
+    "sentry": {
+      "error": "Sentry Error: ",
+      "constructor": "Setting up sentry for logging",
+      "config": "Sentry is not configured. Please read how to configure sentry for error tracking in the @videndum/smartcloud documentation found at docs.smartcloud.gg",
+      "config_dev": "Sentry is not configured. Please read how to configure sentry for error tracking in the @videndum/smartcloud documentation found at docs.smartcloud.gg"
+    },
+    "gcp": {
+      "error": "GCP Error: ",
+      "constructor": "Setting up GCP for logging"
+    },
+    "file": {
+      "error": "File Logging Error: ",
+      "constructor": "Setting up files for logging"
+    },
+    "warn": "warn"
+  }
+}

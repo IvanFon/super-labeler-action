@@ -6,6 +6,8 @@ A superpowered issue and pull request labeler for Github Actions.
 
 Super Labeler allows you to declaratively define your repository's labels, and when to apply them, in a config file that's checked into your repository.
 
+_This is a fork of [IvanFon/super-labeler-action](https://github.com/IvanFon/super-labeler-action) which we are maintaining due to the main repository going inactive. The original idea and all credit goes to IvanFon._
+
 ## Getting Started
 
 Create a new Github Actions workflow at `.github/workflows/label.yml`:
@@ -72,7 +74,9 @@ Now create the labeler config file at `.github/labels.json`:
         }
       ]
     }
-  }
+  },
+  "skip_labeling": true,
+  "delete_labels": true
 }
 ```
 
@@ -82,20 +86,29 @@ Be sure that Github Actions is enabled for in your repository's settings. Super 
 
 ## Index
 
-- [Getting Started](#getting-started)
-- [Index](#index)
-- [How it Works](#how-it-works)
-- [Config File Format](#config-file-format)
-- [Using Regex Patterns](#using-regex-patterns)
-- [Available Conditions](#available-conditions)
-  - [branchMatches](#branchmatches)
-  - [creatorMatches](#creatormatches)
-  - [descriptionMatches](#descriptionmatches)
-  - [filesMatch](#filesmatch)
-  - [isDraft](#isdraft)
-  - [isLocked](#islocked)
-  - [isOpen](#isopen)
-  - [titleMatches](#titlematches)
+- [super-labeler-action](#super-labeler-action)
+  - [Getting Started](#getting-started)
+  - [Index](#index)
+  - [How it Works](#how-it-works)
+  - [Config File Format](#config-file-format)
+  - [Using Regex Patterns](#using-regex-patterns)
+  - [Available Conditions](#available-conditions)
+    - [Common Conditions](#common-conditions)
+      - [creatorMatches](#creatormatches)
+      - [descriptionMatches](#descriptionmatches)
+      - [isLocked](#islocked)
+      - [isOpen](#isopen)
+      - [titleMatches](#titlematches)
+    - [Pull Request Conditions](#pull-request-conditions)
+      - [changesSize](#changessize)
+      - [branchMatches](#branchmatches)
+      - [filesMatch](#filesmatch)
+      - [isDraft](#isdraft)
+      - [pendingReview](#pendingreview)
+      - [isApproved](#isapproved)
+      - [requestedChanges](#requestedchanges)
+    - [Issue Conditions](#issue-conditions)
+  - [Running Locally](#running-locally)
 
 ## How it Works
 
@@ -148,27 +161,29 @@ Take a look at the examples in this file to get a feel for how to configure it. 
 <details>
   <summary><b>Click to show Typescript config interface</b></summary>
 
-```js
+```ts
 interface Config {
   labels: {
     [key: string]: {
-      name: string,
-      colour: string,
-      description: string,
-    },
-  };
+      name: string
+      colour: string
+      description: string
+    }
+  }
   issue: {
     [key: string]: {
-      requires: number,
-      conditions: IssueCondition[],
-    },
-  };
+      requires: number
+      conditions: IssueCondition[]
+    }
+  }
   pr: {
     [key: string]: {
-      requires: number,
-      conditions: PRCondition[],
-    },
-  };
+      requires: number
+      conditions: PRCondition[]
+    }
+  }
+  skip_labeling: string
+  delete_labels: boolean
 }
 ```
 
@@ -186,24 +201,12 @@ If you want to use flags, use the following format: `pattern: "/^wip:/i"` is equ
 
 ## Available Conditions
 
-### branchMatches
+<details>
+<summary><b>Common Conditions</b></summary>
 
-**Applies to: pull requests**
+### Common Conditions
 
-Checks if branch name matches a Regex pattern.
-
-Example:
-
-```json
-{
-  "type": "branchMatches",
-  "pattern": "^bugfix\\/"
-}
-```
-
-### creatorMatches
-
-**Applies to: issues and pull requests**
+#### creatorMatches
 
 Checks if an issue or pull request's creator's username matches a Regex pattern.
 
@@ -216,9 +219,7 @@ Example:
 }
 ```
 
-### descriptionMatches
-
-**Applies to: issues and pull requests**
+#### descriptionMatches
 
 Checks if an issue or pull request's description matches a Regex pattern.
 
@@ -231,9 +232,80 @@ Example:
 }
 ```
 
-### filesMatch
+#### isLocked
 
-**Applies to: pull requests**
+Checks if an issue or pull request is locked.
+
+Example:
+
+```json
+{
+  "type": "isLocked",
+  "value": true
+}
+```
+
+#### isOpen
+
+Checks if an issue or pull request is open or closed.
+
+Example:
+
+```json
+{
+  "type": "isOpen",
+  "value": true
+}
+```
+
+#### titleMatches
+
+Checks if an issue or pull request's title matches a Regex pattern.
+
+Example:
+
+```json
+{
+  "type": "titleMatches",
+  "pattern": "/^wip:/i"
+}
+```
+
+</details>
+
+<details>
+<summary><b>Pull Request Conditions</b></summary>
+  
+### Pull Request Conditions
+
+#### changesSize
+
+Checks if an pull request's changes against `min` & `max` values. Note: if `max` is `undefined` assumed value is `unlimited`
+
+Example:
+
+```json
+{
+  "type": "changesSize",
+  "min": 0,
+  "max": 100
+}
+```
+
+#### branchMatches
+
+Checks if branch name matches a Regex pattern.
+
+Example:
+
+```json
+{
+  "type": "branchMatches",
+  "pattern": "^bugfix\\/"
+}
+```
+
+#### filesMatch
 
 Checks if the files modified in the pull request match a glob.
 
@@ -248,9 +320,7 @@ Example:
 }
 ```
 
-### isDraft
-
-**Applies to: pull requests**
+#### isDraft
 
 Checks if a pull request is a draft.
 
@@ -263,50 +333,70 @@ Example:
 }
 ```
 
-### isLocked
+#### pendingReview
 
-**Applies to: issues and pull requests**
-
-Checks if an issue or pull request is locked.
+Checks if a pull request has requested a review.
 
 Example:
 
 ```json
 {
-  "type": "isLocked",
+  "type": "pendingReview",
   "value": true
 }
 ```
 
-### isOpen
+#### isApproved
 
-**Applies to: issues and pull requests**
-
-Checks if an issue or pull request is open or closed.
+Checks if a pull request has requested a review.
 
 Example:
 
 ```json
 {
-  "type": "isOpen",
+  "type": "isApproved",
+  "value": true,
+  "required": 1
+}
+```
+
+#### requestedChanges
+
+Checks if a pull request has requested a review.
+
+Example:
+
+```json
+{
+  "type": "requestedChanges",
   "value": true
 }
 ```
 
-### titleMatches
+</details>
 
-**Applies to: issues and pull requests**
+<details>
+<summary><b>Issue Conditions</b></summary>
 
-Checks if an issue or pull request's title matches a Regex pattern.
+### Issue Conditions
 
-Example:
+</details>
 
-```json
-{
-  "type": "titleMatches",
-  "pattern": "/^wip:/i"
-}
-```
+## Running Locally
+
+Setting up local running is simple, however we **MUST** warn that building / packaging while using local scripts can cause your GITHUB_TOKEN to be included within the package. To avoid this happening please follow the steps correctly
+
+1. Setup a secret on your repository named: `ACTIONS_STEP_DEBUG` value: `true`
+2. Ensure the action after you created this secret
+3. Clone this repository
+4. Run `yarn install` or `npm install`
+5. From the action logs find `Context for local running` copy the output into a file named `./context.json` at the root of the project.
+6. Modify the `./config.sample.json` to contain your `GITHUB_TOKEN` and rename to `./config.json`
+7. Run the script using `yarn run`
+8. (Optional) For developing, make changes, then rebuild using `yarn build` or `yarn dev:run`
+9. (Optional) If pushing changes to Github
+   - Delete `./context.json`, `./config`, `./lib`, `./dist`.
+   - Run `yarn dev:all`.
 
 ---
 

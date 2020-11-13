@@ -1,0 +1,9 @@
+{
+  "GITHUB_TOKEN": "",
+  "GITHUB_REPOSITORY": "super-labeler-action",
+  "GITHUB_REPOSITORY_OWNER": "Videndum",
+  "SHOW_LOGS": true,
+  "GH_ACTION_LOCAL_TEST": true,
+  "github_context": "../context.json",
+  "configJSON": "../.github/labels.json"
+}
