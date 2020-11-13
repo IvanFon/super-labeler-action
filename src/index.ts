@@ -37,7 +37,6 @@ function start() {
       3
     )
   const configInput = JSON.parse(core.getInput('configJSON') || '{}')
-  console.log(`Config Data: ` + JSON.stringify(configInput))
   const configJSON: Config =
     configInput.SuperLabeler ||
     (configInput.labels

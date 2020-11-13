@@ -1,4 +1,4 @@
-import { IssueCondition, PRCondition } from './conditions/'
+import { IssueCondition, PRCondition, Condition } from './conditions/'
 
 export interface IssueConditionConfig {
   requires: number
@@ -10,6 +10,17 @@ export interface PRConditionConfig {
   conditions: PRCondition[]
 }
 
+export interface SharedConfig {
+  requires: number
+  conditions: Condition[]
+}
+
+export type CurContext =
+  | { type: 'pr'; context: PRContext }
+  | { type: 'issue'; context: IssueContext }
+
+export type labelIdToName = { [Key: string]: string }
+
 export interface Config {
   labels: {
     [key: string]: {
@@ -17,6 +28,9 @@ export interface Config {
       color: string
       description: string
     }
+  }
+  shared: {
+    [key: string]: SharedConfig
   }
   issue: {
     [key: string]: IssueConditionConfig

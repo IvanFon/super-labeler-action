@@ -36,7 +36,6 @@ export default function evaluator(
   const { conditions, requires } = config
 
   const matches = forConditions(conditions, condition => {
-    // ERROR IS HERE
     const handler =
       conditionSetType == ConditionSetType.issue
         ? getIssueConditionHandler(condition as IssueCondition)
