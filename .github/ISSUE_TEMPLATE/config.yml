@@ -1,0 +1,17 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discussion
+    url: https://github.com/Videndum/action-masterminds/discussions/new
+    about: Start a converstation about our project
+  - name: Question & Answers
+    url: https://github.com/Videndum/action-masterminds/discussions/new
+    about: Start a converstation about our project
+  - name: Feature Requests
+    url: https://github.com/Videndum/action-masterminds/discussions/new
+    about: Open a feature request discussion
+  - name: Project Showcase
+    url: https://github.com/Videndum/action-masterminds/discussions/new
+    about: Showcase your project using our project
+  - name: Join the discord community
+    url: https://videndum.studio/discord
+    about: Looking for help with our projects, this is an amazing place to start

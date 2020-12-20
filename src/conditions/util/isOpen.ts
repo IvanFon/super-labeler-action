@@ -1,5 +1,5 @@
-import { IssueProps, PRProps } from '../'
-import { utils } from '../../utils'
+import { IssueProps, ProjectProps, PRProps } from '../'
+import { Issues, Project, PullRequests } from '../../contexts'
 
 const TYPE = 'isOpen'
 
@@ -13,10 +13,16 @@ export interface ConditionIsOpen {
   value: boolean
 }
 
-const isOpen = (condition: ConditionIsOpen, issue: IssueProps | PRProps) => {
+function isOpen(
+  this: Issues | PullRequests | Project,
+  condition: ConditionIsOpen,
+  issue: IssueProps | PRProps | ProjectProps
+) {
   return (
-    utils.normalize(issue.state) ===
-    utils.normalize(condition.value ? States.Open : States.Closed)
+    this.util.parsingData.normalize(issue.state) ===
+    this.util.parsingData.normalize(
+      condition.value ? States.Open : States.Closed
+    )
   )
 }
 

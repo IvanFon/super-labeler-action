@@ -2,28 +2,15 @@ on:
   issues:
     types: [opened, edited, closed, reopened]
   pull_request:
+    types: [opened, edited, closed, reopened, synchronize]
   project_card:
+    types: [created, moved, deleted]
 
 jobs:
-  # check_for_tech_debt:
-  #   runs-on: ubuntu-latest
-  #   if: github.event_name == 'pull_request_review' || github.event_name == 'issue_comment' || (github.event_name == 'pull_request' && github.event.action == 'closed')
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Create ticket step
-  #       id: createTicket
-  #       uses: TGTGamer/debt-collector@master
-  #       with:
-  #         title_prefix: '[DEBT]'
-  #         body_end: regex
-  #         token: ${{ secrets.GITHUB_TOKEN }}
-
-  labeller_test:
+  run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Test labeller
-        id: labeller
-        uses: ./
+      - uses: ./
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

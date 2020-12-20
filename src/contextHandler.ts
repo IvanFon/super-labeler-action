@@ -1,8 +1,15 @@
-import { GitHub } from '@actions/github'
 import { Context } from '@actions/github/lib/context'
-import { PRContext, IssueContext, Labels, Reviews } from './types'
-import { pullRequests, Repo } from './api'
+import { loggingData } from '@videndum/utilities'
 import { log } from '.'
+import { Config, Label, Labels } from '../types'
+import {
+  IssueContext,
+  PRContext,
+  ProjectContext,
+  Reviews,
+  Version
+} from './conditions'
+import { Utils } from './utils'
 
 class ContextHandler {
   /**
@@ -11,72 +18,96 @@ class ContextHandler {
    * @since 1.0.0
    */
   async parsePR(
-    context: Context,
-    client: GitHub,
-    repo: Repo
+    utils: Utils,
+    config: Config,
+    context: Context
   ): Promise<PRContext | undefined> {
     const pr = context.payload.pull_request
-    if (!pr) {
+    if (!pr || !config.pr) {
       return
     }
 
     log(
-      `context.payload.pull_request: ` +
-        JSON.stringify(context.payload.pull_request),
-      1
+      new loggingData(
+        '100',
+        `context.payload.pull_request: ` +
+          JSON.stringify(context.payload.pull_request)
+      )
     )
 
     const IDNumber = pr.number
-    const labels: Labels = await this.parseLabels(pr.labels).catch(err => {
-      log(`Error thrown while parsing labels: ` + err, 5)
+    const labels = await this.parseLabels(pr.labels).catch(err => {
+      log(new loggingData('500', `Error thrown while parsing labels: `, err))
       throw err
     })
-    const files: string[] = await pullRequests
-      .list({ client, repo, IDNumber })
-      .catch(err => {
-        log(`Error thrown while listing files: ` + err, 5)
-        throw err
-      })
+    const files: string[] = await utils.api.files.list(IDNumber).catch(err => {
+      log(new loggingData('500', `Error thrown while listing files: `, err))
+      throw err
+    })
 
-    const changes: number = await pullRequests
+    const changes: number = await utils.api.pullRequests
       .changes(pr.additions, pr.deletions)
       .catch(err => {
-        log(`Error thrown while handling changes: ` + err, 5)
+        log(
+          new loggingData('500', `Error thrown while handling changes: `, err)
+        )
         throw err
       })
 
-    const reviews: Reviews = await pullRequests
-      .listReviews({ client, repo, IDNumber })
+    const reviews: Reviews = await utils.api.pullRequests.reviews
+      .list(IDNumber)
       .catch(err => {
-        log(`Error thrown while handling reviews: ` + err, 5)
+        log(
+          new loggingData('500', `Error thrown while handling reviews: `, err)
+        )
         throw err
       })
 
-    const pendingReview: boolean = await pullRequests
-      .pendingReview(reviews.length, pr.requested_reviewers.length)
+    const pendingReview: boolean = await utils.api.pullRequests.reviews
+      .pending(reviews.length, pr.requested_reviewers.length)
       .catch(err => {
-        log(`Error thrown while handling reviews: ` + err, 5)
+        log(
+          new loggingData('500', `Error thrown while handling reviews: `, err)
+        )
         throw err
       })
 
-    const requestedChanges: number = await pullRequests
+    const requestedChanges: number = await utils.api.pullRequests.reviews
       .requestedChanges(reviews)
       .catch(err => {
-        log(`Error thrown while handling reviews: ` + err, 5)
+        log(
+          new loggingData('500', `Error thrown while handling reviews: `, err)
+        )
         throw err
       })
 
-    const approved: number = await pullRequests
+    const approved: number = await utils.api.pullRequests.reviews
       .isApproved(reviews)
       .catch(err => {
-        log(`Error thrown while handling reviews: ` + err, 5)
+        log(
+          new loggingData('500', `Error thrown while handling reviews: `, err)
+        )
+        throw err
+      })
+
+    const currentVersion: Version = await utils.versioning
+      .parse(config, config.pr.ref)
+      .catch(err => {
+        log(
+          new loggingData('500', `Error thrown while parsing versioning: `, err)
+        )
         throw err
       })
 
     return {
-      labels,
-      IDNumber,
-      prProps: {
+      ref: pr.base.ref,
+      sha: context.sha,
+      action: context.payload.action as string,
+      currentVersion,
+      IDNumber: context.payload.pull_request?.id,
+      props: {
+        type: 'pr',
+        ID: IDNumber,
         branch: pr.head.ref,
         creator: pr.user.login,
         description: pr.body || '',
@@ -87,6 +118,7 @@ class ContextHandler {
         files,
         changes,
         reviews,
+        labels,
         pendingReview,
         requestedChanges,
         approved
@@ -95,31 +127,126 @@ class ContextHandler {
   }
 
   /**
+   * Parse the Project Context
+   * @author IvanFon, TGTGamer, jbinda
+   * @since 1.0.0
+   */
+  async parseProject(
+    utils: Utils,
+    config: Config,
+    context: Context
+  ): Promise<ProjectContext | undefined> {
+    const project = context.payload.project_card
+    if (!project || !config.project) {
+      return
+    }
+    log(
+      new loggingData(
+        '100',
+        `context.payload.project_card: ${JSON.stringify(
+          context.payload.project_card
+        )}`
+      )
+    )
+
+    if (!project.content_url) throw new Error('No content information to get')
+    const issueNumber: number = project.content_url.split('/').pop()
+    const issue = await await utils.api.issues.get(issueNumber)
+
+    const labels = await this.parseLabels(issue.labels).catch(err => {
+      log(new loggingData('500', `Error thrown while parsing labels: `, err))
+      throw err
+    })
+
+    const currentVersion: Version = await utils.versioning
+      .parse(config, config.project.ref)
+      .catch(err => {
+        log(
+          new loggingData('500', `Error thrown while parsing versioning: `, err)
+        )
+        throw err
+      })
+
+    let localProject
+    localProject = await utils.api.project.projects.get(
+      project.project_url.split('/').pop()
+    )
+    const changes = context.payload.changes
+    const localColumn = await utils.api.project.column.get(project.column_id)
+
+    const localCard = await utils.api.project.card.get(project.id)
+
+    return {
+      sha: context.sha,
+      action: context.payload.action as string,
+      currentVersion,
+      IDNumber: issue.id,
+      props: {
+        type: 'project',
+        ID: issue.number,
+        creator: issue.user.login,
+        description: issue.body || '',
+        locked: issue.locked,
+        state: issue.state as ProjectContext['props']['state'],
+        title: issue.title,
+        project: localProject,
+        column_id: project.column_id,
+        localColumn,
+        localCard,
+        changes,
+        labels
+      }
+    }
+  }
+  /**
    * Parse the Issue Context
    * @author IvanFon, TGTGamer, jbinda
    * @since 1.0.0
    */
-  async parseIssue(context: Context): Promise<IssueContext | undefined> {
+  async parseIssue(
+    utils: Utils,
+    config: Config,
+    context: Context
+  ): Promise<IssueContext | undefined> {
     const issue = context.payload.issue
-    if (!issue) {
+    if (!issue || !config.issue) {
       return
     }
 
-    log(`context.payload.issue: ` + JSON.stringify(context.payload.issue), 1)
+    log(
+      new loggingData(
+        '100',
+        `context.payload.issue: ` + JSON.stringify(context.payload.issue)
+      )
+    )
 
-    const labels: Labels = await this.parseLabels(issue.labels).catch(err => {
-      log(`Error thrown while parsing labels: ` + err, 5)
+    const labels = await this.parseLabels(issue.labels).catch(err => {
+      log(new loggingData('500', `Error thrown while parsing labels: `, err))
       throw err
     })
 
+    const currentVersion: Version = await utils.versioning
+      .parse(config, config.issue.ref)
+      .catch(err => {
+        log(
+          new loggingData('500', `Error thrown while parsing versioning: `, err)
+        )
+        throw err
+      })
+
     return {
-      labels,
-      IDNumber: issue.number,
-      issueProps: {
+      sha: context.sha,
+      action: context.payload.action as string,
+      currentVersion,
+      IDNumber: context.payload.issue?.id,
+      props: {
+        type: 'issue',
+        ID: issue.number,
         creator: issue.user.login,
         description: issue.body || '',
         locked: issue.locked,
         state: issue.state,
+        labels,
         title: issue.title
       }
     }
@@ -130,18 +257,15 @@ class ContextHandler {
    * @author IvanFon, TGTGamer, jbinda
    * @since 1.0.0
    */
-  async parseLabels(labels: any): Promise<Labels> {
+  async parseLabels(labels: any): Promise<Labels | undefined> {
     if (!Array.isArray(labels)) {
-      return []
+      return
     }
-
-    return labels.filter(
-      label =>
-        typeof label === 'object' &&
-        'name' in label &&
-        'description' in label &&
-        'color' in label
-    )
+    return labels.reduce((acc: { [key: string]: Label }, cur) => {
+      acc[cur.name.toLowerCase()] = cur
+      return acc
+    }, {})
   }
 }
+
 export const contextHandler = new ContextHandler()

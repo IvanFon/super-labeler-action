@@ -1,4 +1,5 @@
 import { PRProps } from '.'
+import { Issues, Project, PullRequests } from '../../contexts'
 
 const TYPE = 'pendingReview'
 
@@ -7,7 +8,11 @@ export interface ConditionPendingReview {
   value: boolean
 }
 
-const pendingReview = (condition: ConditionPendingReview, pr: PRProps) => {
+function pendingReview(
+  this: Issues | PullRequests | Project,
+  condition: ConditionPendingReview,
+  pr: PRProps
+) {
   return pr.pendingReview === condition.value
 }
 

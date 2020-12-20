@@ -1,4 +1,5 @@
 import { PRProps } from '.'
+import { Issues, Project, PullRequests } from '../../contexts'
 
 const TYPE = 'isApproved'
 
@@ -8,7 +9,11 @@ export interface ConditionisApproved {
   required?: number
 }
 
-const isApproved = (condition: ConditionisApproved, pr: PRProps) => {
+function isApproved(
+  this: Issues | PullRequests | Project,
+  condition: ConditionisApproved,
+  pr: PRProps
+) {
   let reviewers: string[] = []
   pr.reviews.forEach(review => {
     if (reviewers.indexOf(review.user.login) == -1)

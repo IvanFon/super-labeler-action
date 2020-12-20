@@ -1,4 +1,5 @@
-import { IssueProps, PRProps } from '../'
+import { IssueProps, ProjectProps, PRProps } from '..'
+import { Issues, Project, PullRequests } from '../../contexts'
 
 const TYPE = 'isLocked'
 
@@ -7,7 +8,12 @@ export interface ConditionIsLocked {
   value: boolean
 }
 
-const isLocked = (condition: ConditionIsLocked, issue: IssueProps | PRProps) =>
-  issue.locked === condition.value
+function isLocked(
+  this: Issues | PullRequests | Project,
+  condition: ConditionIsLocked,
+  issue: IssueProps | PRProps | ProjectProps
+) {
+  return condition.value == issue.locked
+}
 
 export default [TYPE, isLocked] as const

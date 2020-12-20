@@ -1,40 +1,4 @@
 {
-  "core": {
-    "debug": "",
-    "developer": "Developed by ",
-    "init": "Smartcloudjs framework Launched",
-    "version_dev": "Running version development version {{version}}. Please be careful when running an unstable version"
-  },
-  "errors": {
-    "fileDirectory": {
-      "caught": "File Directory error caught: ",
-      "file": "Log file: ",
-      "solved": "File Directory created. Error can be safely ignored",
-      "thrown": "Error thrown when creating directory: "
-    },
-    "unspecific": {
-      "default": "Something went wrong.",
-      "localize": "Data for localisation unavailable: {{what}}"
-    }
-  },
-  "logging": {
-    "alert": "",
-    "critical": "",
-    "debug": "debug",
-    "default": "",
-    "emergency": "",
-    "error": "error",
-    "info": "info",
-    "level": "Log level: ",
-    "notice": "",
-    "sentry": {
-      "config": "Sentry is not configured. Please read how to configure sentry for error tracking in the @videndum/smartcloud documentation found at docs.smartcloud.gg",
-      "config_dev": "Sentry is not configured. Please read how to configure sentry for error tracking in the @videndum/smartcloud documentation found at docs.smartcloud.gg",
-      "default": "",
-      "initialised": ""
-    },
-    "warn": "warn"
-  },
   "error": {
     "unspecific": {
       "localize": "error.unspecific.localize"

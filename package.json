@@ -1,9 +1,9 @@
 {
-  "name": "super-labeler-action",
+  "name": "label-mastermind",
   "version": "1.0.0",
-  "description": "A superpowered issue and pull request labeler for Github Actions.",
+  "description": "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects",
   "main": "src/index.ts",
-  "repository": "git@github.com:videndum/super-labeler-action.git",
+  "repository": "git@github.com:videndum/label-mastermind.git",
   "author": "Jonathan Stevens <jonathan@videndum.studio>",
   "license": "GPL-3.0",
   "directories": {
@@ -20,12 +20,12 @@
     "dev:format-check": "prettier --config .prettier.json --check .",
     "dev:package": "tsc && ncc build --source-map",
     "dev:test": "jest --json --outputFile=result.json --testLocationInResults",
-    "dev:all": "npm run dev:package && npm run dev:format && npm run dev:test"
+    "dev:all": "npm run dev:package && npm run dev:format"
   },
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^2.1.1",
-    "@videndum/utilities": "^1.0.0-alpha.2",
+    "@videndum/utilities": "^1.0.0-alpha.4",
     "minimatch": "^3.0.4",
     "minimist": "^1.2.5"
   },
@@ -33,10 +33,10 @@
     "@types/jest": "^26.0.10",
     "@types/node": "^14.6.0",
     "@types/minimatch": "^3.0.3",
-    "@vercel/ncc": "^0.24.0",
+    "@vercel/ncc": "^0.26.1",
     "jest": "^26.3.0",
     "prettier": "^2.1.2",
     "ts-jest": "^26.1.4",
-    "typescript": "^3.9.7"
+    "typescript": "^4.1.3"
   }
 }

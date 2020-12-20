@@ -1,6 +1,6 @@
 import { match } from 'minimatch'
-
 import { PRProps } from '.'
+import { Issues, Project, PullRequests } from '../../contexts'
 
 const TYPE = 'filesMatch'
 
@@ -9,7 +9,12 @@ export interface ConditionFilesMatch {
   glob: string
 }
 
-const filesMatch = (condition: ConditionFilesMatch, pr: PRProps) =>
-  match(pr.files, condition.glob).length > 0
+function filesMatch(
+  this: Issues | PullRequests | Project,
+  condition: ConditionFilesMatch,
+  pr: PRProps
+) {
+  return match(pr.files, condition.glob).length > 0
+}
 
 export default [TYPE, filesMatch] as const

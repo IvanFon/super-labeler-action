@@ -1,5 +1,5 @@
 import { PRProps } from '.'
-import { utils } from '../../utils'
+import { Issues, Project, PullRequests } from '../../contexts'
 
 const TYPE = 'branchMatches'
 
@@ -8,8 +8,12 @@ export interface ConditionBranchMatches {
   pattern: string
 }
 
-const branchMatches = (condition: ConditionBranchMatches, pr: PRProps) => {
-  const pattern = utils.processRegExpPattern(condition.pattern)
+function branchMatches(
+  this: Issues | PullRequests | Project,
+  condition: ConditionBranchMatches,
+  pr: PRProps
+) {
+  const pattern = this.util.parsingData.processRegExpPattern(condition.pattern)
   return pattern.test(pr.branch)
 }
 

@@ -11,5 +11,5 @@
     "removeComments": true
   },
   "exclude": ["node_modules", "__tests__", "**/*.test.ts"],
-  "include": ["src/**/*", "src/conditions/pr/isApproved.ts"]
+  "include": ["src/**/*", "src/conditions/pr/isApproved.ts", "types.ts"]
 }

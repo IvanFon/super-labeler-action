@@ -1,5 +1,5 @@
-name: 'Everything Labeler'
-description: 'A superpowered issue and pull request labeler for Github Actions.'
+name: 'Label Mastermind'
+description: 'The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects'
 author: 'Videndum'
 inputs:
   GITHUB_TOKEN:
@@ -7,7 +7,11 @@ inputs:
     required: true
   config:
     description: 'Config file path'
-    default: '.github/labels.json'
+    default: '.github/config.json'
+    required: false
+  configJSON:
+    description: 'JSON string with configuration data'
+    default: ''
     required: false
 runs:
   using: 'node12'
