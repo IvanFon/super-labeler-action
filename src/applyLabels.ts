@@ -51,12 +51,6 @@ const addRemoveLabel = async ({
     core.debug(`${matches} >= ${requires} matches, adding label "${label}"...`);
     await addLabel({ client, repo, num, label: labelName });
   }
-  if (matches < requires && hasLabel) {
-    core.debug(
-      `${matches} < ${requires} matches, removing label "${label}"...`,
-    );
-    await removeLabel({ client, repo, num, label: labelName });
-  }
 };
 
 export const applyIssueLabels = async ({
