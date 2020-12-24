@@ -1,0 +1,21 @@
+{
+  "labels": {
+    "documentation": {
+      "name": "documentation",
+      "colour": "#0075ca",
+      "description": "Improvements or additions to documentation"
+    }
+  },
+  "issue": {
+    "documentation": {
+      "requires": 1,
+      "conditions": [
+        {
+          "type": "creatorMatches",
+          "pattern": "rockymanobi"
+        }
+      ]
+    }
+  },
+  "skip_labeling": true
+}
