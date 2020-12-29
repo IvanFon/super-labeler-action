@@ -42,7 +42,12 @@ export default class labelMastermind {
    * @since 1.0.0
    */
   constructor(client: GitHub, options: Options) {
-    log(new loggingData('100', `Superlabeller Constructed: ${options}`))
+    log(
+      new loggingData(
+        '100',
+        `Label Mastermind Constructed: ${options.toString()}`
+      )
+    )
     this.client = client
     this.opts = options
     this.configJSON = options.configJSON
@@ -169,8 +174,8 @@ export default class labelMastermind {
       const pathConfig = await JSON.parse(
         fs.readFileSync(this.configPath).toString()
       )
-      if (!pathConfig.releaseMastermind) return pathConfig
-      else return pathConfig.releaseMastermind
+      if (!pathConfig.labelMastermind) return pathConfig
+      else return pathConfig.labelMastermind
     } else {
       return this.configJSON
     }
