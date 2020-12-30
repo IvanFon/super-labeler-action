@@ -19,7 +19,7 @@ try {
   process.env.GITHUB_REPOSITORY_OWNER = local.GITHUB_REPOSITORY_OWNER
   if (!context.payload.issue && !context.payload.pull_request)
     context = require(local.github_context)
-} catch {}
+} catch { }
 
 /**
  * Super Labeler
@@ -28,12 +28,13 @@ try {
  * @author IvanFon, TGTGamer
  * @since 1.0.0
  */
-export default class labelMastermind {
+export default class Action {
   client: GitHub
   opts: Options
   configJSON: Options['configJSON']
   configPath: Options['configPath']
   dryRun: Options['dryRun']
+  fillEmpty: Options['fillEmpty']
   repo = context.repo || {}
   util: Utils
 
@@ -52,8 +53,9 @@ export default class labelMastermind {
     this.opts = options
     this.configJSON = options.configJSON
     this.configPath = options.configPath
-    this.util = new Utils({ client, repo: this.repo }, options.dryRun)
+    this.util = new Utils({ client, repo: this.repo }, { dryRun: options.dryRun, skipDelete: options.skipDelete })
     this.dryRun = options.dryRun
+    this.fillEmpty = options.fillEmpty
   }
 
   /**
@@ -132,13 +134,15 @@ export default class labelMastermind {
        */
 
       for (const action in config.sharedConfig) {
+        if (!config[curContext.type] && !this.fillEmpty) return
+        else if (!config[curContext.type]) config[curContext.type] = {}
         if (action == 'labels') {
           for (const label in config.sharedConfig.labels) {
             if (
-              config[curContext.type].labels &&
-              !(label in config[curContext.type].labels)
+              config[curContext.type]!.labels &&
+              !(label in config[curContext.type]!.labels!)
             ) {
-              config[curContext.type].labels[label] =
+              config[curContext.type]!.labels![label] =
                 config.sharedConfig.labels[label]
             }
           }

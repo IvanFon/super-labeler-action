@@ -28,7 +28,7 @@ export async function get(this: Utils): Promise<Labels> {
   const options = await this.client.issues.listLabelsForRepo.endpoint.merge({
     ...this.repo
   })
-  const labels = await this.client.paginate(options)
+  const labels = await this.client.paginate(options).catch()
   const labelsMap = labels.map(label => ({
     name: label.name,
     description: label.description,

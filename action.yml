@@ -1,21 +1,29 @@
-name: 'Label Mastermind'
-description: 'The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects'
-author: 'Videndum'
+name: "Label Mastermind"
+description: "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects"
+author: "Videndum"
 inputs:
   GITHUB_TOKEN:
-    description: 'The GITHUB_TOKEN secret'
+    description: "The GITHUB_TOKEN secret"
     required: true
   config:
-    description: 'Config file path'
-    default: '.github/config.json'
+    description: "Config file path"
+    default: ".github/config.json"
     required: false
   configJSON:
-    description: 'JSON string with configuration data'
-    default: ''
+    description: "JSON string with configuration data"
+    default: ""
+    required: false
+  fillEmpty:
+    description: "Fill Empty context configuration with shared configs"
+    default: "true"
+    required: false
+  skipDelete:
+    description: "Skip deleting labels from repository"
+    default: "false"
     required: false
 runs:
-  using: 'node12'
-  main: 'dist/index.js'
+  using: "node12"
+  main: "dist/index.js"
 branding:
-  color: 'purple'
-  icon: 'tag'
+  color: "purple"
+  icon: "tag"

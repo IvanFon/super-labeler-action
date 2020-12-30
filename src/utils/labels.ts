@@ -71,13 +71,17 @@ export async function sync(this: Utils, config: Runners['labels']) {
     }
   }
 
-  for (const curLabel of Object.values(curLabels)) {
-    const label = config[curLabel.name.toLowerCase()]
-    if (!label) {
-      log(new loggingData('400', `Delete ${JSON.stringify(curLabel)}`))
-      await this.api.labels.del(curLabel.name).catch(err => {
-        log(new loggingData('500', `Error thrown while deleting label: ` + err))
-      })
+  if (this.skipDelete) {
+    log(new loggingData('500', 'Skipping deletion of labels'))
+  } else {
+    for (const curLabel of Object.values(curLabels)) {
+      const label = config[curLabel.name.toLowerCase()]
+      if (!label) {
+        log(new loggingData('400', `Delete ${JSON.stringify(curLabel)}`))
+        await this.api.labels.del(curLabel.name).catch(err => {
+          log(new loggingData('500', `Error thrown while deleting label: ` + err))
+        })
+      }
     }
   }
 }

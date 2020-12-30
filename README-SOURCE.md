@@ -53,6 +53,7 @@ Now create the config file at `.github/config.json`:
 
 Be sure that Github Actions is enabled for in your repository's settings. The action will now run on your issues, projects and pull requests.
 
+<!-- #include docs/readme/components/workflowConfig.md -->
 <!-- #include docs/readme/components/setup/labelConfig.md -->
 
 #### Typings
@@ -60,7 +61,7 @@ Be sure that Github Actions is enabled for in your repository's settings. The ac
 <details>
     <summary><b>Types</b></summary>
 
-<!-- #code types.d.ts -->
+<!-- #code types/*.d.ts -->
 
 </details>
 

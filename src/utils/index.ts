@@ -17,10 +17,12 @@ export class Utils {
   client: github.GitHub
   repo: Repo
   dryRun: boolean
-  constructor(props: ApiProps, dryRun: boolean) {
+  skipDelete: boolean
+  constructor(props: ApiProps, options: { dryRun: boolean, skipDelete: boolean }) {
     this.client = props.client
     this.repo = props.repo
-    this.dryRun = dryRun
+    this.dryRun = options.dryRun
+    this.skipDelete = options.skipDelete
   }
   api = {
     files: {

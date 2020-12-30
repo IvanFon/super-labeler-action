@@ -131,6 +131,8 @@ Allows conditions to be combined to create more advanced conditions. Would requi
 }
 ```
 
+
+
 ### Pull Request Conditions
 
 #### branchMatches
@@ -228,7 +230,10 @@ Example:
 }
 ```
 
+
 ### Issue Conditions
+
+
 
 ### Project Conditions
 
@@ -245,3 +250,4 @@ Example:
   "column": "New"
 }
 ```
+
