@@ -16,7 +16,7 @@ export async function parse(
   ref?: string
 ): Promise<Version> {
   let rawVersion
-  if (config.versioning?.source === 'node') {
+  if (config.versioning?.source == 'node') {
     rawVersion = await getNodeVersion
       .call(this, config.root, ref)
       .catch(err => {
@@ -28,15 +28,15 @@ export async function parse(
         )
         throw err
       })
-  } else if (config.versioning?.source === 'milestones') {
+  } else if (config.versioning?.source == 'milestones') {
     // todo: Add milestone passing
   } else {
     if (config.versioning?.source) rawVersion = config.versioning.source
     else throw new Error("There isn't any version to use")
   }
 
+  if (!rawVersion) rawVersion = '0.0.0'
   if (config.versioning?.type == 'SemVer' || !config.versioning.type) {
-    if (!rawVersion) rawVersion = '0.0.0'
     let SemVer = rawVersion.split('.')
     let versioning: Version['semantic'] = {
       major: +SemVer[0],
