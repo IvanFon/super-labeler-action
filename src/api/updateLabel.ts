@@ -6,9 +6,10 @@ export const updateLabel = async ({
   client,
   repo,
   label,
-}: ApiProps & { label: Label }) => {
+  dryRun,
+}: ApiProps & { label: Label, dryRun: boolean }) => {
   const color = formatColour(label.color);
-  await client.issues.updateLabel({
+  !dryRun && await client.issues.updateLabel({
     ...repo,
     current_name: label.name,
     description: label.description,

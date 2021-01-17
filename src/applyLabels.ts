@@ -1,7 +1,7 @@
 import * as core from '@actions/core';
 import { GitHub } from '@actions/github';
 
-import { Config } from '.';
+import { Config } from './types';
 import { addLabel, removeLabel, Repo } from './api';
 import {
   getIssueConditionHandler,
@@ -35,6 +35,7 @@ const addRemoveLabel = async ({
   num,
   repo,
   requires,
+  dryRun,
 }: {
   client: GitHub;
   curLabels: Labels;
@@ -44,18 +45,19 @@ const addRemoveLabel = async ({
   num: number;
   repo: Repo;
   requires: number;
+  dryRun: boolean;
 }) => {
   const labelName = labelIdToName[label];
   const hasLabel = curLabels.filter((l) => l.name === labelName).length > 0;
   if (matches >= requires && !hasLabel) {
     core.debug(`${matches} >= ${requires} matches, adding label "${label}"...`);
-    await addLabel({ client, repo, num, label: labelName });
+    await addLabel({ client, repo, num, label: labelName, dryRun });
   }
   if (matches < requires && hasLabel) {
     core.debug(
       `${matches} < ${requires} matches, removing label "${label}"...`,
     );
-    await removeLabel({ client, repo, num, label: labelName });
+    await removeLabel({ client, repo, num, label: labelName, dryRun });
   }
 };
 
@@ -65,12 +67,14 @@ export const applyIssueLabels = async ({
   issueContext,
   labelIdToName,
   repo,
+  dryRun,
 }: {
   client: GitHub;
   config: Config['issue'];
   issueContext: IssueContext;
   labelIdToName: { [key: string]: string };
   repo: Repo;
+  dryRun: boolean;
 }) => {
   const { labels: curLabels, issueProps, num } = issueContext;
   for (const [label, opts] of Object.entries(config)) {
@@ -93,6 +97,7 @@ export const applyIssueLabels = async ({
       num,
       repo,
       requires: opts.requires,
+      dryRun,
     });
   }
 };
@@ -103,17 +108,20 @@ export const applyPRLabels = async ({
   labelIdToName,
   prContext,
   repo,
+  dryRun,
 }: {
   client: GitHub;
   config: Config['pr'];
   labelIdToName: { [key: string]: string };
   prContext: PRContext;
   repo: Repo;
+  dryRun: boolean;
 }) => {
   const { labels: curLabels, prProps, num } = prContext;
   for (const [label, opts] of Object.entries(config)) {
     core.debug(`Label: ${label}`);
 
+    console.log(opts.conditions)
     const matches = forConditions<PRCondition>(opts.conditions, (condition) => {
       const handler = getPRConditionHandler(condition);
       return handler?.(condition as any, prProps) || false;
@@ -128,6 +136,7 @@ export const applyPRLabels = async ({
       num,
       repo,
       requires: opts.requires,
+      dryRun,
     });
   }
 };

@@ -11,7 +11,11 @@
   },
   "scripts": {
     "build": "ncc build src/index.ts -o dist",
-    "format": "prettier --write src/**/*.ts"
+    "format": "prettier --write src/**/*.ts",
+    "dev:pr": "EVENT_PATH=event.pr.json yarn dev:run",
+    "dev:issue": "EVENT_PATH=event.issue.json yarn dev:run",
+    "dev:run": "source .env && GITHUB_EVENT_PATH=${EVENT_PATH} node dist/index.js",
+    "dev:init": "node bin/copyLocalRun.js"
   },
   "prettier": {
     "arrowParens": "always",
@@ -21,7 +25,8 @@
   "dependencies": {
     "@actions/core": "^1.2.3",
     "@actions/github": "^2.1.1",
-    "minimatch": "^3.0.4"
+    "minimatch": "^3.0.4",
+    "minimist": "^1.2.5"
   },
   "devDependencies": {
     "@types/minimatch": "^3.0.3",

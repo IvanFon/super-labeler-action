@@ -5,10 +5,12 @@ export const removeLabel = async ({
   repo,
   num,
   label,
+  dryRun,
 }: IssueApiProps & {
   label: string;
+  dryRun: boolean;
 }) =>
-  await client.issues.removeLabel({
+  !dryRun && await client.issues.removeLabel({
     ...repo,
     issue_number: num,
     name: label,
