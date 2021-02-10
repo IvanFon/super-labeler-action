@@ -137,11 +137,13 @@ While the label's name, which will be displayed on Github, is "Bugfix! 🎉", to
 
 ## Config File Format
 
-The config object contains three keys:
+The config object contains the following keys:
 
 - `labels`: Your repository's labels, which will be automatically created and updated by Super Labeler
 - `issue`: Labels to apply to issues, and their conditions
 - `pr`: Labels to apply to pull requests, and their conditions
+- `dontRemoveLabels`: If set to true, labels will not be removed if conditions aren't met
+  - Useful if, for example, you manually label a PR that doesn't meet the conditions for that label, and you want to keep it instead of modifying your labeling config
 
 Take a look at the examples in this file to get a feel for how to configure it. The below Typescript interface, which is used by this action, may also be helpful:
 
@@ -152,23 +154,24 @@ Take a look at the examples in this file to get a feel for how to configure it. 
 interface Config {
   labels: {
     [key: string]: {
-      name: string,
-      colour: string,
-      description: string,
-    },
+      name: string;
+      colour: string;
+      description: string;
+    };
   };
   issue: {
     [key: string]: {
-      requires: number,
-      conditions: IssueCondition[],
-    },
+      requires: number;
+      conditions: IssueCondition[];
+    };
   };
   pr: {
     [key: string]: {
-      requires: number,
-      conditions: PRCondition[],
-    },
+      requires: number;
+      conditions: PRCondition[];
+    };
   };
+  dontRemoveLabels?: boolean;
 }
 ```
 

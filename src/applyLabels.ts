@@ -28,6 +28,7 @@ const forConditions = <T extends IssueCondition | PRCondition>(
 
 const addRemoveLabel = async ({
   client,
+  config,
   curLabels,
   label,
   labelIdToName,
@@ -37,6 +38,7 @@ const addRemoveLabel = async ({
   requires,
 }: {
   client: GitHub;
+  config: Config;
   curLabels: Labels;
   label: string;
   labelIdToName: { [key: string]: string };
@@ -52,10 +54,16 @@ const addRemoveLabel = async ({
     await addLabel({ client, repo, num, label: labelName });
   }
   if (matches < requires && hasLabel) {
-    core.debug(
-      `${matches} < ${requires} matches, removing label "${label}"...`,
-    );
-    await removeLabel({ client, repo, num, label: labelName });
+    if (!config.dontRemoveLabels) {
+      core.debug(
+        `${matches} < ${requires} matches, removing label "${label}"...`,
+      );
+      await removeLabel({ client, repo, num, label: labelName });
+    } else {
+      core.debug(
+        `${matches} < ${requires} matches, not removing label "${label}" since removing is disabled...`,
+      );
+    }
   }
 };
 
@@ -67,13 +75,13 @@ export const applyIssueLabels = async ({
   repo,
 }: {
   client: GitHub;
-  config: Config['issue'];
+  config: Config;
   issueContext: IssueContext;
   labelIdToName: { [key: string]: string };
   repo: Repo;
 }) => {
   const { labels: curLabels, issueProps, num } = issueContext;
-  for (const [label, opts] of Object.entries(config)) {
+  for (const [label, opts] of Object.entries(config.issue)) {
     core.debug(`Label: ${label}`);
 
     const matches = forConditions<IssueCondition>(
@@ -86,6 +94,7 @@ export const applyIssueLabels = async ({
 
     await addRemoveLabel({
       client,
+      config,
       curLabels,
       label,
       labelIdToName,
@@ -105,13 +114,13 @@ export const applyPRLabels = async ({
   repo,
 }: {
   client: GitHub;
-  config: Config['pr'];
+  config: Config;
   labelIdToName: { [key: string]: string };
   prContext: PRContext;
   repo: Repo;
 }) => {
   const { labels: curLabels, prProps, num } = prContext;
-  for (const [label, opts] of Object.entries(config)) {
+  for (const [label, opts] of Object.entries(config.pr)) {
     core.debug(`Label: ${label}`);
 
     const matches = forConditions<PRCondition>(opts.conditions, (condition) => {
@@ -121,6 +130,7 @@ export const applyPRLabels = async ({
 
     await addRemoveLabel({
       client,
+      config,
       curLabels,
       label,
       labelIdToName,

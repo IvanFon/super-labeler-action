@@ -34,6 +34,7 @@ export interface Config {
       conditions: PRCondition[];
     };
   };
+  dontRemoveLabels?: boolean;
 }
 
 const context = github.context;
@@ -100,7 +101,7 @@ const context = github.context;
     if (curContext.type === 'pr') {
       await applyPRLabels({
         client,
-        config: config.pr,
+        config: config,
         labelIdToName,
         prContext: curContext.context,
         repo,
@@ -108,7 +109,7 @@ const context = github.context;
     } else if (curContext.type === 'issue') {
       await applyIssueLabels({
         client,
-        config: config.issue,
+        config: config,
         issueContext: curContext.context,
         labelIdToName,
         repo,
