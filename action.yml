@@ -21,6 +21,10 @@ inputs:
     description: "Skip deleting labels from repository"
     default: "false"
     required: false
+  dryRun:
+    description: "Allows the running off action without it doing effects"
+    default: "false"
+    required: false
 runs:
   using: "node12"
   main: "dist/index.js"

@@ -1,6 +1,6 @@
 {
-  "name": "label-mastermind",
-  "version": "1.0.0",
+  "name": "@videndum/label-mastermind",
+  "version": "1.4.0-alpha.1",
   "description": "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects",
   "main": "src/index.ts",
   "repository": "git@github.com:videndum/label-mastermind.git",
