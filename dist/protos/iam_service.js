@@ -2,7 +2,7 @@ require('./sourcemap-register.js');module.exports =
 /******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 252:
+/***/ 776:
 /***/ ((module) => {
 
 "use strict";
@@ -62,7 +62,7 @@ function asPromise(fn, ctx/*, varargs */) {
 
 /***/ }),
 
-/***/ 718:
+/***/ 869:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -209,7 +209,7 @@ base64.test = function test(string) {
 
 /***/ }),
 
-/***/ 850:
+/***/ 536:
 /***/ ((module) => {
 
 "use strict";
@@ -293,7 +293,7 @@ EventEmitter.prototype.emit = function emit(evt) {
 
 /***/ }),
 
-/***/ 843:
+/***/ 611:
 /***/ ((module) => {
 
 "use strict";
@@ -636,7 +636,7 @@ function readUintBE(buf, pos) {
 
 /***/ }),
 
-/***/ 94:
+/***/ 379:
 /***/ ((module) => {
 
 "use strict";
@@ -661,7 +661,7 @@ function inquire(moduleName) {
 
 /***/ }),
 
-/***/ 743:
+/***/ 41:
 /***/ ((module) => {
 
 "use strict";
@@ -717,7 +717,7 @@ function pool(alloc, slice, size) {
 
 /***/ }),
 
-/***/ 49:
+/***/ 112:
 /***/ ((__unused_webpack_module, exports) => {
 
 "use strict";
@@ -830,24 +830,10 @@ utf8.write = function utf8_write(string, buffer, offset) {
 
 /***/ }),
 
-/***/ 968:
+/***/ 408:
 /***/ (function(module, __unused_webpack_exports, __webpack_require__) {
 
 /* module decorator */ module = __webpack_require__.nmd(module);
-// Copyright 2020 Google LLC
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//     http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
 /*eslint-disable block-scoped-var, id-length, no-control-regex, no-magic-numbers, no-prototype-builtins, no-redeclare, no-shadow, no-var, sort-vars*/
 (function(global, factory) { /* global define, require, module */
 
@@ -855,7 +841,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
         define(["protobufjs/minimal"], factory);
 
     /* CommonJS */ else if ( true && module && module.exports)
-        module.exports = factory(__webpack_require__(916));
+        module.exports = factory(__webpack_require__(281));
 
 })(this, function($protobuf) {
     "use strict";
@@ -1092,9 +1078,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     SetIamPolicyRequest.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.resource != null && message.hasOwnProperty("resource"))
+                        if (message.resource != null && Object.hasOwnProperty.call(message, "resource"))
                             writer.uint32(/* id 1, wireType 2 =*/10).string(message.resource);
-                        if (message.policy != null && message.hasOwnProperty("policy"))
+                        if (message.policy != null && Object.hasOwnProperty.call(message, "policy"))
                             $root.google.iam.v1.Policy.encode(message.policy, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                         return writer;
                     };
@@ -1307,9 +1293,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     GetIamPolicyRequest.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.resource != null && message.hasOwnProperty("resource"))
+                        if (message.resource != null && Object.hasOwnProperty.call(message, "resource"))
                             writer.uint32(/* id 1, wireType 2 =*/10).string(message.resource);
-                        if (message.options != null && message.hasOwnProperty("options"))
+                        if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                             $root.google.iam.v1.GetPolicyOptions.encode(message.options, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                         return writer;
                     };
@@ -1523,7 +1509,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     TestIamPermissionsRequest.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.resource != null && message.hasOwnProperty("resource"))
+                        if (message.resource != null && Object.hasOwnProperty.call(message, "resource"))
                             writer.uint32(/* id 1, wireType 2 =*/10).string(message.resource);
                         if (message.permissions != null && message.permissions.length)
                             for (var i = 0; i < message.permissions.length; ++i)
@@ -1942,7 +1928,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     GetPolicyOptions.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.requestedPolicyVersion != null && message.hasOwnProperty("requestedPolicyVersion"))
+                        if (message.requestedPolicyVersion != null && Object.hasOwnProperty.call(message, "requestedPolicyVersion"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.requestedPolicyVersion);
                         return writer;
                     };
@@ -2148,9 +2134,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     Policy.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.version != null && message.hasOwnProperty("version"))
+                        if (message.version != null && Object.hasOwnProperty.call(message, "version"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.version);
-                        if (message.etag != null && message.hasOwnProperty("etag"))
+                        if (message.etag != null && Object.hasOwnProperty.call(message, "etag"))
                             writer.uint32(/* id 3, wireType 2 =*/26).bytes(message.etag);
                         if (message.bindings != null && message.bindings.length)
                             for (var i = 0; i < message.bindings.length; ++i)
@@ -2411,12 +2397,12 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     Binding.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.role != null && message.hasOwnProperty("role"))
+                        if (message.role != null && Object.hasOwnProperty.call(message, "role"))
                             writer.uint32(/* id 1, wireType 2 =*/10).string(message.role);
                         if (message.members != null && message.members.length)
                             for (var i = 0; i < message.members.length; ++i)
                                 writer.uint32(/* id 2, wireType 2 =*/18).string(message.members[i]);
-                        if (message.condition != null && message.hasOwnProperty("condition"))
+                        if (message.condition != null && Object.hasOwnProperty.call(message, "condition"))
                             $root.google.type.Expr.encode(message.condition, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                         return writer;
                     };
@@ -2925,13 +2911,13 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     BindingDelta.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.action != null && message.hasOwnProperty("action"))
+                        if (message.action != null && Object.hasOwnProperty.call(message, "action"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.action);
-                        if (message.role != null && message.hasOwnProperty("role"))
+                        if (message.role != null && Object.hasOwnProperty.call(message, "role"))
                             writer.uint32(/* id 2, wireType 2 =*/18).string(message.role);
-                        if (message.member != null && message.hasOwnProperty("member"))
+                        if (message.member != null && Object.hasOwnProperty.call(message, "member"))
                             writer.uint32(/* id 3, wireType 2 =*/26).string(message.member);
-                        if (message.condition != null && message.hasOwnProperty("condition"))
+                        if (message.condition != null && Object.hasOwnProperty.call(message, "condition"))
                             $root.google.type.Expr.encode(message.condition, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
                         return writer;
                     };
@@ -3119,7 +3105,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     /**
                      * Action enum.
                      * @name google.iam.v1.BindingDelta.Action
-                     * @enum {string}
+                     * @enum {number}
                      * @property {number} ACTION_UNSPECIFIED=0 ACTION_UNSPECIFIED value
                      * @property {number} ADD=1 ADD value
                      * @property {number} REMOVE=2 REMOVE value
@@ -3218,13 +3204,13 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     AuditConfigDelta.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.action != null && message.hasOwnProperty("action"))
+                        if (message.action != null && Object.hasOwnProperty.call(message, "action"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.action);
-                        if (message.service != null && message.hasOwnProperty("service"))
+                        if (message.service != null && Object.hasOwnProperty.call(message, "service"))
                             writer.uint32(/* id 2, wireType 2 =*/18).string(message.service);
-                        if (message.exemptedMember != null && message.hasOwnProperty("exemptedMember"))
+                        if (message.exemptedMember != null && Object.hasOwnProperty.call(message, "exemptedMember"))
                             writer.uint32(/* id 3, wireType 2 =*/26).string(message.exemptedMember);
-                        if (message.logType != null && message.hasOwnProperty("logType"))
+                        if (message.logType != null && Object.hasOwnProperty.call(message, "logType"))
                             writer.uint32(/* id 4, wireType 2 =*/34).string(message.logType);
                         return writer;
                     };
@@ -3407,7 +3393,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     /**
                      * Action enum.
                      * @name google.iam.v1.AuditConfigDelta.Action
-                     * @enum {string}
+                     * @enum {number}
                      * @property {number} ACTION_UNSPECIFIED=0 ACTION_UNSPECIFIED value
                      * @property {number} ADD=1 ADD value
                      * @property {number} REMOVE=2 REMOVE value
@@ -3488,7 +3474,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                         AuditData.encode = function encode(message, writer) {
                             if (!writer)
                                 writer = $Writer.create();
-                            if (message.policyDelta != null && message.hasOwnProperty("policyDelta"))
+                            if (message.policyDelta != null && Object.hasOwnProperty.call(message, "policyDelta"))
                                 $root.google.iam.v1.PolicyDelta.encode(message.policyDelta, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                             return writer;
                         };
@@ -3711,7 +3697,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     if (message.rules != null && message.rules.length)
                         for (var i = 0; i < message.rules.length; ++i)
                             $root.google.api.HttpRule.encode(message.rules[i], writer.uint32(/* id 1, wireType 2 =*/10).fork()).ldelim();
-                    if (message.fullyDecodeReservedExpansion != null && message.hasOwnProperty("fullyDecodeReservedExpansion"))
+                    if (message.fullyDecodeReservedExpansion != null && Object.hasOwnProperty.call(message, "fullyDecodeReservedExpansion"))
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.fullyDecodeReservedExpansion);
                     return writer;
                 };
@@ -4025,26 +4011,26 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 HttpRule.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.selector != null && message.hasOwnProperty("selector"))
+                    if (message.selector != null && Object.hasOwnProperty.call(message, "selector"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.selector);
-                    if (message.get != null && message.hasOwnProperty("get"))
+                    if (message.get != null && Object.hasOwnProperty.call(message, "get"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.get);
-                    if (message.put != null && message.hasOwnProperty("put"))
+                    if (message.put != null && Object.hasOwnProperty.call(message, "put"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.put);
-                    if (message.post != null && message.hasOwnProperty("post"))
+                    if (message.post != null && Object.hasOwnProperty.call(message, "post"))
                         writer.uint32(/* id 4, wireType 2 =*/34).string(message.post);
-                    if (message["delete"] != null && message.hasOwnProperty("delete"))
+                    if (message["delete"] != null && Object.hasOwnProperty.call(message, "delete"))
                         writer.uint32(/* id 5, wireType 2 =*/42).string(message["delete"]);
-                    if (message.patch != null && message.hasOwnProperty("patch"))
+                    if (message.patch != null && Object.hasOwnProperty.call(message, "patch"))
                         writer.uint32(/* id 6, wireType 2 =*/50).string(message.patch);
-                    if (message.body != null && message.hasOwnProperty("body"))
+                    if (message.body != null && Object.hasOwnProperty.call(message, "body"))
                         writer.uint32(/* id 7, wireType 2 =*/58).string(message.body);
-                    if (message.custom != null && message.hasOwnProperty("custom"))
+                    if (message.custom != null && Object.hasOwnProperty.call(message, "custom"))
                         $root.google.api.CustomHttpPattern.encode(message.custom, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
                     if (message.additionalBindings != null && message.additionalBindings.length)
                         for (var i = 0; i < message.additionalBindings.length; ++i)
                             $root.google.api.HttpRule.encode(message.additionalBindings[i], writer.uint32(/* id 11, wireType 2 =*/90).fork()).ldelim();
-                    if (message.responseBody != null && message.hasOwnProperty("responseBody"))
+                    if (message.responseBody != null && Object.hasOwnProperty.call(message, "responseBody"))
                         writer.uint32(/* id 12, wireType 2 =*/98).string(message.responseBody);
                     return writer;
                 };
@@ -4401,9 +4387,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 CustomHttpPattern.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.kind != null && message.hasOwnProperty("kind"))
+                    if (message.kind != null && Object.hasOwnProperty.call(message, "kind"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.kind);
-                    if (message.path != null && message.hasOwnProperty("path"))
+                    if (message.path != null && Object.hasOwnProperty.call(message, "path"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.path);
                     return writer;
                 };
@@ -4549,7 +4535,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
             /**
              * FieldBehavior enum.
              * @name google.api.FieldBehavior
-             * @enum {string}
+             * @enum {number}
              * @property {number} FIELD_BEHAVIOR_UNSPECIFIED=0 FIELD_BEHAVIOR_UNSPECIFIED value
              * @property {number} OPTIONAL=1 OPTIONAL value
              * @property {number} REQUIRED=2 REQUIRED value
@@ -4670,18 +4656,18 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 ResourceDescriptor.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.type != null && message.hasOwnProperty("type"))
+                    if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
                     if (message.pattern != null && message.pattern.length)
                         for (var i = 0; i < message.pattern.length; ++i)
                             writer.uint32(/* id 2, wireType 2 =*/18).string(message.pattern[i]);
-                    if (message.nameField != null && message.hasOwnProperty("nameField"))
+                    if (message.nameField != null && Object.hasOwnProperty.call(message, "nameField"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.nameField);
-                    if (message.history != null && message.hasOwnProperty("history"))
+                    if (message.history != null && Object.hasOwnProperty.call(message, "history"))
                         writer.uint32(/* id 4, wireType 0 =*/32).int32(message.history);
-                    if (message.plural != null && message.hasOwnProperty("plural"))
+                    if (message.plural != null && Object.hasOwnProperty.call(message, "plural"))
                         writer.uint32(/* id 5, wireType 2 =*/42).string(message.plural);
-                    if (message.singular != null && message.hasOwnProperty("singular"))
+                    if (message.singular != null && Object.hasOwnProperty.call(message, "singular"))
                         writer.uint32(/* id 6, wireType 2 =*/50).string(message.singular);
                     return writer;
                 };
@@ -4901,7 +4887,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * History enum.
                  * @name google.api.ResourceDescriptor.History
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} HISTORY_UNSPECIFIED=0 HISTORY_UNSPECIFIED value
                  * @property {number} ORIGINALLY_SINGLE_PATTERN=1 ORIGINALLY_SINGLE_PATTERN value
                  * @property {number} FUTURE_MULTI_PATTERN=2 FUTURE_MULTI_PATTERN value
@@ -4982,9 +4968,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 ResourceReference.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.type != null && message.hasOwnProperty("type"))
+                    if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.type);
-                    if (message.childType != null && message.hasOwnProperty("childType"))
+                    if (message.childType != null && Object.hasOwnProperty.call(message, "childType"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.childType);
                     return writer;
                 };
@@ -5509,9 +5495,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 FileDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message["package"] != null && message.hasOwnProperty("package"))
+                    if (message["package"] != null && Object.hasOwnProperty.call(message, "package"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message["package"]);
                     if (message.dependency != null && message.dependency.length)
                         for (var i = 0; i < message.dependency.length; ++i)
@@ -5528,9 +5514,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     if (message.extension != null && message.extension.length)
                         for (var i = 0; i < message.extension.length; ++i)
                             $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.FileOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
-                    if (message.sourceCodeInfo != null && message.hasOwnProperty("sourceCodeInfo"))
+                    if (message.sourceCodeInfo != null && Object.hasOwnProperty.call(message, "sourceCodeInfo"))
                         $root.google.protobuf.SourceCodeInfo.encode(message.sourceCodeInfo, writer.uint32(/* id 9, wireType 2 =*/74).fork()).ldelim();
                     if (message.publicDependency != null && message.publicDependency.length)
                         for (var i = 0; i < message.publicDependency.length; ++i)
@@ -5538,7 +5524,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     if (message.weakDependency != null && message.weakDependency.length)
                         for (var i = 0; i < message.weakDependency.length; ++i)
                             writer.uint32(/* id 11, wireType 0 =*/88).int32(message.weakDependency[i]);
-                    if (message.syntax != null && message.hasOwnProperty("syntax"))
+                    if (message.syntax != null && Object.hasOwnProperty.call(message, "syntax"))
                         writer.uint32(/* id 12, wireType 2 =*/98).string(message.syntax);
                     return writer;
                 };
@@ -6076,7 +6062,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 DescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.field != null && message.field.length)
                         for (var i = 0; i < message.field.length; ++i)
@@ -6093,7 +6079,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     if (message.extension != null && message.extension.length)
                         for (var i = 0; i < message.extension.length; ++i)
                             $root.google.protobuf.FieldDescriptorProto.encode(message.extension[i], writer.uint32(/* id 6, wireType 2 =*/50).fork()).ldelim();
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.MessageOptions.encode(message.options, writer.uint32(/* id 7, wireType 2 =*/58).fork()).ldelim();
                     if (message.oneofDecl != null && message.oneofDecl.length)
                         for (var i = 0; i < message.oneofDecl.length; ++i)
@@ -6558,11 +6544,11 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     ExtensionRange.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.start != null && message.hasOwnProperty("start"))
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
-                        if (message.end != null && message.hasOwnProperty("end"))
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.end);
-                        if (message.options != null && message.hasOwnProperty("options"))
+                        if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                             $root.google.protobuf.ExtensionRangeOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                         return writer;
                     };
@@ -6786,9 +6772,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     ReservedRange.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.start != null && message.hasOwnProperty("start"))
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
-                        if (message.end != null && message.hasOwnProperty("end"))
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.end);
                         return writer;
                     };
@@ -7158,6 +7144,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                  * @property {number|null} [oneofIndex] FieldDescriptorProto oneofIndex
                  * @property {string|null} [jsonName] FieldDescriptorProto jsonName
                  * @property {google.protobuf.IFieldOptions|null} [options] FieldDescriptorProto options
+                 * @property {boolean|null} [proto3Optional] FieldDescriptorProto proto3Optional
                  */
     
                 /**
@@ -7256,6 +7243,14 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 FieldDescriptorProto.prototype.options = null;
     
                 /**
+                 * FieldDescriptorProto proto3Optional.
+                 * @member {boolean} proto3Optional
+                 * @memberof google.protobuf.FieldDescriptorProto
+                 * @instance
+                 */
+                FieldDescriptorProto.prototype.proto3Optional = false;
+    
+                /**
                  * Creates a new FieldDescriptorProto instance using the specified properties.
                  * @function create
                  * @memberof google.protobuf.FieldDescriptorProto
@@ -7279,26 +7274,28 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 FieldDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.extendee != null && message.hasOwnProperty("extendee"))
+                    if (message.extendee != null && Object.hasOwnProperty.call(message, "extendee"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.extendee);
-                    if (message.number != null && message.hasOwnProperty("number"))
+                    if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         writer.uint32(/* id 3, wireType 0 =*/24).int32(message.number);
-                    if (message.label != null && message.hasOwnProperty("label"))
+                    if (message.label != null && Object.hasOwnProperty.call(message, "label"))
                         writer.uint32(/* id 4, wireType 0 =*/32).int32(message.label);
-                    if (message.type != null && message.hasOwnProperty("type"))
+                    if (message.type != null && Object.hasOwnProperty.call(message, "type"))
                         writer.uint32(/* id 5, wireType 0 =*/40).int32(message.type);
-                    if (message.typeName != null && message.hasOwnProperty("typeName"))
+                    if (message.typeName != null && Object.hasOwnProperty.call(message, "typeName"))
                         writer.uint32(/* id 6, wireType 2 =*/50).string(message.typeName);
-                    if (message.defaultValue != null && message.hasOwnProperty("defaultValue"))
+                    if (message.defaultValue != null && Object.hasOwnProperty.call(message, "defaultValue"))
                         writer.uint32(/* id 7, wireType 2 =*/58).string(message.defaultValue);
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.FieldOptions.encode(message.options, writer.uint32(/* id 8, wireType 2 =*/66).fork()).ldelim();
-                    if (message.oneofIndex != null && message.hasOwnProperty("oneofIndex"))
+                    if (message.oneofIndex != null && Object.hasOwnProperty.call(message, "oneofIndex"))
                         writer.uint32(/* id 9, wireType 0 =*/72).int32(message.oneofIndex);
-                    if (message.jsonName != null && message.hasOwnProperty("jsonName"))
+                    if (message.jsonName != null && Object.hasOwnProperty.call(message, "jsonName"))
                         writer.uint32(/* id 10, wireType 2 =*/82).string(message.jsonName);
+                    if (message.proto3Optional != null && Object.hasOwnProperty.call(message, "proto3Optional"))
+                        writer.uint32(/* id 17, wireType 0 =*/136).bool(message.proto3Optional);
                     return writer;
                 };
     
@@ -7362,6 +7359,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                             break;
                         case 8:
                             message.options = $root.google.protobuf.FieldOptions.decode(reader, reader.uint32());
+                            break;
+                        case 17:
+                            message.proto3Optional = reader.bool();
                             break;
                         default:
                             reader.skipType(tag & 7);
@@ -7457,6 +7457,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                         if (error)
                             return "options." + error;
                     }
+                    if (message.proto3Optional != null && message.hasOwnProperty("proto3Optional"))
+                        if (typeof message.proto3Optional !== "boolean")
+                            return "proto3Optional: boolean expected";
                     return null;
                 };
     
@@ -7579,6 +7582,8 @@ utf8.write = function utf8_write(string, buffer, offset) {
                             throw TypeError(".google.protobuf.FieldDescriptorProto.options: object expected");
                         message.options = $root.google.protobuf.FieldOptions.fromObject(object.options);
                     }
+                    if (object.proto3Optional != null)
+                        message.proto3Optional = Boolean(object.proto3Optional);
                     return message;
                 };
     
@@ -7606,6 +7611,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                         object.options = null;
                         object.oneofIndex = 0;
                         object.jsonName = "";
+                        object.proto3Optional = false;
                     }
                     if (message.name != null && message.hasOwnProperty("name"))
                         object.name = message.name;
@@ -7627,6 +7633,8 @@ utf8.write = function utf8_write(string, buffer, offset) {
                         object.oneofIndex = message.oneofIndex;
                     if (message.jsonName != null && message.hasOwnProperty("jsonName"))
                         object.jsonName = message.jsonName;
+                    if (message.proto3Optional != null && message.hasOwnProperty("proto3Optional"))
+                        object.proto3Optional = message.proto3Optional;
                     return object;
                 };
     
@@ -7644,7 +7652,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * Type enum.
                  * @name google.protobuf.FieldDescriptorProto.Type
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} TYPE_DOUBLE=1 TYPE_DOUBLE value
                  * @property {number} TYPE_FLOAT=2 TYPE_FLOAT value
                  * @property {number} TYPE_INT64=3 TYPE_INT64 value
@@ -7690,7 +7698,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * Label enum.
                  * @name google.protobuf.FieldDescriptorProto.Label
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} LABEL_OPTIONAL=1 LABEL_OPTIONAL value
                  * @property {number} LABEL_REQUIRED=2 LABEL_REQUIRED value
                  * @property {number} LABEL_REPEATED=3 LABEL_REPEATED value
@@ -7771,9 +7779,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 OneofDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.OneofOptions.encode(message.options, writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
                     return writer;
                 };
@@ -8016,12 +8024,12 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 EnumDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.value != null && message.value.length)
                         for (var i = 0; i < message.value.length; ++i)
                             $root.google.protobuf.EnumValueDescriptorProto.encode(message.value[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.EnumOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     if (message.reservedRange != null && message.reservedRange.length)
                         for (var i = 0; i < message.reservedRange.length; ++i)
@@ -8324,9 +8332,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     EnumReservedRange.encode = function encode(message, writer) {
                         if (!writer)
                             writer = $Writer.create();
-                        if (message.start != null && message.hasOwnProperty("start"))
+                        if (message.start != null && Object.hasOwnProperty.call(message, "start"))
                             writer.uint32(/* id 1, wireType 0 =*/8).int32(message.start);
-                        if (message.end != null && message.hasOwnProperty("end"))
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             writer.uint32(/* id 2, wireType 0 =*/16).int32(message.end);
                         return writer;
                     };
@@ -8546,11 +8554,11 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 EnumValueDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.number != null && message.hasOwnProperty("number"))
+                    if (message.number != null && Object.hasOwnProperty.call(message, "number"))
                         writer.uint32(/* id 2, wireType 0 =*/16).int32(message.number);
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.EnumValueOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
@@ -8784,12 +8792,12 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 ServiceDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
                     if (message.method != null && message.method.length)
                         for (var i = 0; i < message.method.length; ++i)
                             $root.google.protobuf.MethodDescriptorProto.encode(message.method[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.ServiceOptions.encode(message.options, writer.uint32(/* id 3, wireType 2 =*/26).fork()).ldelim();
                     return writer;
                 };
@@ -9069,17 +9077,17 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 MethodDescriptorProto.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.name != null && message.hasOwnProperty("name"))
+                    if (message.name != null && Object.hasOwnProperty.call(message, "name"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.name);
-                    if (message.inputType != null && message.hasOwnProperty("inputType"))
+                    if (message.inputType != null && Object.hasOwnProperty.call(message, "inputType"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.inputType);
-                    if (message.outputType != null && message.hasOwnProperty("outputType"))
+                    if (message.outputType != null && Object.hasOwnProperty.call(message, "outputType"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.outputType);
-                    if (message.options != null && message.hasOwnProperty("options"))
+                    if (message.options != null && Object.hasOwnProperty.call(message, "options"))
                         $root.google.protobuf.MethodOptions.encode(message.options, writer.uint32(/* id 4, wireType 2 =*/34).fork()).ldelim();
-                    if (message.clientStreaming != null && message.hasOwnProperty("clientStreaming"))
+                    if (message.clientStreaming != null && Object.hasOwnProperty.call(message, "clientStreaming"))
                         writer.uint32(/* id 5, wireType 0 =*/40).bool(message.clientStreaming);
-                    if (message.serverStreaming != null && message.hasOwnProperty("serverStreaming"))
+                    if (message.serverStreaming != null && Object.hasOwnProperty.call(message, "serverStreaming"))
                         writer.uint32(/* id 6, wireType 0 =*/48).bool(message.serverStreaming);
                     return writer;
                 };
@@ -9420,7 +9428,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                  * @memberof google.protobuf.FileOptions
                  * @instance
                  */
-                FileOptions.prototype.ccEnableArenas = false;
+                FileOptions.prototype.ccEnableArenas = true;
     
                 /**
                  * FileOptions objcClassPrefix.
@@ -9518,45 +9526,45 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 FileOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.javaPackage != null && message.hasOwnProperty("javaPackage"))
+                    if (message.javaPackage != null && Object.hasOwnProperty.call(message, "javaPackage"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.javaPackage);
-                    if (message.javaOuterClassname != null && message.hasOwnProperty("javaOuterClassname"))
+                    if (message.javaOuterClassname != null && Object.hasOwnProperty.call(message, "javaOuterClassname"))
                         writer.uint32(/* id 8, wireType 2 =*/66).string(message.javaOuterClassname);
-                    if (message.optimizeFor != null && message.hasOwnProperty("optimizeFor"))
+                    if (message.optimizeFor != null && Object.hasOwnProperty.call(message, "optimizeFor"))
                         writer.uint32(/* id 9, wireType 0 =*/72).int32(message.optimizeFor);
-                    if (message.javaMultipleFiles != null && message.hasOwnProperty("javaMultipleFiles"))
+                    if (message.javaMultipleFiles != null && Object.hasOwnProperty.call(message, "javaMultipleFiles"))
                         writer.uint32(/* id 10, wireType 0 =*/80).bool(message.javaMultipleFiles);
-                    if (message.goPackage != null && message.hasOwnProperty("goPackage"))
+                    if (message.goPackage != null && Object.hasOwnProperty.call(message, "goPackage"))
                         writer.uint32(/* id 11, wireType 2 =*/90).string(message.goPackage);
-                    if (message.ccGenericServices != null && message.hasOwnProperty("ccGenericServices"))
+                    if (message.ccGenericServices != null && Object.hasOwnProperty.call(message, "ccGenericServices"))
                         writer.uint32(/* id 16, wireType 0 =*/128).bool(message.ccGenericServices);
-                    if (message.javaGenericServices != null && message.hasOwnProperty("javaGenericServices"))
+                    if (message.javaGenericServices != null && Object.hasOwnProperty.call(message, "javaGenericServices"))
                         writer.uint32(/* id 17, wireType 0 =*/136).bool(message.javaGenericServices);
-                    if (message.pyGenericServices != null && message.hasOwnProperty("pyGenericServices"))
+                    if (message.pyGenericServices != null && Object.hasOwnProperty.call(message, "pyGenericServices"))
                         writer.uint32(/* id 18, wireType 0 =*/144).bool(message.pyGenericServices);
-                    if (message.javaGenerateEqualsAndHash != null && message.hasOwnProperty("javaGenerateEqualsAndHash"))
+                    if (message.javaGenerateEqualsAndHash != null && Object.hasOwnProperty.call(message, "javaGenerateEqualsAndHash"))
                         writer.uint32(/* id 20, wireType 0 =*/160).bool(message.javaGenerateEqualsAndHash);
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 23, wireType 0 =*/184).bool(message.deprecated);
-                    if (message.javaStringCheckUtf8 != null && message.hasOwnProperty("javaStringCheckUtf8"))
+                    if (message.javaStringCheckUtf8 != null && Object.hasOwnProperty.call(message, "javaStringCheckUtf8"))
                         writer.uint32(/* id 27, wireType 0 =*/216).bool(message.javaStringCheckUtf8);
-                    if (message.ccEnableArenas != null && message.hasOwnProperty("ccEnableArenas"))
+                    if (message.ccEnableArenas != null && Object.hasOwnProperty.call(message, "ccEnableArenas"))
                         writer.uint32(/* id 31, wireType 0 =*/248).bool(message.ccEnableArenas);
-                    if (message.objcClassPrefix != null && message.hasOwnProperty("objcClassPrefix"))
+                    if (message.objcClassPrefix != null && Object.hasOwnProperty.call(message, "objcClassPrefix"))
                         writer.uint32(/* id 36, wireType 2 =*/290).string(message.objcClassPrefix);
-                    if (message.csharpNamespace != null && message.hasOwnProperty("csharpNamespace"))
+                    if (message.csharpNamespace != null && Object.hasOwnProperty.call(message, "csharpNamespace"))
                         writer.uint32(/* id 37, wireType 2 =*/298).string(message.csharpNamespace);
-                    if (message.swiftPrefix != null && message.hasOwnProperty("swiftPrefix"))
+                    if (message.swiftPrefix != null && Object.hasOwnProperty.call(message, "swiftPrefix"))
                         writer.uint32(/* id 39, wireType 2 =*/314).string(message.swiftPrefix);
-                    if (message.phpClassPrefix != null && message.hasOwnProperty("phpClassPrefix"))
+                    if (message.phpClassPrefix != null && Object.hasOwnProperty.call(message, "phpClassPrefix"))
                         writer.uint32(/* id 40, wireType 2 =*/322).string(message.phpClassPrefix);
-                    if (message.phpNamespace != null && message.hasOwnProperty("phpNamespace"))
+                    if (message.phpNamespace != null && Object.hasOwnProperty.call(message, "phpNamespace"))
                         writer.uint32(/* id 41, wireType 2 =*/330).string(message.phpNamespace);
-                    if (message.phpGenericServices != null && message.hasOwnProperty("phpGenericServices"))
+                    if (message.phpGenericServices != null && Object.hasOwnProperty.call(message, "phpGenericServices"))
                         writer.uint32(/* id 42, wireType 0 =*/336).bool(message.phpGenericServices);
-                    if (message.phpMetadataNamespace != null && message.hasOwnProperty("phpMetadataNamespace"))
+                    if (message.phpMetadataNamespace != null && Object.hasOwnProperty.call(message, "phpMetadataNamespace"))
                         writer.uint32(/* id 44, wireType 2 =*/354).string(message.phpMetadataNamespace);
-                    if (message.rubyPackage != null && message.hasOwnProperty("rubyPackage"))
+                    if (message.rubyPackage != null && Object.hasOwnProperty.call(message, "rubyPackage"))
                         writer.uint32(/* id 45, wireType 2 =*/362).string(message.rubyPackage);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
@@ -9906,7 +9914,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                         object.javaGenerateEqualsAndHash = false;
                         object.deprecated = false;
                         object.javaStringCheckUtf8 = false;
-                        object.ccEnableArenas = false;
+                        object.ccEnableArenas = true;
                         object.objcClassPrefix = "";
                         object.csharpNamespace = "";
                         object.swiftPrefix = "";
@@ -9983,7 +9991,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * OptimizeMode enum.
                  * @name google.protobuf.FileOptions.OptimizeMode
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} SPEED=1 SPEED value
                  * @property {number} CODE_SIZE=2 CODE_SIZE value
                  * @property {number} LITE_RUNTIME=3 LITE_RUNTIME value
@@ -10101,18 +10109,18 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 MessageOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.messageSetWireFormat != null && message.hasOwnProperty("messageSetWireFormat"))
+                    if (message.messageSetWireFormat != null && Object.hasOwnProperty.call(message, "messageSetWireFormat"))
                         writer.uint32(/* id 1, wireType 0 =*/8).bool(message.messageSetWireFormat);
-                    if (message.noStandardDescriptorAccessor != null && message.hasOwnProperty("noStandardDescriptorAccessor"))
+                    if (message.noStandardDescriptorAccessor != null && Object.hasOwnProperty.call(message, "noStandardDescriptorAccessor"))
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.noStandardDescriptorAccessor);
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 3, wireType 0 =*/24).bool(message.deprecated);
-                    if (message.mapEntry != null && message.hasOwnProperty("mapEntry"))
+                    if (message.mapEntry != null && Object.hasOwnProperty.call(message, "mapEntry"))
                         writer.uint32(/* id 7, wireType 0 =*/56).bool(message.mapEntry);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpretedOption[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
-                    if (message[".google.api.resource"] != null && message.hasOwnProperty(".google.api.resource"))
+                    if (message[".google.api.resource"] != null && Object.hasOwnProperty.call(message, ".google.api.resource"))
                         $root.google.api.ResourceDescriptor.encode(message[".google.api.resource"], writer.uint32(/* id 1053, wireType 2 =*/8426).fork()).ldelim();
                     return writer;
                 };
@@ -10454,17 +10462,17 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 FieldOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.ctype != null && message.hasOwnProperty("ctype"))
+                    if (message.ctype != null && Object.hasOwnProperty.call(message, "ctype"))
                         writer.uint32(/* id 1, wireType 0 =*/8).int32(message.ctype);
-                    if (message.packed != null && message.hasOwnProperty("packed"))
+                    if (message.packed != null && Object.hasOwnProperty.call(message, "packed"))
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.packed);
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 3, wireType 0 =*/24).bool(message.deprecated);
-                    if (message.lazy != null && message.hasOwnProperty("lazy"))
+                    if (message.lazy != null && Object.hasOwnProperty.call(message, "lazy"))
                         writer.uint32(/* id 5, wireType 0 =*/40).bool(message.lazy);
-                    if (message.jstype != null && message.hasOwnProperty("jstype"))
+                    if (message.jstype != null && Object.hasOwnProperty.call(message, "jstype"))
                         writer.uint32(/* id 6, wireType 0 =*/48).int32(message.jstype);
-                    if (message.weak != null && message.hasOwnProperty("weak"))
+                    if (message.weak != null && Object.hasOwnProperty.call(message, "weak"))
                         writer.uint32(/* id 10, wireType 0 =*/80).bool(message.weak);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
@@ -10475,7 +10483,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                             writer.int32(message[".google.api.fieldBehavior"][i]);
                         writer.ldelim();
                     }
-                    if (message[".google.api.resourceReference"] != null && message.hasOwnProperty(".google.api.resourceReference"))
+                    if (message[".google.api.resourceReference"] != null && Object.hasOwnProperty.call(message, ".google.api.resourceReference"))
                         $root.google.api.ResourceReference.encode(message[".google.api.resourceReference"], writer.uint32(/* id 1055, wireType 2 =*/8442).fork()).ldelim();
                     return writer;
                 };
@@ -10811,7 +10819,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * CType enum.
                  * @name google.protobuf.FieldOptions.CType
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} STRING=0 STRING value
                  * @property {number} CORD=1 CORD value
                  * @property {number} STRING_PIECE=2 STRING_PIECE value
@@ -10827,7 +10835,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * JSType enum.
                  * @name google.protobuf.FieldOptions.JSType
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} JS_NORMAL=0 JS_NORMAL value
                  * @property {number} JS_STRING=1 JS_STRING value
                  * @property {number} JS_NUMBER=2 JS_NUMBER value
@@ -11126,9 +11134,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 EnumOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.allowAlias != null && message.hasOwnProperty("allowAlias"))
+                    if (message.allowAlias != null && Object.hasOwnProperty.call(message, "allowAlias"))
                         writer.uint32(/* id 2, wireType 0 =*/16).bool(message.allowAlias);
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 3, wireType 0 =*/24).bool(message.deprecated);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
@@ -11371,7 +11379,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 EnumValueOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 1, wireType 0 =*/8).bool(message.deprecated);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
@@ -11620,14 +11628,14 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 ServiceOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 33, wireType 0 =*/264).bool(message.deprecated);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
                             $root.google.protobuf.UninterpretedOption.encode(message.uninterpretedOption[i], writer.uint32(/* id 999, wireType 2 =*/7994).fork()).ldelim();
-                    if (message[".google.api.defaultHost"] != null && message.hasOwnProperty(".google.api.defaultHost"))
+                    if (message[".google.api.defaultHost"] != null && Object.hasOwnProperty.call(message, ".google.api.defaultHost"))
                         writer.uint32(/* id 1049, wireType 2 =*/8394).string(message[".google.api.defaultHost"]);
-                    if (message[".google.api.oauthScopes"] != null && message.hasOwnProperty(".google.api.oauthScopes"))
+                    if (message[".google.api.oauthScopes"] != null && Object.hasOwnProperty.call(message, ".google.api.oauthScopes"))
                         writer.uint32(/* id 1050, wireType 2 =*/8402).string(message[".google.api.oauthScopes"]);
                     return writer;
                 };
@@ -11906,9 +11914,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 MethodOptions.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.deprecated != null && message.hasOwnProperty("deprecated"))
+                    if (message.deprecated != null && Object.hasOwnProperty.call(message, "deprecated"))
                         writer.uint32(/* id 33, wireType 0 =*/264).bool(message.deprecated);
-                    if (message.idempotencyLevel != null && message.hasOwnProperty("idempotencyLevel"))
+                    if (message.idempotencyLevel != null && Object.hasOwnProperty.call(message, "idempotencyLevel"))
                         writer.uint32(/* id 34, wireType 0 =*/272).int32(message.idempotencyLevel);
                     if (message.uninterpretedOption != null && message.uninterpretedOption.length)
                         for (var i = 0; i < message.uninterpretedOption.length; ++i)
@@ -11916,7 +11924,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     if (message[".google.api.methodSignature"] != null && message[".google.api.methodSignature"].length)
                         for (var i = 0; i < message[".google.api.methodSignature"].length; ++i)
                             writer.uint32(/* id 1051, wireType 2 =*/8410).string(message[".google.api.methodSignature"][i]);
-                    if (message[".google.api.http"] != null && message.hasOwnProperty(".google.api.http"))
+                    if (message[".google.api.http"] != null && Object.hasOwnProperty.call(message, ".google.api.http"))
                         $root.google.api.HttpRule.encode(message[".google.api.http"], writer.uint32(/* id 72295728, wireType 2 =*/578365826).fork()).ldelim();
                     return writer;
                 };
@@ -12150,7 +12158,7 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 /**
                  * IdempotencyLevel enum.
                  * @name google.protobuf.MethodOptions.IdempotencyLevel
-                 * @enum {string}
+                 * @enum {number}
                  * @property {number} IDEMPOTENCY_UNKNOWN=0 IDEMPOTENCY_UNKNOWN value
                  * @property {number} NO_SIDE_EFFECTS=1 NO_SIDE_EFFECTS value
                  * @property {number} IDEMPOTENT=2 IDEMPOTENT value
@@ -12280,17 +12288,17 @@ utf8.write = function utf8_write(string, buffer, offset) {
                     if (message.name != null && message.name.length)
                         for (var i = 0; i < message.name.length; ++i)
                             $root.google.protobuf.UninterpretedOption.NamePart.encode(message.name[i], writer.uint32(/* id 2, wireType 2 =*/18).fork()).ldelim();
-                    if (message.identifierValue != null && message.hasOwnProperty("identifierValue"))
+                    if (message.identifierValue != null && Object.hasOwnProperty.call(message, "identifierValue"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.identifierValue);
-                    if (message.positiveIntValue != null && message.hasOwnProperty("positiveIntValue"))
+                    if (message.positiveIntValue != null && Object.hasOwnProperty.call(message, "positiveIntValue"))
                         writer.uint32(/* id 4, wireType 0 =*/32).uint64(message.positiveIntValue);
-                    if (message.negativeIntValue != null && message.hasOwnProperty("negativeIntValue"))
+                    if (message.negativeIntValue != null && Object.hasOwnProperty.call(message, "negativeIntValue"))
                         writer.uint32(/* id 5, wireType 0 =*/40).int64(message.negativeIntValue);
-                    if (message.doubleValue != null && message.hasOwnProperty("doubleValue"))
+                    if (message.doubleValue != null && Object.hasOwnProperty.call(message, "doubleValue"))
                         writer.uint32(/* id 6, wireType 1 =*/49).double(message.doubleValue);
-                    if (message.stringValue != null && message.hasOwnProperty("stringValue"))
+                    if (message.stringValue != null && Object.hasOwnProperty.call(message, "stringValue"))
                         writer.uint32(/* id 7, wireType 2 =*/58).bytes(message.stringValue);
-                    if (message.aggregateValue != null && message.hasOwnProperty("aggregateValue"))
+                    if (message.aggregateValue != null && Object.hasOwnProperty.call(message, "aggregateValue"))
                         writer.uint32(/* id 8, wireType 2 =*/66).string(message.aggregateValue);
                     return writer;
                 };
@@ -13067,9 +13075,9 @@ utf8.write = function utf8_write(string, buffer, offset) {
                                 writer.int32(message.span[i]);
                             writer.ldelim();
                         }
-                        if (message.leadingComments != null && message.hasOwnProperty("leadingComments"))
+                        if (message.leadingComments != null && Object.hasOwnProperty.call(message, "leadingComments"))
                             writer.uint32(/* id 3, wireType 2 =*/26).string(message.leadingComments);
-                        if (message.trailingComments != null && message.hasOwnProperty("trailingComments"))
+                        if (message.trailingComments != null && Object.hasOwnProperty.call(message, "trailingComments"))
                             writer.uint32(/* id 4, wireType 2 =*/34).string(message.trailingComments);
                         if (message.leadingDetachedComments != null && message.leadingDetachedComments.length)
                             for (var i = 0; i < message.leadingDetachedComments.length; ++i)
@@ -13600,11 +13608,11 @@ utf8.write = function utf8_write(string, buffer, offset) {
                                 writer.int32(message.path[i]);
                             writer.ldelim();
                         }
-                        if (message.sourceFile != null && message.hasOwnProperty("sourceFile"))
+                        if (message.sourceFile != null && Object.hasOwnProperty.call(message, "sourceFile"))
                             writer.uint32(/* id 2, wireType 2 =*/18).string(message.sourceFile);
-                        if (message.begin != null && message.hasOwnProperty("begin"))
+                        if (message.begin != null && Object.hasOwnProperty.call(message, "begin"))
                             writer.uint32(/* id 3, wireType 0 =*/24).int32(message.begin);
-                        if (message.end != null && message.hasOwnProperty("end"))
+                        if (message.end != null && Object.hasOwnProperty.call(message, "end"))
                             writer.uint32(/* id 4, wireType 0 =*/32).int32(message.end);
                         return writer;
                     };
@@ -13887,13 +13895,13 @@ utf8.write = function utf8_write(string, buffer, offset) {
                 Expr.encode = function encode(message, writer) {
                     if (!writer)
                         writer = $Writer.create();
-                    if (message.expression != null && message.hasOwnProperty("expression"))
+                    if (message.expression != null && Object.hasOwnProperty.call(message, "expression"))
                         writer.uint32(/* id 1, wireType 2 =*/10).string(message.expression);
-                    if (message.title != null && message.hasOwnProperty("title"))
+                    if (message.title != null && Object.hasOwnProperty.call(message, "title"))
                         writer.uint32(/* id 2, wireType 2 =*/18).string(message.title);
-                    if (message.description != null && message.hasOwnProperty("description"))
+                    if (message.description != null && Object.hasOwnProperty.call(message, "description"))
                         writer.uint32(/* id 3, wireType 2 =*/26).string(message.description);
-                    if (message.location != null && message.hasOwnProperty("location"))
+                    if (message.location != null && Object.hasOwnProperty.call(message, "location"))
                         writer.uint32(/* id 4, wireType 2 =*/34).string(message.location);
                     return writer;
                 };
@@ -14070,19 +14078,19 @@ utf8.write = function utf8_write(string, buffer, offset) {
 
 /***/ }),
 
-/***/ 916:
+/***/ 281:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 // minimal library entry point.
 
 
-module.exports = __webpack_require__(242);
+module.exports = __webpack_require__(774);
 
 
 /***/ }),
 
-/***/ 242:
+/***/ 774:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -14098,15 +14106,15 @@ var protobuf = exports;
 protobuf.build = "minimal";
 
 // Serialization
-protobuf.Writer       = __webpack_require__(98);
-protobuf.BufferWriter = __webpack_require__(863);
-protobuf.Reader       = __webpack_require__(11);
-protobuf.BufferReader = __webpack_require__(339);
+protobuf.Writer       = __webpack_require__(400);
+protobuf.BufferWriter = __webpack_require__(47);
+protobuf.Reader       = __webpack_require__(993);
+protobuf.BufferReader = __webpack_require__(544);
 
 // Utility
-protobuf.util         = __webpack_require__(241);
-protobuf.rpc          = __webpack_require__(444);
-protobuf.roots        = __webpack_require__(73);
+protobuf.util         = __webpack_require__(123);
+protobuf.rpc          = __webpack_require__(749);
+protobuf.roots        = __webpack_require__(210);
 protobuf.configure    = configure;
 
 /* istanbul ignore next */
@@ -14126,14 +14134,14 @@ configure();
 
 /***/ }),
 
-/***/ 11:
+/***/ 993:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 module.exports = Reader;
 
-var util      = __webpack_require__(241);
+var util      = __webpack_require__(123);
 
 var BufferReader; // cyclic
 
@@ -14545,7 +14553,7 @@ Reader._configure = function(BufferReader_) {
 
 /***/ }),
 
-/***/ 339:
+/***/ 544:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -14553,10 +14561,10 @@ Reader._configure = function(BufferReader_) {
 module.exports = BufferReader;
 
 // extends Reader
-var Reader = __webpack_require__(11);
+var Reader = __webpack_require__(993);
 (BufferReader.prototype = Object.create(Reader.prototype)).constructor = BufferReader;
 
-var util = __webpack_require__(241);
+var util = __webpack_require__(123);
 
 /**
  * Constructs a new buffer reader instance.
@@ -14604,7 +14612,7 @@ BufferReader._configure();
 
 /***/ }),
 
-/***/ 73:
+/***/ 210:
 /***/ ((module) => {
 
 "use strict";
@@ -14630,7 +14638,7 @@ module.exports = {};
 
 /***/ }),
 
-/***/ 444:
+/***/ 749:
 /***/ ((__unused_webpack_module, exports, __webpack_require__) => {
 
 "use strict";
@@ -14669,19 +14677,19 @@ var rpc = exports;
  * @returns {undefined}
  */
 
-rpc.Service = __webpack_require__(439);
+rpc.Service = __webpack_require__(968);
 
 
 /***/ }),
 
-/***/ 439:
+/***/ 968:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 module.exports = Service;
 
-var util = __webpack_require__(241);
+var util = __webpack_require__(123);
 
 // Extends EventEmitter
 (Service.prototype = Object.create(util.EventEmitter.prototype)).constructor = Service;
@@ -14824,14 +14832,14 @@ Service.prototype.end = function end(endedByRPC) {
 
 /***/ }),
 
-/***/ 374:
+/***/ 361:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 module.exports = LongBits;
 
-var util = __webpack_require__(241);
+var util = __webpack_require__(123);
 
 /**
  * Constructs new long bits.
@@ -15032,7 +15040,7 @@ LongBits.prototype.length = function length() {
 
 /***/ }),
 
-/***/ 241:
+/***/ 123:
 /***/ (function(__unused_webpack_module, exports, __webpack_require__) {
 
 "use strict";
@@ -15040,28 +15048,28 @@ LongBits.prototype.length = function length() {
 var util = exports;
 
 // used to return a Promise where callback is omitted
-util.asPromise = __webpack_require__(252);
+util.asPromise = __webpack_require__(776);
 
 // converts to / from base64 encoded strings
-util.base64 = __webpack_require__(718);
+util.base64 = __webpack_require__(869);
 
 // base class of rpc.Service
-util.EventEmitter = __webpack_require__(850);
+util.EventEmitter = __webpack_require__(536);
 
 // float handling accross browsers
-util.float = __webpack_require__(843);
+util.float = __webpack_require__(611);
 
 // requires modules optionally and hides the call from bundlers
-util.inquire = __webpack_require__(94);
+util.inquire = __webpack_require__(379);
 
 // converts to / from utf8 encoded strings
-util.utf8 = __webpack_require__(49);
+util.utf8 = __webpack_require__(112);
 
 // provides a node-like buffer pool in the browser
-util.pool = __webpack_require__(743);
+util.pool = __webpack_require__(41);
 
 // utility to work with the low and high bits of a 64 bit value
-util.LongBits = __webpack_require__(374);
+util.LongBits = __webpack_require__(361);
 
 /**
  * Whether running within node or not.
@@ -15461,14 +15469,14 @@ util._configure = function() {
 
 /***/ }),
 
-/***/ 98:
+/***/ 400:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
 module.exports = Writer;
 
-var util      = __webpack_require__(241);
+var util      = __webpack_require__(123);
 
 var BufferWriter; // cyclic
 
@@ -15934,7 +15942,7 @@ Writer._configure = function(BufferWriter_) {
 
 /***/ }),
 
-/***/ 863:
+/***/ 47:
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
@@ -15942,10 +15950,10 @@ Writer._configure = function(BufferWriter_) {
 module.exports = BufferWriter;
 
 // extends Writer
-var Writer = __webpack_require__(98);
+var Writer = __webpack_require__(400);
 (BufferWriter.prototype = Object.create(Writer.prototype)).constructor = BufferWriter;
 
-var util = __webpack_require__(241);
+var util = __webpack_require__(123);
 
 /**
  * Constructs a new buffer writer instance.
@@ -16077,7 +16085,7 @@ BufferWriter._configure();
 /******/ 	// module exports must be returned from runtime so entry inlining is disabled
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(968);
+/******/ 	return __webpack_require__(408);
 /******/ })()
 ;
 //# sourceMappingURL=iam_service.js.map

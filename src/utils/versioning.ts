@@ -1,4 +1,4 @@
-import { loggingData } from '@videndum/utilities'
+import { LoggingLevels } from '@videndum/utilities'
 import path from 'path'
 import { Utils } from '.'
 import { log } from '..'
@@ -21,11 +21,9 @@ export async function parse(
       .call(this, config.root, ref)
       .catch(err => {
         log(
-          new loggingData(
-            '500',
+          LoggingLevels.error,
             `Error thrown while parsing node project: ` + err
           )
-        )
         throw err
       })
   } else if (config.versioning?.source == 'milestones') {
@@ -56,6 +54,6 @@ export async function getNodeVersion(
   ref?: string
 ): Promise<string> {
   const file = path.join(root, '/package.json')
-  log(new loggingData('100', `Getting file: ${file}`))
+  log(LoggingLevels.debug, `Getting file: ${file}`)
   return JSON.parse(await this.api.files.get(file, ref)).version
 }

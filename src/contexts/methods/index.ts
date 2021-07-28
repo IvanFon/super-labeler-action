@@ -1,4 +1,4 @@
-import { loggingData } from '@videndum/utilities'
+import { LoggingDataClass, LoggingLevels } from '@videndum/utilities'
 import { Issues, PullRequests } from '..'
 import {
   Config,
@@ -38,13 +38,23 @@ export class Contexts {
     if (!runners) throw new Error('Cannot construct without configs')
     this.runners = runners
     if (!configs)
-      throw new loggingData('500', 'Cannot construct without configs')
+      throw new LoggingDataClass(
+        LoggingLevels.error,
+        'Cannot construct without configs'
+      )
     this.configs = configs
     if (!curContext)
-      throw new loggingData('500', 'Cannot construct without context')
+      throw new LoggingDataClass(
+        LoggingLevels.error,
+        'Cannot construct without context'
+      )
     this.curContext = curContext
     const config = configs[curContext.type]
-    if (!config) throw new loggingData('500', 'Cannot construct without config')
+    if (!config)
+      throw new LoggingDataClass(
+        LoggingLevels.error,
+        'Cannot construct without config'
+      )
     this.config = config
     this.newVersion = curContext.context.currentVersion
     this.context = curContext.context

@@ -1,5 +1,5 @@
 import { Context } from '@actions/github/lib/context'
-import { loggingData } from '@videndum/utilities'
+import { LoggingLevels } from '@videndum/utilities'
 import { log } from '.'
 import { Config, Label, Labels } from '../types'
 import {
@@ -28,74 +28,61 @@ class ContextHandler {
     }
 
     log(
-      new loggingData(
-        '100',
-        `context.payload.pull_request: ` +
-          JSON.stringify(context.payload.pull_request)
-      )
+      LoggingLevels.debug,
+      `context.payload.pull_request: ` +
+        JSON.stringify(context.payload.pull_request)
     )
 
     const IDNumber = pr.number
     const labels = await this.parseLabels(pr.labels).catch(err => {
-      log(new loggingData('500', `Error thrown while parsing labels: `, err))
+      log(LoggingLevels.error, `Error thrown while parsing labels: `, err)
       throw err
     })
     const files: string[] = await utils.api.files.list(IDNumber).catch(err => {
-      log(new loggingData('500', `Error thrown while listing files: `, err))
+      log(LoggingLevels.error, `Error thrown while listing files: `, err)
       throw err
     })
 
     const changes: number = await utils.api.pullRequests
       .changes(pr.additions, pr.deletions)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while handling changes: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while handling changes: `, err)
+
         throw err
       })
 
     const reviews: Reviews = await utils.api.pullRequests.reviews
       .list(IDNumber)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while handling reviews: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while handling reviews: `, err)
         throw err
       })
 
     const pendingReview: boolean = await utils.api.pullRequests.reviews
       .pending(reviews.length, pr.requested_reviewers.length)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while handling reviews: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while handling reviews: `, err)
         throw err
       })
 
     const requestedChanges: number = await utils.api.pullRequests.reviews
       .requestedChanges(reviews)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while handling reviews: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while handling reviews: `, err)
         throw err
       })
 
     const approved: number = await utils.api.pullRequests.reviews
       .isApproved(reviews)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while handling reviews: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while handling reviews: `, err)
         throw err
       })
 
     const currentVersion: Version = await utils.versioning
       .parse(config, config.pr.ref)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while parsing versioning: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while parsing versioning: `, err)
         throw err
       })
 
@@ -141,12 +128,10 @@ class ContextHandler {
       return
     }
     log(
-      new loggingData(
-        '100',
-        `context.payload.project_card: ${JSON.stringify(
-          context.payload.project_card
-        )}`
-      )
+      LoggingLevels.debug,
+      `context.payload.project_card: ${JSON.stringify(
+        context.payload.project_card
+      )}`
     )
 
     if (!project.content_url) throw new Error('No content information to get')
@@ -154,16 +139,14 @@ class ContextHandler {
     const issue = await await utils.api.issues.get(issueNumber)
 
     const labels = await this.parseLabels(issue.labels).catch(err => {
-      log(new loggingData('500', `Error thrown while parsing labels: `, err))
+      log(LoggingLevels.error, `Error thrown while parsing labels: `, err)
       throw err
     })
 
     const currentVersion: Version = await utils.versioning
       .parse(config, config.project.ref)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while parsing versioning: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while parsing versioning: `, err)
         throw err
       })
 
@@ -214,23 +197,19 @@ class ContextHandler {
     }
 
     log(
-      new loggingData(
-        '100',
-        `context.payload.issue: ` + JSON.stringify(context.payload.issue)
-      )
+      LoggingLevels.debug,
+      `context.payload.issue: ` + JSON.stringify(context.payload.issue)
     )
 
     const labels = await this.parseLabels(issue.labels).catch(err => {
-      log(new loggingData('500', `Error thrown while parsing labels: `, err))
+      log(LoggingLevels.error, `Error thrown while parsing labels: `, err)
       throw err
     })
 
     const currentVersion: Version = await utils.versioning
       .parse(config, config.issue.ref)
       .catch(err => {
-        log(
-          new loggingData('500', `Error thrown while parsing versioning: `, err)
-        )
+        log(LoggingLevels.error, `Error thrown while parsing versioning: `, err)
         throw err
       })
 
