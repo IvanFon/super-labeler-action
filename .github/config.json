@@ -666,7 +666,7 @@
               },
               {
                 "type": "titleMatches",
-                "pattern": "/^.*\\(release\\):/i"
+                "pattern": "/^.*\\((@videndum\\/)?release-mastermind\\):/i"
               }
             ]
           },
@@ -679,7 +679,7 @@
               },
               {
                 "type": "titleMatches",
-                "pattern": "/^.*\\(label\\):/i"
+                "pattern": "/^.*\\((@videndum\\/)?label-mastermind\\):/i"
               }
             ]
           },
@@ -692,7 +692,7 @@
               },
               {
                 "type": "titleMatches",
-                "pattern": "/^.*\\(variable\\):/i"
+                "pattern": "/^.*\\((@videndum\\/)?variable-mastermind\\):/i"
               }
             ]
           },
