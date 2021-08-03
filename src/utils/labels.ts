@@ -42,7 +42,8 @@ export async function sync(this: Utils, config: Runners['labels']) {
               label
             )})`
         )
-        await this.api.labels.update(configLabel).catch(err => {
+        log(LoggingLevels.debug, `current name: ${label.name.toString()} | new: ${configLabel.name.toString()}`)
+        await this.api.labels.update(label.name, configLabel).catch(err => {
           log(
             LoggingLevels.error, `Error thrown while updating label: ` + err)
         })

@@ -51,7 +51,7 @@ export class Utils {
       get: () => APILabels.get.call(this),
       remove: (IDNumber: number, label: string) =>
         APILabels.remove.call(this, IDNumber, label),
-      update: (label: Label) => APILabels.update.call(this, label)
+      update: (current_name: string, label: Label) => APILabels.update.call(this, current_name, label)
     },
     project: {
       column: {

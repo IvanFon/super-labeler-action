@@ -50,12 +50,13 @@ export async function remove(this: Utils, IDNumber: number, label: string) {
     })
 }
 
-export async function update(this: Utils, label: Label) {
+export async function update(this: Utils, current_name: string,  label: Label) {
   const color = this.parsingData.formatColor(label.color)
   if (!this.dryRun)
     await this.client.issues.updateLabel({
       ...this.repo,
-      current_name: label.name,
+      current_name,
+      name: label.name,
       description: label.description,
       color
     })
