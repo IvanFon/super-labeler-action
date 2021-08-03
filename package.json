@@ -1,6 +1,6 @@
 {
   "name": "@videndum/label-mastermind",
-  "version": "1.4.0-alpha.1",
+  "version": "1.4.0-alpha.3",
   "description": "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects",
   "main": "src/index.ts",
   "repository": "git@github.com:videndum/label-mastermind.git",
@@ -20,7 +20,8 @@
     "dev:format-check": "prettier --config .prettier.json --check .",
     "dev:package": "tsc && ncc build --source-map",
     "dev:test": "jest --json --outputFile=result.json --testLocationInResults",
-    "dev:all": "npm run dev:package && npm run dev:format"
+    "dev:all": "npm run dev:package && npm run dev:format",
+    "git": "git add . && git commit -m \"chore: Bump Version & Changelog from @videndum/action-masterminds\""
   },
   "dependencies": {
     "@actions/core": "^1.2.6",

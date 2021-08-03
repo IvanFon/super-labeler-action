@@ -30,8 +30,8 @@ export async function sync(this: Utils, config: Runners['labels']) {
      * @since 1.0.0
      */
     if (label) {
-      log(LoggingLevels.debug, `Color match? ${label.color} => ${formatColor(configLabel.color)}`)
       if (
+        label.name !== configLabel.name ||
         (label.description !== configLabel.description &&
           configLabel.description !== undefined) ||
         label.color !== formatColor(configLabel.color)
