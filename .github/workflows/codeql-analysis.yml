@@ -1,3 +1,5 @@
+# @format
+
 # For most projects, this workflow file will not need changing; you simply need
 # to commit it to your repository.
 #
@@ -10,7 +12,7 @@
 # supported CodeQL languages.
 # ******** NOTE ********
 
-name: 'CodeQL'
+name: "CodeQL"
 
 on:
   push:
@@ -19,7 +21,7 @@ on:
     # The branches below must be a subset of the branches above
     branches: [master]
   schedule:
-    - cron: '38 23 * * 0'
+    - cron: "38 23 * * 0"
 
 jobs:
   analyze:
@@ -29,7 +31,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript']
+        language: ["javascript"]
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python' ]
         # Learn more:
         # https://docs.github.com/github/finding-security-vulnerabilities-and-errors-in-your-code/configuring-code-scanning#changing-the-languages-that-are-analyzed

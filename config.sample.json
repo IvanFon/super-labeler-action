@@ -1,11 +1,11 @@
 {
-  "GITHUB_TOKEN": "",
-  "GITHUB_REPOSITORY": "",
-  "GITHUB_REPOSITORY_OWNER": "",
-  "FILL": true,
-  "SKIPDELETE": true,
-  "SHOW_LOGS": true,
-  "GH_ACTION_LOCAL_TEST": true,
-  "github_context": "../context.json",
-  "configJSON": "../.github/config.json"
+	"GITHUB_TOKEN": "",
+	"GITHUB_REPOSITORY": "",
+	"GITHUB_REPOSITORY_OWNER": "",
+	"FILL": true,
+	"SKIPDELETE": true,
+	"SHOW_LOGS": true,
+	"GH_ACTION_LOCAL_TEST": true,
+	"github_context": "../context.json",
+	"configJSON": "../.github/config.json"
 }

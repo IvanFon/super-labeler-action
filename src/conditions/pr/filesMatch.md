@@ -1,3 +1,5 @@
+<!-- @format -->
+
 #### filesMatch
 
 Checks if the files modified in the pull request match a glob.
@@ -8,7 +10,7 @@ Example:
 
 ```json
 {
-  "type": "filesMatch",
-  "glob": "src/foo/**/*"
+	"type": "filesMatch",
+	"glob": "src/foo/**/*"
 }
 ```

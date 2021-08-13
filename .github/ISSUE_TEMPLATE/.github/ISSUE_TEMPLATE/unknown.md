@@ -1,8 +1,10 @@
 ---
 name: Unknown issue type
 about: For use when other issue templates don't work for your issue
-title: '<type>([context]): '
+title: "<type>([context]): "
 ---
+
+<!-- @format -->
 
 <!--
 Please use <type> in title to describe the type of issue you are raising. Note that we use semantic titles in our pull requests, so where possible please stick to that format.

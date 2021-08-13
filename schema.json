@@ -1,0 +1,2303 @@
+{
+    "$ref": "#/definitions/Runners",
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "AbanondedConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The abanonded configuration",
+            "properties": {
+                "close": {
+                    "description": "Should the abanonded issue be closed",
+                    "title": "close",
+                    "type": "boolean"
+                },
+                "comment": {
+                    "description": "The comment to append to the stale issue",
+                    "title": "comment",
+                    "type": "string"
+                },
+                "commentFooter": {
+                    "description": "The comment to append to the footer",
+                    "title": "commentFooter",
+                    "type": "string"
+                },
+                "commentHeader": {
+                    "description": "The comment to append to the header",
+                    "title": "commentHeader",
+                    "type": "string"
+                },
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "$ref": "#/definitions/Condition"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "days": {
+                    "description": "The days to consider stale",
+                    "title": "days",
+                    "type": "number"
+                },
+                "label": {
+                    "description": "The label to use for abanonded issues",
+                    "title": "label",
+                    "type": "string"
+                },
+                "lock": {
+                    "description": "Should the abanonded issue be locked",
+                    "title": "lock",
+                    "type": "boolean"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                },
+                "resolve": {
+                    "description": "The comment to switch when resolved",
+                    "title": "resolve",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "close",
+                "lock",
+                "label",
+                "days",
+                "comment",
+                "resolve",
+                "commentHeader",
+                "commentFooter",
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "days",
+                "label",
+                "requires"
+            ],
+            "title": "AbanondedConfig",
+            "type": "object"
+        },
+        "AssignProject": {
+            "defaultProperties": [
+            ],
+            "description": "Assign project configuration",
+            "properties": {
+                "column": {
+                    "description": "The column to use",
+                    "title": "column",
+                    "type": "string"
+                },
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "$ref": "#/definitions/Condition"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "owner": {
+                    "description": "The owner of the project",
+                    "title": "owner",
+                    "type": "string"
+                },
+                "project": {
+                    "description": "The project to use",
+                    "title": "project",
+                    "type": "string"
+                },
+                "repo": {
+                    "description": "The repository name",
+                    "title": "repo",
+                    "type": "string"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                },
+                "user": {
+                    "description": "The user of the project",
+                    "title": "user",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "owner",
+                "user",
+                "repo",
+                "project",
+                "column",
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "column",
+                "conditions",
+                "project",
+                "requires"
+            ],
+            "title": "AssignProject",
+            "type": "object"
+        },
+        "AutomaticApprove": {
+            "defaultProperties": [
+            ],
+            "description": "Automatic Approval configuration",
+            "properties": {
+                "commentFooter": {
+                    "description": "The comment to append to the footer",
+                    "title": "commentFooter",
+                    "type": "string"
+                },
+                "commentHeader": {
+                    "description": "The comment to append to the header",
+                    "title": "commentHeader",
+                    "type": "string"
+                },
+                "conventions": {
+                    "description": "The conventions to use when approving",
+                    "items": {
+                        "$ref": "#/definitions/SharedConventionsConfig"
+                    },
+                    "title": "conventions",
+                    "type": "array"
+                }
+            },
+            "propertyOrder": [
+                "commentHeader",
+                "commentFooter",
+                "conventions"
+            ],
+            "required": [
+                "conventions"
+            ],
+            "title": "AutomaticApprove",
+            "type": "object"
+        },
+        "Changelog": {
+            "defaultProperties": [
+            ],
+            "description": "Changelog",
+            "properties": {
+                "body": {
+                    "description": "The changelog body (before the sections)",
+                    "title": "body",
+                    "type": "string"
+                },
+                "includeIssues": {
+                    "description": "Should include issues?",
+                    "title": "includeIssues",
+                    "type": "boolean"
+                },
+                "sections": {
+                    "description": "The section configuration",
+                    "items": {
+                        "$ref": "#/definitions/Sections"
+                    },
+                    "title": "sections",
+                    "type": "array"
+                },
+                "title": {
+                    "description": "The changelog title",
+                    "title": "title",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "title",
+                "body",
+                "includeIssues",
+                "sections"
+            ],
+            "title": "Changelog",
+            "type": "object"
+        },
+        "Condition": {
+            "anyOf": [
+                {
+                    "$ref": "#/definitions/ConditionAnd"
+                },
+                {
+                    "$ref": "#/definitions/ConditionCreatorMatches"
+                },
+                {
+                    "$ref": "#/definitions/ConditionDescriptionMatches"
+                },
+                {
+                    "$ref": "#/definitions/ConditionHasLabel"
+                },
+                {
+                    "$ref": "#/definitions/ConditionIsAbandoned"
+                },
+                {
+                    "$ref": "#/definitions/ConditionIsOpen"
+                },
+                {
+                    "$ref": "#/definitions/ConditionIsStale"
+                },
+                {
+                    "$ref": "#/definitions/ConditionOnlyOne"
+                },
+                {
+                    "$ref": "#/definitions/ConditionOr"
+                },
+                {
+                    "$ref": "#/definitions/ConditionTitleMatches"
+                }
+            ],
+            "title": "Condition"
+        },
+        "ConditionAnd": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/PRConditionConfig"
+                                },
+                                {
+                                    "$ref": "#/definitions/IssueConditionConfig"
+                                },
+                                {
+                                    "$ref": "#/definitions/ProjectConditionConfig"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "title": "pattern",
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "$and"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "type"
+            ],
+            "title": "ConditionAnd",
+            "type": "object"
+        },
+        "ConditionBranchMatches": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "title": "pattern",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "branchMatches"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "type"
+            ],
+            "title": "ConditionBranchMatches",
+            "type": "object"
+        },
+        "ConditionChangesSize": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "max": {
+                    "title": "max",
+                    "type": "number"
+                },
+                "min": {
+                    "title": "min",
+                    "type": "number"
+                },
+                "type": {
+                    "enum": [
+                        "changesSize"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "min",
+                "max"
+            ],
+            "required": [
+                "min",
+                "type"
+            ],
+            "title": "ConditionChangesSize",
+            "type": "object"
+        },
+        "ConditionCreatorMatches": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "title": "pattern",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "creatorMatches"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "type"
+            ],
+            "title": "ConditionCreatorMatches",
+            "type": "object"
+        },
+        "ConditionDescriptionMatches": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "title": "pattern",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "descriptionMatches"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "type"
+            ],
+            "title": "ConditionDescriptionMatches",
+            "type": "object"
+        },
+        "ConditionFilesMatch": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "glob": {
+                    "title": "glob",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "filesMatch"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "glob"
+            ],
+            "required": [
+                "glob",
+                "type"
+            ],
+            "title": "ConditionFilesMatch",
+            "type": "object"
+        },
+        "ConditionHasLabel": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "label": {
+                    "title": "label",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "hasLabel"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "label",
+                "value"
+            ],
+            "required": [
+                "label",
+                "type",
+                "value"
+            ],
+            "title": "ConditionHasLabel",
+            "type": "object"
+        },
+        "ConditionIsAbandoned": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "label": {
+                    "title": "label",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "isAbandoned"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value",
+                "label"
+            ],
+            "required": [
+                "label",
+                "type",
+                "value"
+            ],
+            "title": "ConditionIsAbandoned",
+            "type": "object"
+        },
+        "ConditionIsDraft": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "type": {
+                    "enum": [
+                        "isDraft"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value"
+            ],
+            "required": [
+                "type",
+                "value"
+            ],
+            "title": "ConditionIsDraft",
+            "type": "object"
+        },
+        "ConditionIsOpen": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "type": {
+                    "enum": [
+                        "isOpen"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value"
+            ],
+            "required": [
+                "type",
+                "value"
+            ],
+            "title": "ConditionIsOpen",
+            "type": "object"
+        },
+        "ConditionIsStale": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "type": {
+                    "enum": [
+                        "isStale"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value"
+            ],
+            "required": [
+                "type",
+                "value"
+            ],
+            "title": "ConditionIsStale",
+            "type": "object"
+        },
+        "ConditionOnlyOne": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/PRConditionConfig"
+                                },
+                                {
+                                    "$ref": "#/definitions/IssueConditionConfig"
+                                },
+                                {
+                                    "$ref": "#/definitions/ProjectConditionConfig"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "title": "pattern",
+                    "type": "array"
+                },
+                "required": {
+                    "title": "required",
+                    "type": "number"
+                },
+                "type": {
+                    "enum": [
+                        "$only"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "required",
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "required",
+                "type"
+            ],
+            "title": "ConditionOnlyOne",
+            "type": "object"
+        },
+        "ConditionOr": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "items": [
+                        {
+                            "anyOf": [
+                                {
+                                    "$ref": "#/definitions/PRConditionConfig"
+                                },
+                                {
+                                    "$ref": "#/definitions/IssueConditionConfig"
+                                },
+                                {
+                                    "$ref": "#/definitions/ProjectConditionConfig"
+                                }
+                            ]
+                        }
+                    ],
+                    "maxItems": 1,
+                    "minItems": 1,
+                    "title": "pattern",
+                    "type": "array"
+                },
+                "type": {
+                    "enum": [
+                        "$or"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "type"
+            ],
+            "title": "ConditionOr",
+            "type": "object"
+        },
+        "ConditionPendingReview": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "type": {
+                    "enum": [
+                        "pendingReview"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value"
+            ],
+            "required": [
+                "type",
+                "value"
+            ],
+            "title": "ConditionPendingReview",
+            "type": "object"
+        },
+        "ConditionRequestedChanges": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "type": {
+                    "enum": [
+                        "requestedChanges"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value"
+            ],
+            "required": [
+                "type",
+                "value"
+            ],
+            "title": "ConditionRequestedChanges",
+            "type": "object"
+        },
+        "ConditionTitleMatches": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "pattern": {
+                    "title": "pattern",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "titleMatches"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "pattern"
+            ],
+            "required": [
+                "pattern",
+                "type"
+            ],
+            "title": "ConditionTitleMatches",
+            "type": "object"
+        },
+        "ConditionisApproved": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "required": {
+                    "title": "required",
+                    "type": "number"
+                },
+                "type": {
+                    "enum": [
+                        "isApproved"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                },
+                "value": {
+                    "title": "value",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "value",
+                "required"
+            ],
+            "required": [
+                "type",
+                "value"
+            ],
+            "title": "ConditionisApproved",
+            "type": "object"
+        },
+        "ConditiononColumn": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "column": {
+                    "title": "column",
+                    "type": "string"
+                },
+                "project": {
+                    "title": "project",
+                    "type": "string"
+                },
+                "type": {
+                    "enum": [
+                        "onColumn"
+                    ],
+                    "title": "type",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "type",
+                "project",
+                "column"
+            ],
+            "required": [
+                "column",
+                "project",
+                "type"
+            ],
+            "title": "ConditiononColumn",
+            "type": "object"
+        },
+        "Config": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "issue": {
+                    "$ref": "#/definitions/IssueConfig",
+                    "description": "The issue configurations.",
+                    "title": "issue"
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "type": "string"
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "The labels used by our internal tools.",
+                    "propertyOrder": [
+                    ],
+                    "title": "labels",
+                    "type": "object"
+                },
+                "pr": {
+                    "$ref": "#/definitions/PullRequestConfig",
+                    "description": "The pull request configurations.",
+                    "title": "pr"
+                },
+                "project": {
+                    "$ref": "#/definitions/ProjectConfig",
+                    "description": "The project configurations.",
+                    "title": "project"
+                },
+                "retryLimit": {
+                    "default": 3,
+                    "description": "Maximum number of attempts before stopping.",
+                    "title": "retryLimit",
+                    "type": "number"
+                },
+                "root": {
+                    "description": "The root branch used to check configuration settings against.",
+                    "title": "root",
+                    "type": "string"
+                },
+                "schedule": {
+                    "$ref": "#/definitions/SharedConfig",
+                    "description": "The schedule configurations.",
+                    "title": "schedule"
+                },
+                "sharedConfig": {
+                    "$ref": "#/definitions/SharedConfig",
+                    "description": "Shared configurations, merged with the PR, Issue, Project and Schedule configurations.",
+                    "title": "sharedConfig"
+                },
+                "versioning": {
+                    "defaultProperties": [
+                    ],
+                    "description": "Versioning configuration used for release management.",
+                    "properties": {
+                        "prereleaseName": {
+                            "description": "If version is a pre-release, this is the version name to use.",
+                            "title": "prereleaseName",
+                            "type": "string"
+                        },
+                        "source": {
+                            "description": "Version source used to determine the version.",
+                            "title": "source",
+                            "type": "string"
+                        },
+                        "type": {
+                            "description": "Version Type to change how versioning is handled.",
+                            "enum": [
+                                "SemVer"
+                            ],
+                            "title": "type",
+                            "type": "string"
+                        }
+                    },
+                    "propertyOrder": [
+                        "source",
+                        "type",
+                        "prereleaseName"
+                    ],
+                    "required": [
+                        "source"
+                    ],
+                    "title": "versioning",
+                    "type": "object"
+                }
+            },
+            "propertyOrder": [
+                "root",
+                "versioning",
+                "retryLimit",
+                "labels",
+                "sharedConfig",
+                "pr",
+                "issue",
+                "project",
+                "schedule"
+            ],
+            "title": "Config",
+            "type": "object"
+        },
+        "CreateBranch": {
+            "defaultProperties": [
+            ],
+            "description": "Create branch configuration",
+            "properties": {
+                "branchName": {
+                    "description": "The branch name type",
+                    "enum": [
+                        "number",
+                        "short",
+                        "title"
+                    ],
+                    "title": "branchName",
+                    "type": "string"
+                },
+                "branchPrefix": {
+                    "description": "The branch prefix",
+                    "title": "branchPrefix",
+                    "type": "string"
+                },
+                "branchSuffix": {
+                    "description": "The branch suffix",
+                    "title": "branchSuffix",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "branchPrefix",
+                "branchSuffix",
+                "branchName"
+            ],
+            "required": [
+                "branchName"
+            ],
+            "title": "CreateBranch",
+            "type": "object"
+        },
+        "CreateMilestone": {
+            "defaultProperties": [
+            ],
+            "description": "Create Milestones",
+            "properties": {
+                "deadline": {
+                    "description": "The date in which you want to set as the completion date",
+                    "title": "deadline",
+                    "type": "string"
+                },
+                "milestone": {
+                    "description": "The milestone you want to use",
+                    "title": "milestone",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "milestone",
+                "deadline"
+            ],
+            "required": [
+                "milestone"
+            ],
+            "title": "CreateMilestone",
+            "type": "object"
+        },
+        "CreateRelease": {
+            "defaultProperties": [
+            ],
+            "description": "The create release configuration",
+            "properties": {
+                "draft": {
+                    "description": "Should be a draft?",
+                    "title": "draft",
+                    "type": "boolean"
+                },
+                "includeIssues": {
+                    "description": "Should include issues?",
+                    "title": "includeIssues",
+                    "type": "boolean"
+                },
+                "prerelease": {
+                    "description": "Should release be a prerelease?",
+                    "title": "prerelease",
+                    "type": "boolean"
+                },
+                "releaseName": {
+                    "description": "The name of the release to create",
+                    "title": "releaseName",
+                    "type": "string"
+                },
+                "releaseNamePrefix": {
+                    "description": "The prefix before the releaseName",
+                    "title": "releaseNamePrefix",
+                    "type": "string"
+                },
+                "releaseNameSuffix": {
+                    "description": "The sufix to add to the release name",
+                    "title": "releaseNameSuffix",
+                    "type": "string"
+                },
+                "sections": {
+                    "description": "The section configuration",
+                    "items": {
+                        "$ref": "#/definitions/Sections"
+                    },
+                    "title": "sections",
+                    "type": "array"
+                },
+                "tagName": {
+                    "description": "The name of the tag to create",
+                    "title": "tagName",
+                    "type": "string"
+                },
+                "tagPrefix": {
+                    "description": "The prefix before the tagName",
+                    "title": "tagPrefix",
+                    "type": "string"
+                },
+                "useChangelog": {
+                    "description": "Should the release use the generated changelog?",
+                    "title": "useChangelog",
+                    "type": "boolean"
+                }
+            },
+            "propertyOrder": [
+                "tagName",
+                "tagPrefix",
+                "releaseName",
+                "releaseNamePrefix",
+                "releaseNameSuffix",
+                "draft",
+                "prerelease",
+                "useChangelog",
+                "includeIssues",
+                "sections"
+            ],
+            "title": "CreateRelease",
+            "type": "object"
+        },
+        "EnforceConventions": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "commentFooter": {
+                    "description": "The comment to append to the footer",
+                    "title": "commentFooter",
+                    "type": "string"
+                },
+                "commentHeader": {
+                    "description": "The comment to append to the header",
+                    "title": "commentHeader",
+                    "type": "string"
+                },
+                "conventions": {
+                    "description": "The conventions to enforce",
+                    "items": {
+                        "$ref": "#/definitions/SharedConventionsConfig"
+                    },
+                    "title": "conventions",
+                    "type": "array"
+                },
+                "moveToColumn": {
+                    "description": "The column to move if fails",
+                    "title": "moveToColumn",
+                    "type": "string"
+                },
+                "onColumn": {
+                    "description": "The columns to enforce conventions",
+                    "items": {
+                        "description": "The enforce conventions configuration",
+                        "type": [
+                            "string",
+                            "number"
+                        ]
+                    },
+                    "title": "onColumn",
+                    "type": "array"
+                }
+            },
+            "propertyOrder": [
+                "onColumn",
+                "commentHeader",
+                "commentFooter",
+                "moveToColumn",
+                "conventions"
+            ],
+            "required": [
+                "conventions"
+            ],
+            "title": "EnforceConventions",
+            "type": "object"
+        },
+        "ExProjects": {
+            "defaultProperties": [
+            ],
+            "description": "External projects configuration",
+            "properties": {
+                "localProject": {
+                    "description": "The local project to sync",
+                    "title": "localProject",
+                    "type": "string"
+                },
+                "owner": {
+                    "description": "The owner of the project",
+                    "title": "owner",
+                    "type": "string"
+                },
+                "project": {
+                    "description": "The project to use",
+                    "title": "project",
+                    "type": "string"
+                },
+                "repo": {
+                    "description": "The repository name",
+                    "title": "repo",
+                    "type": "string"
+                },
+                "user": {
+                    "description": "The user of the project",
+                    "title": "user",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "localProject",
+                "owner",
+                "user",
+                "repo",
+                "project"
+            ],
+            "required": [
+                "localProject",
+                "project"
+            ],
+            "title": "ExProjects",
+            "type": "object"
+        },
+        "IssueConditionConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The Issue condition configuration",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "$ref": "#/definitions/Condition"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "requires"
+            ],
+            "title": "IssueConditionConfig",
+            "type": "object"
+        },
+        "IssueConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The issue configuration",
+            "properties": {
+                "assignProject": {
+                    "description": "Assign project configuration.",
+                    "items": {
+                        "$ref": "#/definitions/AssignProject"
+                    },
+                    "title": "assignProject",
+                    "type": "array"
+                },
+                "createBranch": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/CreateBranch"
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "Open branch configuration",
+                    "propertyOrder": [
+                    ],
+                    "title": "createBranch",
+                    "type": "object"
+                },
+                "enforceConventions": {
+                    "$ref": "#/definitions/EnforceConventions",
+                    "description": "The enforceConventions configuration",
+                    "title": "enforceConventions"
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/PRConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/IssueConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/SharedConditions"
+                            },
+                            {
+                                "$ref": "#/definitions/ProjectConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/ScheduleConditionConfig"
+                            }
+                        ]
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "The labels to be applied",
+                    "propertyOrder": [
+                    ],
+                    "title": "labels",
+                    "type": "object"
+                },
+                "ref": {
+                    "description": "The reference used internally",
+                    "title": "ref",
+                    "type": "string"
+                },
+                "stale": {
+                    "$ref": "#/definitions/Stale",
+                    "description": "The stale configuration",
+                    "title": "stale"
+                }
+            },
+            "propertyOrder": [
+                "assignProject",
+                "createBranch",
+                "ref",
+                "enforceConventions",
+                "stale",
+                "labels"
+            ],
+            "title": "IssueConfig",
+            "type": "object"
+        },
+        "Label": {
+            "defaultProperties": [
+            ],
+            "description": "The labels configuration.",
+            "properties": {
+                "color": {
+                    "description": "The color of the label",
+                    "title": "color",
+                    "type": "string"
+                },
+                "description": {
+                    "description": "A description of the label",
+                    "title": "description",
+                    "type": "string"
+                },
+                "name": {
+                    "description": "The name as appears on github",
+                    "title": "name",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "name",
+                "description",
+                "color"
+            ],
+            "required": [
+                "color",
+                "name"
+            ],
+            "title": "Label",
+            "type": "object"
+        },
+        "Labels": {
+            "additionalProperties": {
+                "$ref": "#/definitions/Label"
+            },
+            "defaultProperties": [
+            ],
+            "description": "An array of labels.",
+            "propertyOrder": [
+            ],
+            "title": "Labels",
+            "type": "object"
+        },
+        "Milestones": {
+            "defaultProperties": [
+            ],
+            "description": "Assign to milestone based on project",
+            "properties": {
+                "ignoreLabels": {
+                    "description": "Which labels should e ignored?",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "ignoreLabels",
+                    "type": "array"
+                },
+                "onColumn": {
+                    "description": "Which column o use",
+                    "title": "onColumn",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "onColumn",
+                "ignoreLabels"
+            ],
+            "required": [
+                "onColumn"
+            ],
+            "title": "Milestones",
+            "type": "object"
+        },
+        "PRConditionConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The PR condition configuration",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/ConditionAnd"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionCreatorMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionDescriptionMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionHasLabel"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsAbandoned"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsOpen"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsStale"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionOnlyOne"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionOr"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionTitleMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionBranchMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionChangesSize"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionFilesMatch"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionisApproved"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsDraft"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionPendingReview"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionRequestedChanges"
+                            }
+                        ]
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "requires"
+            ],
+            "title": "PRConditionConfig",
+            "type": "object"
+        },
+        "ProjectConditionConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The Project condition configuration",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/ConditionAnd"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionCreatorMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionDescriptionMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionHasLabel"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsAbandoned"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsOpen"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsStale"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionOnlyOne"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionOr"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionTitleMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditiononColumn"
+                            }
+                        ]
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "requires"
+            ],
+            "title": "ProjectConditionConfig",
+            "type": "object"
+        },
+        "ProjectConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The project configuration",
+            "properties": {
+                "assignMilestone": {
+                    "additionalProperties": {
+                        "$ref": "#/definitions/Milestones"
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "Assign to milestone configuration",
+                    "propertyOrder": [
+                    ],
+                    "title": "assignMilestone",
+                    "type": "object"
+                },
+                "enforceConventions": {
+                    "$ref": "#/definitions/EnforceConventions",
+                    "description": "The enforceConventions configuration",
+                    "title": "enforceConventions"
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/PRConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/IssueConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/SharedConditions"
+                            },
+                            {
+                                "$ref": "#/definitions/ProjectConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/ScheduleConditionConfig"
+                            }
+                        ]
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "The labels to be applied",
+                    "propertyOrder": [
+                    ],
+                    "title": "labels",
+                    "type": "object"
+                },
+                "openBranch": {
+                    "$ref": "#/definitions/ProjectCreateBranch",
+                    "description": "Open branch configuration",
+                    "title": "openBranch"
+                },
+                "ref": {
+                    "description": "The reference used internally",
+                    "title": "ref",
+                    "type": "string"
+                },
+                "stale": {
+                    "$ref": "#/definitions/Stale",
+                    "description": "The stale configuration",
+                    "title": "stale"
+                },
+                "syncRemote": {
+                    "description": "Syncronise remote repository configuration.",
+                    "items": {
+                        "$ref": "#/definitions/ExProjects"
+                    },
+                    "title": "syncRemote",
+                    "type": "array"
+                }
+            },
+            "propertyOrder": [
+                "syncRemote",
+                "openBranch",
+                "assignMilestone",
+                "ref",
+                "enforceConventions",
+                "stale",
+                "labels"
+            ],
+            "title": "ProjectConfig",
+            "type": "object"
+        },
+        "ProjectCreateBranch": {
+            "defaultProperties": [
+            ],
+            "description": "Create branch on project configuration",
+            "properties": {
+                "branchName": {
+                    "description": "The branch name type",
+                    "enum": [
+                        "number",
+                        "short",
+                        "title"
+                    ],
+                    "title": "branchName",
+                    "type": "string"
+                },
+                "branchPrefix": {
+                    "description": "The branch prefix",
+                    "title": "branchPrefix",
+                    "type": "string"
+                },
+                "branchSuffix": {
+                    "description": "The branch suffix",
+                    "title": "branchSuffix",
+                    "type": "string"
+                },
+                "onColumn": {
+                    "description": "Column to use",
+                    "title": "onColumn",
+                    "type": "string"
+                },
+                "onProject": {
+                    "description": "Project to use",
+                    "title": "onProject",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "onProject",
+                "onColumn",
+                "branchPrefix",
+                "branchSuffix",
+                "branchName"
+            ],
+            "required": [
+                "branchName"
+            ],
+            "title": "ProjectCreateBranch",
+            "type": "object"
+        },
+        "PullRequestConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The Pull Request configuration",
+            "properties": {
+                "assignProject": {
+                    "description": "The project assignment configuration.",
+                    "items": {
+                        "$ref": "#/definitions/AssignProject"
+                    },
+                    "title": "assignProject",
+                    "type": "array"
+                },
+                "automaticApprove": {
+                    "$ref": "#/definitions/AutomaticApprove",
+                    "description": "The automatic approval configuration",
+                    "title": "automaticApprove"
+                },
+                "enforceConventions": {
+                    "$ref": "#/definitions/EnforceConventions",
+                    "description": "The enforceConventions configuration",
+                    "title": "enforceConventions"
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/PRConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/IssueConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/SharedConditions"
+                            },
+                            {
+                                "$ref": "#/definitions/ProjectConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/ScheduleConditionConfig"
+                            }
+                        ]
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "The labels to be applied",
+                    "propertyOrder": [
+                    ],
+                    "title": "labels",
+                    "type": "object"
+                },
+                "manageRelease": {
+                    "$ref": "#/definitions/Release",
+                    "description": "The release management configuration.",
+                    "title": "manageRelease"
+                },
+                "ref": {
+                    "description": "The reference used internally",
+                    "title": "ref",
+                    "type": "string"
+                },
+                "stale": {
+                    "$ref": "#/definitions/Stale",
+                    "description": "The stale configuration",
+                    "title": "stale"
+                },
+                "syncRemote": {
+                    "description": "Syncronise remote repository configuration.",
+                    "items": {
+                        "$ref": "#/definitions/SyncRemote"
+                    },
+                    "title": "syncRemote",
+                    "type": "array"
+                }
+            },
+            "propertyOrder": [
+                "assignProject",
+                "automaticApprove",
+                "manageRelease",
+                "syncRemote",
+                "ref",
+                "enforceConventions",
+                "stale",
+                "labels"
+            ],
+            "title": "PullRequestConfig",
+            "type": "object"
+        },
+        "Release": {
+            "defaultProperties": [
+            ],
+            "description": "The release configuration",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/ConditionAnd"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionCreatorMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionDescriptionMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionHasLabel"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsAbandoned"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsOpen"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsStale"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionOnlyOne"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionOr"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionTitleMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionBranchMatches"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionChangesSize"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionFilesMatch"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionisApproved"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionIsDraft"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionPendingReview"
+                            },
+                            {
+                                "$ref": "#/definitions/ConditionRequestedChanges"
+                            }
+                        ]
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "createChangelog": {
+                    "$ref": "#/definitions/Changelog",
+                    "description": "Should the release create a changelog?",
+                    "title": "createChangelog"
+                },
+                "createMilestone": {
+                    "$ref": "#/definitions/CreateMilestone",
+                    "description": "Should the release create the next milestone?",
+                    "title": "createMilestone"
+                },
+                "createPackages": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "type": "string"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "Should the release create a Github Package?",
+                    "title": "createPackages"
+                },
+                "createRelease": {
+                    "$ref": "#/definitions/CreateRelease",
+                    "description": "Should the release create a Github Release?",
+                    "title": "createRelease"
+                },
+                "createTag": {
+                    "description": "Should the release create a tag?",
+                    "title": "createTag",
+                    "type": "boolean"
+                },
+                "labels": {
+                    "defaultProperties": [
+                    ],
+                    "description": "The labels to use to detect release type (semantic release)",
+                    "properties": {
+                        "breaking": {
+                            "description": "The label to use to mark a breaking change",
+                            "title": "breaking",
+                            "type": "string"
+                        },
+                        "build": {
+                            "description": "The label to use to mark a build",
+                            "title": "build",
+                            "type": "string"
+                        },
+                        "major": {
+                            "description": "The label to use to mark a major",
+                            "title": "major",
+                            "type": "string"
+                        },
+                        "minor": {
+                            "description": "The label to use to mark a minor",
+                            "title": "minor",
+                            "type": "string"
+                        },
+                        "patch": {
+                            "description": "The label to use to mark a patch",
+                            "title": "patch",
+                            "type": "string"
+                        },
+                        "prerelease": {
+                            "description": "The label to use to mark a prerelease",
+                            "title": "prerelease",
+                            "type": "string"
+                        }
+                    },
+                    "propertyOrder": [
+                        "build",
+                        "prerelease",
+                        "patch",
+                        "minor",
+                        "major",
+                        "breaking"
+                    ],
+                    "required": [
+                        "build",
+                        "major",
+                        "minor",
+                        "patch",
+                        "prerelease"
+                    ],
+                    "title": "labels",
+                    "type": "object"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "labels",
+                "createTag",
+                "createRelease",
+                "createMilestone",
+                "createPackages",
+                "createChangelog",
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "requires"
+            ],
+            "title": "Release",
+            "type": "object"
+        },
+        "Runners": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "labels": {
+                    "$ref": "#/definitions/Labels",
+                    "description": "The labels configuration.",
+                    "title": "labels"
+                },
+                "runners": {
+                    "description": "The runners configuration.",
+                    "items": {
+                        "$ref": "#/definitions/Config"
+                    },
+                    "title": "runners",
+                    "type": "array"
+                }
+            },
+            "propertyOrder": [
+                "labels",
+                "runners"
+            ],
+            "required": [
+                "runners"
+            ],
+            "title": "Runners",
+            "type": "object"
+        },
+        "ScheduleConditionConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The Schedule condition configuration",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "$ref": "#/definitions/Condition"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "requires"
+            ],
+            "title": "ScheduleConditionConfig",
+            "type": "object"
+        },
+        "Sections": {
+            "defaultProperties": [
+            ],
+            "description": "The section configuration",
+            "properties": {
+                "PRlabels": {
+                    "description": "The pull request labels to include",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "PRlabels",
+                    "type": "array"
+                },
+                "body": {
+                    "description": "The body of this section",
+                    "title": "body",
+                    "type": "string"
+                },
+                "includeCommitter": {
+                    "description": "Should include the committer username?",
+                    "title": "includeCommitter",
+                    "type": "boolean"
+                },
+                "issueLabels": {
+                    "description": "The issue labels to include",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "issueLabels",
+                    "type": "array"
+                },
+                "linkPR": {
+                    "description": "Should link the Pull Request?",
+                    "title": "linkPR",
+                    "type": "boolean"
+                },
+                "title": {
+                    "description": "The title of this section",
+                    "title": "title",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "title",
+                "body",
+                "PRlabels",
+                "issueLabels",
+                "includeCommitter",
+                "linkPR"
+            ],
+            "required": [
+                "PRlabels",
+                "title"
+            ],
+            "title": "Sections",
+            "type": "object"
+        },
+        "SharedConditions": {
+            "defaultProperties": [
+            ],
+            "description": "Shared conditions used by all types of events.",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "$ref": "#/definitions/Condition"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "requires"
+            ],
+            "title": "SharedConditions",
+            "type": "object"
+        },
+        "SharedConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The shared configuration",
+            "properties": {
+                "enforceConventions": {
+                    "$ref": "#/definitions/EnforceConventions",
+                    "description": "The enforceConventions configuration",
+                    "title": "enforceConventions"
+                },
+                "labels": {
+                    "additionalProperties": {
+                        "anyOf": [
+                            {
+                                "$ref": "#/definitions/PRConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/IssueConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/SharedConditions"
+                            },
+                            {
+                                "$ref": "#/definitions/ProjectConditionConfig"
+                            },
+                            {
+                                "$ref": "#/definitions/ScheduleConditionConfig"
+                            }
+                        ]
+                    },
+                    "defaultProperties": [
+                    ],
+                    "description": "The labels to be applied",
+                    "propertyOrder": [
+                    ],
+                    "title": "labels",
+                    "type": "object"
+                },
+                "ref": {
+                    "description": "The reference used internally",
+                    "title": "ref",
+                    "type": "string"
+                },
+                "stale": {
+                    "$ref": "#/definitions/Stale",
+                    "description": "The stale configuration",
+                    "title": "stale"
+                }
+            },
+            "propertyOrder": [
+                "ref",
+                "enforceConventions",
+                "stale",
+                "labels"
+            ],
+            "title": "SharedConfig",
+            "type": "object"
+        },
+        "SharedConventionsConfig": {
+            "defaultProperties": [
+            ],
+            "properties": {
+                "conditions": {
+                    "anyOf": [
+                        {
+                            "items": {
+                                "$ref": "#/definitions/Condition"
+                            },
+                            "type": "array"
+                        },
+                        {
+                            "type": "string"
+                        }
+                    ],
+                    "description": "The conditions required for this to succeed. You can use the \"semanticTitle\" to automatically apply thses conditions",
+                    "title": "conditions"
+                },
+                "contexts": {
+                    "description": "The contexts to use. Use this in combernation with \"semanticTitle\"",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "contexts",
+                    "type": "array"
+                },
+                "failedComment": {
+                    "description": "The failed comment to use",
+                    "title": "failedComment",
+                    "type": "string"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                }
+            },
+            "propertyOrder": [
+                "failedComment",
+                "contexts",
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "failedComment",
+                "requires"
+            ],
+            "title": "SharedConventionsConfig",
+            "type": "object"
+        },
+        "Stale": {
+            "defaultProperties": [
+            ],
+            "description": "The stale configuration",
+            "properties": {
+                "abandoned": {
+                    "$ref": "#/definitions/AbanondedConfig",
+                    "description": "The abanonded configuration to use",
+                    "title": "abandoned"
+                },
+                "conditions": {
+                    "description": "The conditions to use when checking stale",
+                    "items": {
+                        "$ref": "#/definitions/SharedConditions"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "stale": {
+                    "$ref": "#/definitions/StaleConfig",
+                    "description": "The stale configuration to use",
+                    "title": "stale"
+                },
+                "staleLabel": {
+                    "description": "The label to use for stale issues",
+                    "title": "staleLabel",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "staleLabel",
+                "stale",
+                "abandoned",
+                "conditions"
+            ],
+            "required": [
+                "staleLabel"
+            ],
+            "title": "Stale",
+            "type": "object"
+        },
+        "StaleConfig": {
+            "defaultProperties": [
+            ],
+            "description": "The stale configuration",
+            "properties": {
+                "comment": {
+                    "description": "The comment to append to the stale issue",
+                    "title": "comment",
+                    "type": "string"
+                },
+                "commentFooter": {
+                    "description": "The comment to append to the footer",
+                    "title": "commentFooter",
+                    "type": "string"
+                },
+                "commentHeader": {
+                    "description": "The comment to append to the header",
+                    "title": "commentHeader",
+                    "type": "string"
+                },
+                "conditions": {
+                    "description": "The conditions required for this to succeed",
+                    "items": {
+                        "$ref": "#/definitions/Condition"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "days": {
+                    "description": "The days to consider stale",
+                    "title": "days",
+                    "type": "number"
+                },
+                "requires": {
+                    "description": "The number of requires needed for this to succeed",
+                    "title": "requires",
+                    "type": "number"
+                },
+                "resolve": {
+                    "description": "The comment to switch when resolved",
+                    "title": "resolve",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "days",
+                "comment",
+                "resolve",
+                "commentHeader",
+                "commentFooter",
+                "requires",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "days",
+                "requires"
+            ],
+            "title": "StaleConfig",
+            "type": "object"
+        },
+        "SyncRemote": {
+            "defaultProperties": [
+            ],
+            "description": "Sync Remote configuration",
+            "properties": {
+                "conditions": {
+                    "description": "The conditions to use when syncing",
+                    "items": {
+                        "$ref": "#/definitions/SharedConditions"
+                    },
+                    "title": "conditions",
+                    "type": "array"
+                },
+                "localBranch": {
+                    "description": "local branch to sync",
+                    "title": "localBranch",
+                    "type": "string"
+                },
+                "localPath": {
+                    "description": "The path to the local files to sync",
+                    "title": "localPath",
+                    "type": "string"
+                },
+                "remoteBranch": {
+                    "description": "remote branch to sync",
+                    "title": "remoteBranch",
+                    "type": "string"
+                },
+                "remotePath": {
+                    "description": "The path to the remote file destination",
+                    "title": "remotePath",
+                    "type": "string"
+                }
+            },
+            "propertyOrder": [
+                "localBranch",
+                "remoteBranch",
+                "localPath",
+                "remotePath",
+                "conditions"
+            ],
+            "required": [
+                "conditions",
+                "localBranch",
+                "localPath",
+                "remoteBranch",
+                "remotePath"
+            ],
+            "title": "SyncRemote",
+            "type": "object"
+        }
+    }
+}
+

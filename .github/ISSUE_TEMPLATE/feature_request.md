@@ -1,10 +1,12 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: ''
+title: ""
 labels: enhancement, proposal
-assignees: ''
+assignees: ""
 ---
+
+<!-- @format -->
 
 **Is your feature request related to a problem? Please describe.**
 A clear and concise description of what the problem is. Ex. I'm always frustrated when [...]
@@ -16,8 +18,8 @@ If you're proposing a new condition, please include an example of the JSON confi
 
 ```json
 {
-  "name": "example",
-  "foo": "bar"
+	"name": "example",
+	"foo": "bar"
 }
 ```
 

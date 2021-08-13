@@ -113,5 +113,5 @@ __tests__/labels.local.json
 __tests__/event*.json
 !__tests__/event*.example.json
 
-!examples/ 
+!examples/
 lib/

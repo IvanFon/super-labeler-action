@@ -1,8 +1,10 @@
 ---
 name: Code fix
 about: Let us know about a solution to an existing bug
-title: 'fix([context]): '
+title: "fix([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer

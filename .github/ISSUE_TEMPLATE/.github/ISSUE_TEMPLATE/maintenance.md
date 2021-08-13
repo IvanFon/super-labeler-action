@@ -1,8 +1,10 @@
 ---
 name: Code maintenance
 about: Requesting Styling, Refactoring, Optimisation, Revert, Deprecated or Removal of an existing feature
-title: 'maintenance([context]): '
+title: "maintenance([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer

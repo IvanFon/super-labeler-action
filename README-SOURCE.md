@@ -1,3 +1,5 @@
+<!-- @format -->
+
 # Label Collection
 
 The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects.

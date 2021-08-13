@@ -1,41 +1,52 @@
 {
-  "name": "@videndum/label-mastermind",
-  "version": "1.4.0-alpha.4",
-  "description": "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects",
-  "main": "src/index.ts",
-  "repository": "git@github.com:videndum/label-mastermind.git",
-  "author": "Jonathan Stevens <jonathan@videndum.studio>",
-  "license": "GPL-3.0",
-  "directories": {
-    "lib": "./lib",
-    "doc": "./docs",
-    "test": "./__tests__"
-  },
-  "scripts": {
-    "run": "node lib/index.js",
-    "build": "tsc",
-    "test": "jest",
-    "dev:run": "tsc && node lib/index.js",
-    "dev:format": "prettier --config .prettier.json --write .",
-    "dev:format-check": "prettier --config .prettier.json --check .",
-    "dev:package": "tsc && ncc build --source-map",
-    "dev:test": "jest --json --outputFile=result.json --testLocationInResults",
-    "dev:all": "npm run dev:package && npm run dev:format",
-    "git": "git add . && git commit -m \"chore: Bump Version & Changelog from @videndum/action-masterminds\" -s && git push"
-  },
-  "dependencies": {
-    "@actions/core": "^1.2.6",
-    "@actions/github": "~5.0.0",
-    "@videndum/utilities": "^1.0.0-alpha.17"
-  },
-  "devDependencies": {
-    "@types/jest": "^26.0.10",
-    "@types/minimatch": "^3.0.3",
-    "@types/node": "^16.4.2",
-    "@vercel/ncc": "^0.29.0",
-    "jest": "^26.3.0",
-    "prettier": "^2.1.2",
-    "ts-jest": "^26.1.4",
-    "typescript": "^4.1.3"
-  }
+	"name": "@videndum/label-mastermind",
+	"version": "2.0.0-alpha.2",
+	"description": "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects",
+	"repository": "git@github.com:videndum/label-mastermind.git",
+	"author": "Jonathan Stevens <jonathan@videndum.studio>",
+	"license": "GPL-3.0",
+	"main": "lib/index.js",
+	"typings": "./lib/index.d.ts",
+	"directories": {
+		"lib": "./lib",
+		"doc": "./docs",
+		"test": "./__tests__"
+	},
+	"scripts": {
+		"build": "tsc",
+		"dev:all": "npm run dev:package && npm run dev:format",
+		"dev:format": "prettier --config .prettier.json --write .",
+		"dev:format-check": "prettier --config .prettier.json --check .",
+		"dev:package": "tsc && ncc build --source-map",
+		"dev:run": "tsc && node lib/index.js",
+		"dev:schema": "typescript-json-schema ./tsconfig.json Runners -o schema.json  --propOrder --defaultProps --titles --topRef --refs --required",
+		"dev:test": "jest --json --outputFile=result.json --testLocationInResults",
+		"git": "git add . && git commit -m \"chore: Bump Version & Changelog from @videndum/action-masterminds\" -s && git push",
+		"postdev:schema": "typescript-json-schema ./tsconfig.json Labels -o schema/labels.json  --propOrder --defaultProps --titles --topRef --refs --required",
+		"predev:schema": "typescript-json-schema ./tsconfig.json Config -o schema/configs.json  --propOrder --defaultProps --titles --topRef --refs --required",
+		"run": "node lib/index.js",
+		"test": "jest"
+	},
+	"dependencies": {
+		"@actions/core": "^1.2.6",
+		"@actions/github": "^5.0.0",
+		"@videndum/utilities": "^1.0.0-alpha.17"
+	},
+	"devDependencies": {
+		"@types/jest": "^26.0.15",
+		"@types/node": "^16.4.2",
+		"@types/nodegit": "^0.27.3",
+		"@vercel/ncc": "^0.29.0",
+		"eslint-plugin-github": "^4.1.1",
+		"jest": "^26.6.1",
+		"jest-circus": "^27.0.6",
+		"js-yaml": "^4.1.0",
+		"prettier-plugin-organize-imports": "^2.3.3",
+		"prettier-plugin-pkg": "^0.10.0",
+		"prettier-plugin-sh": "^0.7.1",
+		"prettier-standard": "^16.4.1",
+		"ts-jest": "^26.4.3",
+		"typescript": "^4.0.5",
+		"typescript-json-schema": "^0.50.1"
+	}
 }

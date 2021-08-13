@@ -1,3 +1,5 @@
+# @format
+
 on:
   issues:
     types: [opened, edited, closed, reopened]

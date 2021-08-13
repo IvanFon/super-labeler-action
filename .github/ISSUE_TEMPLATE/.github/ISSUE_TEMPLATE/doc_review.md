@@ -1,8 +1,10 @@
 ---
 name: Documentation review
 about: A review to highlight issues in documentation
-title: 'docs([context]): '
+title: "docs([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer

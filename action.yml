@@ -1,3 +1,5 @@
+# @format
+
 name: "Label Mastermind"
 description: "The super-powered labeler for Github Actions, with complex customisable conditions for PR, Issues and Projects"
 author: "Videndum"

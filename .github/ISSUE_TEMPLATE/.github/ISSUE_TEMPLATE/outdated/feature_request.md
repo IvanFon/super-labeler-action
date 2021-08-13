@@ -1,8 +1,10 @@
 ---
 name: Feature request
 about: Suggest an idea for this project
-title: 'feat([context]): '
+title: "feat([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer

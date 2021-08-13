@@ -1,8 +1,10 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: 'bug([context]): '
+title: "bug([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer
@@ -39,6 +41,7 @@ insert debug output here
 ## Device Information
 
 <!-- Please delete all information not relivent-->
+
 - Version: [e.g. 22]
 - Platform: [e.g. macOS, Google Cloud, ubuntu 18.04]
 - Browser: [e.g. stock browser, safari]

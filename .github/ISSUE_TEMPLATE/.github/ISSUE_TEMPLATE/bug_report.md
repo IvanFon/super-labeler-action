@@ -1,8 +1,10 @@
 ---
 name: Bug report
 about: Create a report to help us improve
-title: 'bug([context]): '
+title: "bug([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer

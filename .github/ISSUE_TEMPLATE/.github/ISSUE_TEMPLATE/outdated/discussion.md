@@ -1,8 +1,10 @@
 ---
 name: Open discussion
 about: Openly discussing this project
-title: 'discussion([context]): '
+title: "discussion([context]): "
 ---
+
+<!-- @format -->
 
 <!-- Please use [context] in title to describe the package related to this issue.
 Valid options are; Release, Label, Variable, Installer

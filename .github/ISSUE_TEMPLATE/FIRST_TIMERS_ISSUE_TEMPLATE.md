@@ -1,3 +1,5 @@
+<!-- @format -->
+
 <!-- this issue template is used by https://github.com/apps/first-timers -->
 
 ### 🆕🐥☝ First Timers Only

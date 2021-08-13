@@ -1,19 +1,21 @@
-import { PRProps } from '.'
-import { Issues, Project, PullRequests } from '../../contexts'
+/** @format */
 
-const TYPE = 'requestedChanges'
+import { PRProps } from "."
+import { Issues, Project, PullRequests } from "../../contexts"
+
+const TYPE = "requestedChanges"
 
 export interface ConditionRequestedChanges {
-  type: typeof TYPE
-  value: boolean
+	type: typeof TYPE
+	value: boolean
 }
 
 function requestedChanges(
-  this: Issues | PullRequests | Project,
-  condition: ConditionRequestedChanges,
-  pr: PRProps
+	this: Issues | PullRequests | Project,
+	condition: ConditionRequestedChanges,
+	pr: PRProps
 ) {
-  return pr.requestedChanges > pr.approved
+	return condition.value === pr.requestedChanges > pr.approved
 }
 
 export default [TYPE, requestedChanges] as const
