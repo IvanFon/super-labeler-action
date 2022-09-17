@@ -2,7 +2,7 @@
 
 > This project is no longer actively updated. Maintainace is only added when github issues a breaking change on their github actions api. If you need more functionality, we actively develop and maintain [@resnovas/smartcloud](https://github.com/Resnovas/smartcloud) which utilises the code from this project.
 >
-> We appriciate all the support during the condintued development of this project and want to thank @IvanFon for allowing us to work on expanding their original code
+> We appriciate all the support during the continued development of this project and want to thank @IvanFon for allowing us to work on expanding their original code
 
 # Label Collection
 
