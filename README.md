@@ -1,6 +1,6 @@
 # super-labeler-action
 
-**This action already has the features and stability for the original use case I wrote it for, and I'm not looking to add to it at this time. If you're looking for additional features, there's an active fork at [videndum/super-labeler-action](https://github.com/videndum/super-labeler-action).**
+**This action already has the features and stability for the original use case I wrote it for, and I'm not looking to add to it at this time. If you're looking for additional features, there's an active fork at [resnovas/smartcloud](https://github.com/resnovas/smartcloud).** Please see issue #26 for more information.
 
 A superpowered issue and pull request labeler for Github Actions.
 
